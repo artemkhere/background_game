@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import socketIOClient from 'socket.io-client';
+import { connect } from 'react-redux';
 
 import ClickableArea from './ClickableArea';
 
-export default function GameSession() {
+function GameSession(props) {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [connectedToSocket, setConnectedToSocket] = useState(false);
   const [socket, setSocket] = useState(false);
+
+  // this should not be a side effect -- it needs to be a button and
+  // handle socket connection -- dedicate a component to it
+  useEffect(() => {
+    props.connectToGameSessionSocket();
+  });
 
   // useEffect(() => {
   //   setLoading(true);
@@ -43,3 +49,21 @@ export default function GameSession() {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    count: state.count,
+    stuff: state
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    connectToGameSessionSocket: () => dispatch({ type: "GAME_SESSION_SOCKET_CONNECT" })
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GameSession);
