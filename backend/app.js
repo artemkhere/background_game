@@ -21,6 +21,11 @@ io.on("connection", (socket) => {
   // console.log(socket);
   // setInterval(() => getApiAndEmit(socket), 10000);
   socket.emit("FromAPI", "You connected, brah.");
+
+  socket.on('areaClicked', (data) => {
+    console.log("received click,", data);
+  });
+
   socket.on("disconnect", () => console.log("Client disconnected"));
 });
 
