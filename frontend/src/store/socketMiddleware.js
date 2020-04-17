@@ -1,6 +1,6 @@
 import socketIOClient from 'socket.io-client';
 import {
-  SOCKET_TRIGGER_CONNECT, SOCKET_TRIGGER_DISCONNECT
+  SOCKET_TRIGGER_CONNECT, SOCKET_TRIGGER_DISCONNECT, SOCKET_EMIT
 } from '../actions/actionTypes';
 import {
   setSocketLoading, handleSocketConnect, setSocketError
@@ -15,8 +15,6 @@ const createSocketMiddleware = (url) => {
     switch(action.type) {
       case SOCKET_TRIGGER_CONNECT:
         setSocketLoading(dispatch, true);
-
-        // console.log(socket)
 
         socket = socketIOClient(url);
 
@@ -41,15 +39,26 @@ const createSocketMiddleware = (url) => {
           // ‘io server disconnect’, ‘io client disconnect’, or ‘ping timeout’
           setSocketError(dispatch, { message: reason });
         });
+
+        // socket.on('updateGameSession', (data) => {
+        //   // reason is a String
+        //   // ‘io server disconnect’, ‘io client disconnect’, or ‘ping timeout’
+        //   setSocketError(dispatch, { message: reason });
+        // });
         break;
       case SOCKET_TRIGGER_DISCONNECT:
         if (socket) { socket.disconnect(); }
-        break;
-      // case "SEND_WEBSOCKET_MESSAGE": {
-      //     socket.send(action.payload);
-      //     return;
-      //     break;
-      // }
+        return;
+      case SOCKET_EMIT:
+        const { eventName } = action.payload;
+        const data = action.payload.data || {};
+
+        if (socket && socket.connected) {
+          socket.emit(eventName, data);
+        } else {
+          setSocketError(dispatch, { message: 'Socket is not connected' });
+        }
+        return;
       default:
         break;
     }

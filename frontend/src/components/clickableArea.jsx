@@ -1,39 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { addToCount } from '../actions/countActions';
+import { socketEmit } from '../actions/socketActions';
 
-class ClickableArea extends React.Component {
-  handleClick = () => {
-    this.props.addToCount();
+function ClickableArea(props) {
+  const handleClick = () => {
+    props.socketEmit({ eventName: 'areaClicked' });
   }
 
-  render() {
-    return (
-      <div>
-        <p>You clicked {this.props.count} times</p>
-        <button onClick={this.handleClick}>
-          Click me
-        </button>
-      </div>
-    );
-  }
-}
-
-function mapStateToProps(state) {
-  return {
-    count: state.count,
-    stuff: state
-  };
+  return (
+    <div>
+      <button onClick={handleClick}>
+        Click me
+      </button>
+    </div>
+  );
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    addToCount: addToCount(dispatch)
+    socketEmit: socketEmit(dispatch)
   };
 }
 
 export default connect(
-  mapStateToProps,
+  () => { return {}; },
   mapDispatchToProps
 )(ClickableArea);
