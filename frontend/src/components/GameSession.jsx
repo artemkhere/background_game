@@ -1,65 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
+import {
+  connectToSocket, disconnectFromSocket
+} from '../actions/socketActions';
 import ClickableArea from './ClickableArea';
 
 function GameSession(props) {
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [connectedToSocket, setConnectedToSocket] = useState(false);
-  const [socket, setSocket] = useState(false);
+  const { error, loading } = props.socket;
+  const { connectToSocket, disconnectFromSocket } = props;
 
-  // this should not be a side effect -- it needs to be a button and
-  // handle socket connection -- dedicate a component to it
-  useEffect(() => {
-    props.connectToGameSessionSocket();
-  });
+  if (error) {
+    return (
+      <div>
+        <div>There was an error</div>
+        <div onClick={connectToSocket}>Connect to Socket</div>
+      </div>
+    );
+  };
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //
-  //   setSocket(socketIOClient("http://127.0.0.1:6969"));
-  //
-  //   if (socket) {
-  //     socket.on('connect_failed', () => {
-  //       setLoading(false);
-  //       setError({ message: "Could not connect to server." });
-  //     });
-  //
-  //     // will need to handle setting global state for returned Tower object with all info
-  //     socket.on("FromAPI", (data) => {
-  //       setLoading(false);
-  //       console.log(data);
-  //     });
-  //
-  //     // handle component unload
-  //     return () => { socket.disconnect(); };
-  //   } else {
-  //     setLoading(false);
-  //     setError({ message: "Could not connect to server." });
-  //   }
-  // });
-
-  if (error) { return <div>{error.message}</div>; };
   if (loading) { return <div>Loading...</div>; }
 
   return (
     <div style={{ textAlign: "center" }}>
+      <div onClick={connectToSocket}>Connect to Socket</div>
+      <div onClick={disconnectFromSocket}>Disconnect From Socket</div>
       <ClickableArea />
     </div>
   );
+
 }
 
 function mapStateToProps(state) {
   return {
-    count: state.count,
-    stuff: state
+    socket: state.socket
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    connectToGameSessionSocket: () => dispatch({ type: "GAME_SESSION_SOCKET_CONNECT" })
+    connectToSocket: connectToSocket(dispatch),
+    disconnectFromSocket: disconnectFromSocket(dispatch)
   };
 }
 

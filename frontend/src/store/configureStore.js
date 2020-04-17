@@ -1,5 +1,4 @@
 import { createStore, compose, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
 import rootReducer from '../reducers/rootReducer';
 import createSocketMiddleware from './socketMiddleware';
 
@@ -10,6 +9,6 @@ const socketMiddleware = createSocketMiddleware("http://127.0.0.1:6969");
 export default function configureStore() {
   return createStore(
     rootReducer,
-    composeEnhancer(applyMiddleware(thunk, socketMiddleware))
+    composeEnhancer(applyMiddleware(socketMiddleware))
   );
 }

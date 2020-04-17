@@ -1,69 +1,61 @@
 import socketIOClient from 'socket.io-client';
 import {
-  SOCKET_TRIGGER_CONNECT, SOCKET_CONNECT_ERROR, SOCKET_ERROR,
-  SOCKET_TIMEOUT, SOCKET_CONNECT, SOCKET_DISCONNECT,
-  SOCKET_TRIGGER_DISCONNECT
+  SOCKET_TRIGGER_CONNECT, SOCKET_TRIGGER_DISCONNECT
 } from '../actions/actionTypes';
+import {
+  setSocketLoading, handleSocketConnect, setSocketError
+} from '../actions/socketActions';
 
-export default const createSocketMiddleware = (url) => {
+const createSocketMiddleware = (url) => {
   let socket;
 
   return storeAPI => next => action => {
+    const dispatch = storeAPI.dispatch;
+
     switch(action.type) {
-      case SOCKET_TRIGGER_CONNECT: {
+      case SOCKET_TRIGGER_CONNECT:
+        setSocketLoading(dispatch, true);
+
+        // console.log(socket)
+
         socket = socketIOClient(url);
 
+        socket.on('connect', (data) => {
+          handleSocketConnect(dispatch, data);
+        });
+
         socket.on('connect_error', (error) => {
-          console.log(SOCKET_CONNECT_ERROR);
-          storeAPI.dispatch({
-            type: SOCKET_CONNECT_ERROR,
-            payload: error
-          });
+          setSocketError(dispatch, error);
         });
 
         socket.on('error', (error) => {
-          console.log(SOCKET_ERROR);
-          storeAPI.dispatch({
-            type: SOCKET_ERROR,
-            payload: error
-          });
+          setSocketError(dispatch, error);
         });
 
         socket.on('connect_timeout', (timeout) => {
-          console.log(SOCKET_TIMEOUT);
-          storeAPI.dispatch({
-            type: SOCKET_TIMEOUT,
-            payload: timeout
-          });
+          setSocketError(dispatch, timeout);
         });
 
-        socket.on('connect', (data) => {
-          // handle hydration of game state from this data
-          console.log(SOCKET_CONNECT);
-          storeAPI.dispatch({
-            type: SOCKET_CONNECT,
-            payload: data
-          });
+        socket.on('disconnect', (reason) => {
+          // reason is a String
+          // ‘io server disconnect’, ‘io client disconnect’, or ‘ping timeout’
+          setSocketError(dispatch, { message: reason });
         });
-
-        socket.on('disconnect', (timeout) => {
-          console.log(SOCKET_DISCONNECT);
-          storeAPI.dispatch({
-            type: SOCKET_DISCONNECT,
-            payload: timeout
-          });
-        });
-      }
-      case SOCKET_TRIGGER_DISCONNECT: {
+        break;
+      case SOCKET_TRIGGER_DISCONNECT:
         if (socket) { socket.disconnect(); }
-      }
+        break;
       // case "SEND_WEBSOCKET_MESSAGE": {
       //     socket.send(action.payload);
       //     return;
       //     break;
       // }
+      default:
+        break;
     }
 
     return next(action);
   }
 }
+
+export default createSocketMiddleware;
