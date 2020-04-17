@@ -25,6 +25,7 @@ function GameSession(props) {
     <div style={{ textAlign: "center" }}>
       <div onClick={connectToSocket}>Connect to Socket</div>
       <div onClick={disconnectFromSocket}>Disconnect From Socket</div>
+      <div>Clicks: {props.clicks}</div>
       <ClickableArea />
     </div>
   );
@@ -33,7 +34,8 @@ function GameSession(props) {
 
 function mapStateToProps(state) {
   return {
-    socket: state.socket
+    socket: state.socket,
+    clicks: state.gameSession.clicks
   };
 }
 

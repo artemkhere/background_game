@@ -14,10 +14,13 @@ const io = socketIO(server);
 
 io.on("connection", (socket) => {
   console.log("New client connected");
-  socket.emit("FromAPI", "You connected, brah.");
+
+  let clicks = 0;
 
   socket.on('areaClicked', (data) => {
     console.log("received click,", data);
+    clicks += 1;
+    socket.emit('updateGameSession', { clicks });
   });
 
   socket.on("disconnect", () => console.log("Client disconnected"));

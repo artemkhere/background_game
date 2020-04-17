@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
-import stuff from './stuffReducer';
-import count from './countReducer';
 import socket from './socketReducer';
+import gameSession from './gameSessionReducer';
 
 const rootReducer = combineReducers({
-  stuff,
-  count,
-  socket
+  socket,
+  gameSession
 });
 
 export default rootReducer;

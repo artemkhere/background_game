@@ -5,6 +5,7 @@ import {
 import {
   setSocketLoading, handleSocketConnect, setSocketError
 } from '../actions/socketActions';
+import { updateGameSessionState } from '../actions/gameSessionActions';
 
 const createSocketMiddleware = (url) => {
   let socket;
@@ -40,11 +41,9 @@ const createSocketMiddleware = (url) => {
           setSocketError(dispatch, { message: reason });
         });
 
-        // socket.on('updateGameSession', (data) => {
-        //   // reason is a String
-        //   // ‘io server disconnect’, ‘io client disconnect’, or ‘ping timeout’
-        //   setSocketError(dispatch, { message: reason });
-        // });
+        socket.on('updateGameSession', (data) => {
+          updateGameSessionState(dispatch, data);
+        });
         break;
       case SOCKET_TRIGGER_DISCONNECT:
         if (socket) { socket.disconnect(); }
