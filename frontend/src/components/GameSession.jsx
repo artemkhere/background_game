@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  connectToSocket, disconnectFromSocket
-} from '../actions/socketActions';
+import { connectToSocket, disconnectFromSocket } from '../actions/socketActions';
 import ClickableArea from './ClickableArea';
 
 function GameSession(props) {
@@ -14,7 +12,7 @@ function GameSession(props) {
     return (
       <div>
         <div>There was an error</div>
-        <div onClick={connectToSocket}>Connect to Socket</div>
+        <button onClick={connectToSocket}>Connect to Socket</button>
       </div>
     );
   };
@@ -23,8 +21,7 @@ function GameSession(props) {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <div onClick={connectToSocket}>Connect to Socket</div>
-      <div onClick={disconnectFromSocket}>Disconnect From Socket</div>
+      <button onClick={disconnectFromSocket}>Disconnect From Socket</button>
       <div>Clicks: {props.clicks}</div>
       <ClickableArea />
     </div>
