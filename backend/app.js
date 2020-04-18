@@ -1,7 +1,6 @@
 import express from 'express';
 import http from 'http';
 import socketIO from 'socket.io';
-import axios from 'axios';
 
 import index from './routes/index';
 
@@ -13,14 +12,17 @@ const server = http.createServer(app);
 
 const io = socketIO(server);
 
-// app.get('/', (req, res) => res.send('Hello World!'));
-// app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
-
 io.on("connection", (socket) => {
   console.log("New client connected");
-  // console.log(socket);
-  // setInterval(() => getApiAndEmit(socket), 10000);
-  socket.emit("FromAPI", "You connected, brah.");
+
+  let clicks = 0;
+
+  socket.on('areaClicked', (data) => {
+    console.log("received click,", data);
+    clicks += 1;
+    socket.emit('updateGameSession', { clicks });
+  });
+
   socket.on("disconnect", () => console.log("Client disconnected"));
 });
 
