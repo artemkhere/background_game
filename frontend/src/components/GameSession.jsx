@@ -31,7 +31,6 @@ function GameSession(props) {
       <ClickableArea />
     </div>
   );
-
 }
 
 function mapStateToProps(state) {

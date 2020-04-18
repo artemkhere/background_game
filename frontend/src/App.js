@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import TopMenu from './components/TopMenu';
 import LandingPage from './components/LandingPage';
 import GameSession from './components/GameSession';
 
@@ -22,12 +23,10 @@ function App(props) {
 
   return (
     <div>
+      <TopMenu setCurrentScreen={setCurrentScreen} />
       {renderMainSection()}
     </div>
   );
 }
 
 export default App;
-
-// <TopMenu />
-// <Footer />
