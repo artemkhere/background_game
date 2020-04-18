@@ -6,7 +6,12 @@ import ClickableArea from './ClickableArea';
 
 function GameSession(props) {
   const { error, loading } = props.socket;
-  const { connectToSocket, disconnectFromSocket } = props;
+  const { connectToSocket, disconnectFromSocket, setCurrentScreen } = props;
+
+  const handleQuit = () => {
+    disconnectFromSocket();
+    setCurrentScreen('LandingPage');
+  }
 
   if (error) {
     return (
@@ -21,7 +26,7 @@ function GameSession(props) {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <button onClick={disconnectFromSocket}>Disconnect From Socket</button>
+      <button onClick={handleQuit}>Quit</button>
       <div>Clicks: {props.clicks}</div>
       <ClickableArea />
     </div>

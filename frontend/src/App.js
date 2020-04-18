@@ -1,17 +1,30 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import LandingPage from './components/LandingPage';
 import GameSession from './components/GameSession';
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <LandingPage />
-        <GameSession />
-      </div>
-    );
+function App(props) {
+  const [currentScreen, setCurrentScreen] = useState('LandingPage');
+
+  const renderMainSection = () => {
+    let toRender;
+
+    if (currentScreen === 'LandingPage') {
+      toRender = <LandingPage setCurrentScreen={setCurrentScreen} />;
+    } else if (currentScreen === 'GameSession') {
+      toRender = <GameSession setCurrentScreen={setCurrentScreen} />;
+    } else {
+      toRender = <div>Error</div>;
+    }
+
+    return toRender;
   }
+
+  return (
+    <div>
+      {renderMainSection()}
+    </div>
+  );
 }
 
 export default App;

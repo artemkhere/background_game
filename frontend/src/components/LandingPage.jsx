@@ -4,11 +4,17 @@ import { connect } from 'react-redux';
 import { connectToSocket } from '../actions/socketActions';
 
 function LandingPage(props) {
-  const { connectToSocket } = props;
+  const { connectToSocket, setCurrentScreen } = props;
+
+  const handleStartNewGame = () => {
+    setCurrentScreen('GameSession');
+    connectToSocket();
+  }
 
   return (
     <div style={{ textAlign: "center" }}>
-      <button onClick={connectToSocket}>Start New Game</button>
+      <button onClick={handleStartNewGame}>Start New Game</button>
+      <button>Login</button>
     </div>
   );
 
