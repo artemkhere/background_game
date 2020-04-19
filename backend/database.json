@@ -1,0 +1,11 @@
+{
+  "dev": {
+    "driver": "pg",
+    "user": "admin",
+    "password": "development",
+    "host": "localhost",
+    "database": "background_game",
+    "port": "5432"
+  },
+   "sql-file": true
+}
