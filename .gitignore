@@ -24,7 +24,6 @@
 /frontend/yarn-error.log*
 
 /backend/.DS_Store
-/backend/database.json
 /backend/.env.local
 /backend/.env.development.local
 /backend/.env.test.local
