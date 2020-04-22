@@ -7,7 +7,8 @@ export default function count(state = initialState.gameSession, action) {
   switch (action.type) {
     case UPDATE_GAME_SESSION_STATE:
       return Object.assign({}, state, {
-        clicks: action.payload.clicks
+        resources: action.payload.resources,
+        gameState: action.payload.gameState
       });
     default:
       return state;
