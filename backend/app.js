@@ -15,16 +15,20 @@ const io = socketIO(server);
 io.on('connection', (socket) => {
   console.log('New client connected');
 
-  let resources = 0; // in the future will be fetched
+  // in the future will be fetched
+  let resources = 0;
+  let gameState = { items: [] };
 
   socket.on('areaClicked', (data) => {
     resources += 1;
-    socket.emit('updateGameSession', { resources });
+    socket.emit('updateGameSession', { resources, gameState });
   });
 
-  socket.on('purchaseItem', (data) => {
+  socket.on('buyItem', (data) => {
     if (resources >= 5) {
-      socket.emit('updateGameSession', { resources,  });
+      resources -= 5;
+      gameState.items.push('New Item');
+      socket.emit('updateGameSession', { resources, gameState });
     } else {
       socket.emit('operationFailed', { reason: 'Not enough resources' });
     }

@@ -1,17 +1,34 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { connectToSocket, disconnectFromSocket } from '../actions/socketActions';
+import {
+  connectToSocket, disconnectFromSocket, socketEmit
+} from '../actions/socketActions';
 import ClickableArea from './ClickableArea';
 
 function GameSession(props) {
   const { error, loading } = props.socket;
-  const { resources, loading } = props.gameSession;
-  const { connectToSocket, disconnectFromSocket, setCurrentScreen } = props;
+  const { resources, gameState } = props.gameSession;
+  const {
+    connectToSocket, disconnectFromSocket, setCurrentScreen,
+    socketEmit
+  } = props;
 
   const handleQuit = () => {
     disconnectFromSocket();
     setCurrentScreen('LandingPage');
+  }
+
+  const handleBuyItem = () => {
+    socketEmit({ eventName: 'buyItem', data: { itemName: 'New Item' } });
+  }
+
+  const displayItems = (items) => {
+    return (
+      <>
+        {items.map((item) => { return <div>{item}</div>; })}
+      </>
+    );
   }
 
   if (error) {
@@ -28,7 +45,10 @@ function GameSession(props) {
   return (
     <div style={{ textAlign: "center" }}>
       <button onClick={handleQuit}>Quit</button>
-      <div>Resources: {props.resources}</div>
+      <div>Items:</div>
+      {displayItems(gameState.items)}
+      <button onClick={handleBuyItem}>Buy Item</button>
+      <div>Resources: {resources}</div>
       <ClickableArea />
     </div>
   );
@@ -44,7 +64,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     connectToSocket: connectToSocket(dispatch),
-    disconnectFromSocket: disconnectFromSocket(dispatch)
+    disconnectFromSocket: disconnectFromSocket(dispatch),
+    socketEmit: socketEmit(dispatch)
   };
 }
 

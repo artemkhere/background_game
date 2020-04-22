@@ -7,6 +7,8 @@ export default {
   },
   gameSession: {
     resources: 0,
-    
+    gameState: {
+      items: []
+    }
   }
 };
