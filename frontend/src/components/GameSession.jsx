@@ -6,6 +6,7 @@ import ClickableArea from './ClickableArea';
 
 function GameSession(props) {
   const { error, loading } = props.socket;
+  const { resources, loading } = props.gameSession;
   const { connectToSocket, disconnectFromSocket, setCurrentScreen } = props;
 
   const handleQuit = () => {
@@ -27,7 +28,7 @@ function GameSession(props) {
   return (
     <div style={{ textAlign: "center" }}>
       <button onClick={handleQuit}>Quit</button>
-      <div>Clicks: {props.clicks}</div>
+      <div>Resources: {props.resources}</div>
       <ClickableArea />
     </div>
   );
@@ -36,7 +37,7 @@ function GameSession(props) {
 function mapStateToProps(state) {
   return {
     socket: state.socket,
-    clicks: state.gameSession.clicks
+    gameSession: state.gameSession
   };
 }
 

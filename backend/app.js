@@ -12,18 +12,25 @@ const server = http.createServer(app);
 
 const io = socketIO(server);
 
-io.on("connection", (socket) => {
-  console.log("New client connected");
+io.on('connection', (socket) => {
+  console.log('New client connected');
 
-  let clicks = 0;
+  let resources = 0; // in the future will be fetched
 
   socket.on('areaClicked', (data) => {
-    console.log("received click,", data);
-    clicks += 1;
-    socket.emit('updateGameSession', { clicks });
+    resources += 1;
+    socket.emit('updateGameSession', { resources });
   });
 
-  socket.on("disconnect", () => console.log("Client disconnected"));
+  socket.on('purchaseItem', (data) => {
+    if (resources >= 5) {
+      socket.emit('updateGameSession', { resources,  });
+    } else {
+      socket.emit('operationFailed', { reason: 'Not enough resources' });
+    }
+  });
+
+  socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

@@ -6,6 +6,7 @@ export default {
     data: {}
   },
   gameSession: {
-    clicks: 0
+    resources: 0,
+    
   }
 };

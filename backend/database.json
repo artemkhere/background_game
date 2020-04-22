@@ -2,7 +2,7 @@
   "dev": {
     "driver": "pg",
     "user": "admin",
-    "password": "development",
+    "password": "password",
     "host": "localhost",
     "database": "background_game",
     "port": "5432"
