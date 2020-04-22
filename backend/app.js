@@ -19,6 +19,8 @@ io.on('connection', (socket) => {
   let resources = 0;
   let gameState = { items: [] };
 
+  socket.emit('updateGameSession', { resources, gameState });
+
   socket.on('areaClicked', (data) => {
     resources += 1;
     socket.emit('updateGameSession', { resources, gameState });
