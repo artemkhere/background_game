@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { connectToSocket, disconnectFromSocket } from '../actions/socketActions';
+import { setCurrentScreen } from '../actions/applicationStateActions';
 
 function TopMenu(props) {
   const { connectToSocket, disconnectFromSocket, setCurrentScreen } = props;
@@ -29,6 +30,7 @@ function mapDispatchToProps(dispatch) {
   return {
     connectToSocket: connectToSocket(dispatch),
     disconnectFromSocket: disconnectFromSocket(dispatch),
+    setCurrentScreen: setCurrentScreen(dispatch)
   };
 }
 
