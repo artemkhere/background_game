@@ -15,6 +15,16 @@ const io = socketIO(server);
 io.on('connection', (socket) => {
   console.log('New client connected');
 
+  // wait for socket.on(with_token_and_user_id)
+  // verify token
+  // if (token.verified) {fetch save, set game "on's"}
+  // if (token.failed) {return error and drop connection}
+
+  // or wait for socket.on(no token, but maybe user id)
+  // if no token no user id -- create new game save with nothing
+  // if user id -- create new game save and associate it with user id
+
+
   // in the future will be fetched
   let resources = 0;
   let gameState = { items: [] };
