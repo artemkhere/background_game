@@ -12,10 +12,14 @@ function LandingPage(props) {
     connectToSocket();
   }
 
+  const handleSignup = () => {
+    setCurrentScreen('Signup');
+  }
+
   return (
     <div style={{ textAlign: "center" }}>
       <button onClick={handleStartNewGame}>Start New Game</button>
-      <button>Login</button>
+      <button onClick={handleSignup}>Sign Up</button>
     </div>
   );
 

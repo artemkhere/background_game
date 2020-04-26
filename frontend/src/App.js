@@ -5,7 +5,7 @@ import TopMenu from './components/TopMenu';
 import LandingPage from './components/LandingPage';
 import GameSession from './components/GameSession';
 // import Login from './components/Login';
-// import Signup from './components/Signup';
+import Signup from './components/Signup';
 
 function App(props) {
   const renderMainSection = () => {
@@ -21,9 +21,9 @@ function App(props) {
       // case 'Login':
       //   toRender = <Login />;
       //   break;
-      // case 'Signup':
-      //   toRender = <Signup />;
-      //   break;
+      case 'Signup':
+        toRender = <Signup />;
+        break;
       default:
         toRender = <div>Error</div>;
     }

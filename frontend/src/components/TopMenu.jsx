@@ -17,11 +17,17 @@ function TopMenu(props) {
     setCurrentScreen('LandingPage');
   }
 
+  const handleSignup = () => {
+    disconnectFromSocket();
+    setCurrentScreen('Signup');
+  }
+
   return (
     <div style={{ textAlign: "right" }}>
       <button onClick={handlePlay}>Play</button>
       <button>Profile</button>
       <button onClick={handleQuit}>Logout</button>
+      <button onClick={handleSignup}>Sign Up</button>
     </div>
   );
 }
