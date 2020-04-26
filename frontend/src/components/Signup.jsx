@@ -21,8 +21,6 @@ function Signup(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     setSignupStep('Loading');
-    console.log(email)
-    console.log(password)
   }
 
   const signupForm = () => {
@@ -36,6 +34,7 @@ function Signup(props) {
           placeholder='Email'
           value={email}
           onChange={handleEmailChange}
+          required
         />
         <br/>
         <label>Password</label>
@@ -45,6 +44,7 @@ function Signup(props) {
           placeholder='Password'
           value={password}
           onChange={handlePasswordChange}
+          required
         />
         <input type='submit'/>
       </form>
