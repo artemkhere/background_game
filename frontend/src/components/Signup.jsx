@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 import { connectToSocket } from '../actions/socketActions';
 import { setCurrentScreen } from '../actions/applicationStateActions';
@@ -21,6 +22,16 @@ function Signup(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     setSignupStep('Loading');
+    axios.post("http://127.0.0.1:6969/api/signup", {
+      firstName: 'Fred',
+      lastName: 'Flintstone'
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
   const signupForm = () => {

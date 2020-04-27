@@ -1,12 +1,22 @@
 import express from 'express';
 import http from 'http';
 import socketIO from 'socket.io';
+import cors from 'cors';
 
 import index from './routes/index';
 
 const port = process.env.PORT || 6969;
 const app = express();
 
+// CORS - currently allow all requests
+// needs to change to only let frontend to hit it
+app.use(cors());
+
+// parsing json
+app.use(express.json());
+app.use(express.urlencoded());
+
+// routes
 app.use(index);
 const server = http.createServer(app);
 

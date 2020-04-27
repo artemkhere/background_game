@@ -7,8 +7,15 @@ router.get('/api/login', (req, res) => {
   res.send({ response: 'I am alive' }).status(200);
 });
 
-router.post('/api/login', (req, res) => {
+router.post('/api/signup', (req, res) => {
   console.log('hit that')
+  console.log(req.body)
+  // validate data with validator.js
+  // see if user with that email already exitst with pg promise
+  // hash password with salt with bcrypt
+  // create user with that password hash
+  // return success message with user id
+  // login that user in the future and give jwt
   res.send({ response: 'I am alive' }).status(200);
 });
 
