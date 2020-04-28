@@ -14,7 +14,7 @@ app.use(cors());
 
 // parsing json
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }))
 
 // routes
 app.use(index);

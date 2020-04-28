@@ -19,19 +19,16 @@ function Signup(props) {
     setPassword(event.target.value);
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setSignupStep('Loading');
-    axios.post("http://127.0.0.1:6969/api/signup", {
-      firstName: 'Fred',
-      lastName: 'Flintstone'
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
+
+    try {
+      const newUserResponse = await axios.post("http://127.0.0.1:6969/api/signup", { email, password });
+      console.log(newUserResponse);
+    } catch (error) {
       console.log(error);
-    });
+    }
   }
 
   const signupForm = () => {
@@ -55,6 +52,8 @@ function Signup(props) {
           placeholder='Password'
           value={password}
           onChange={handlePasswordChange}
+          minLength="4"
+          maxLength="24"
           required
         />
         <input type='submit'/>
