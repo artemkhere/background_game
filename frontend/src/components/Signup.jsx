@@ -4,10 +4,12 @@ import axios from 'axios';
 
 import { connectToSocket } from '../actions/socketActions';
 import { setCurrentScreen } from '../actions/applicationStateActions';
+import { setUserData } from '../actions/userActions';
 
 function Signup(props) {
-  const { connectToSocket, setCurrentScreen } = props;
+  const { connectToSocket, setCurrentScreen, user } = props;
   const [signupStep, setSignupStep] = useState('SignupForm');
+  const [signupError, setSignupError] = useState(undefined);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -25,9 +27,12 @@ function Signup(props) {
 
     try {
       const newUserResponse = await axios.post("http://127.0.0.1:6969/api/signup", { email, password });
-      console.log(newUserResponse);
+      localStorage.setItem('jwt', newUserResponse.data.token);
+      setUserData(newUserResponse.data);
+      setSignupStep('SignupSuccess');
     } catch (error) {
-      console.log(error);
+      setSignupStep('Error');
+      setSignupError(error.message);
     }
   }
 
@@ -67,6 +72,12 @@ function Signup(props) {
     );
   }
 
+  const signupError = (error) => {
+    return (
+      <div>Error: error</div>
+    );
+  }
+
   const handleStartNewGame = () => {
     setCurrentScreen('GameSession');
     // in this connectToSocket I will need to pass userID and jwt
@@ -77,7 +88,8 @@ function Signup(props) {
     return (
       <div style={{ textAlign: "center" }}>
         <div>Congrats, your account had been created!</div>
-        <div>Signed in as: USER EMAIL GOES HERE</div>
+        <div>Signed in as: user.email</div>
+        <div>User ID: user.id</div>
         <button onClick={handleStartNewGame}>Start New Game</button>
       </div>
     );
@@ -93,13 +105,12 @@ function Signup(props) {
       case 'Loading':
         toRender = signupLoading();
         break;
-      // case 'Error':
-      //   // already logged in error needs to be handled here
-      //   toRender = signupError();
-      //   break;
-      // case 'SignupSuccess':
-      //   toRender = signupSuccess();
-      //   break;
+      case 'Error':
+        toRender = signupError(error);
+        break;
+      case 'SignupSuccess':
+        toRender = signupSuccess();
+        break;
       default:
         toRender = <div>Error</div>;
     }
@@ -114,14 +125,16 @@ function Signup(props) {
 
 function mapStateToProps(state) {
   return {
-    socket: state.socket
+    socket: state.socket,
+    socket: state.user
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     connectToSocket: connectToSocket(dispatch),
-    setCurrentScreen: setCurrentScreen(dispatch)
+    setCurrentScreen: setCurrentScreen(dispatch),
+    setUserData: setUserData(dispatch)
   };
 }
 

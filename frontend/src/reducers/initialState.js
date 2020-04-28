@@ -13,8 +13,10 @@ export default {
     }
   },
   applicationState: {
-    currentScreen: 'LandingPage',
-    userID: 0,
-    jwt: ''
+    currentScreen: 'LandingPage'
+  },
+  user: {
+    id: 0,
+    email: ''
   }
 };

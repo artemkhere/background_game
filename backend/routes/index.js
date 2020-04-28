@@ -47,12 +47,13 @@ router.post('/api/signup', async (req, res) => {
         }
 
         if (newUserResponse) {
-          const userID = newUserResponse.id;
-          const token = jwt.sign({ userID }, config.privateKey, { expiresIn: '30d' });
+          const id = newUserResponse.id;
+          const token = jwt.sign({ id }, config.privateKey, { expiresIn: '30d' });
 
           res.status(200).send({
             message: "Successfully created a new user and signed in.",
-            userID,
+            id,
+            email,
             jwt: token
           });
         } else {
