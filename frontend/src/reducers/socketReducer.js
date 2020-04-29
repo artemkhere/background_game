@@ -8,13 +8,14 @@ export default function count(state = initialState.socket, action) {
     case SOCKET_SET_LOADING:
       return Object.assign({}, state, {
         loading: action.payload,
-        error: false
+        error: false,
+        connected: false
       });
     case SOCKET_CONNECT:
       return Object.assign({}, state, {
         loading: false,
         error: false,
-        data: action.payload
+        connected: true
       });
     case SOCKET_SET_ERROR:
       return Object.assign({}, state, {

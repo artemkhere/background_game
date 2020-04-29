@@ -20,7 +20,8 @@ const createSocketMiddleware = (url) => {
         socket = socketIOClient(url);
 
         socket.on('connect', (data) => {
-          handleSocketConnect(dispatch, data);
+          const { user } = storeAPI.getState();
+          handleSocketConnect(dispatch, user);
         });
 
         socket.on('connect_error', (error) => {

@@ -16,11 +16,16 @@ export function setSocketLoading(dispatch, loading) {
   });
 }
 
-export function handleSocketConnect(dispatch, data) {
-  dispatch({
-    type: SOCKET_CONNECT,
-    payload: data
+export function handleSocketConnect(dispatch, user) {
+  const jwt = localStorage.getItem('jwt');
+  const userID = user.id;
+
+  socketEmit(dispatch)({
+    eventName: 'startGameSession',
+    data: { userID, token: jwt }
   });
+
+  dispatch({ type: SOCKET_CONNECT });
 }
 
 export function setSocketError(dispatch, error) {
