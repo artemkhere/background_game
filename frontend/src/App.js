@@ -27,7 +27,7 @@ function App(props) {
         };
         setUserData(userData);
       } catch (error) {
-        console.log('Error: failed to auth with the jwt.')
+        console.log('Error: failed to auth with jwt.')
       }
     }
   }
