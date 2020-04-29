@@ -3,10 +3,10 @@ export default {
     error: undefined,
     timeout: undefined,
     loading: undefined,
-    data: {}
+    connected: false
   },
   gameSession: {
-    gameSessionID: 0,
+    id: 0,
     resources: 0,
     gameState: {
       items: []

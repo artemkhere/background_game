@@ -7,7 +7,7 @@ import { setCurrentScreen } from '../actions/applicationStateActions';
 import { setUserData } from '../actions/userActions';
 
 function Login(props) {
-  const { setUserData, user } = props;
+  const { connectToSocket, setCurrentScreen, setUserData, user } = props;
   const [loginStep, setLoginStep] = useState('LoginForm');
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [email, setEmail] = useState('');
@@ -88,7 +88,6 @@ function Login(props) {
 
   const handleStartNewGame = () => {
     setCurrentScreen('GameSession');
-    // in this connectToSocket I will need to pass userID and jwt
     connectToSocket();
   }
 

@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import db from '../dbConnection.js';
-import config from '../config.js'
+import config from '../config.js';
 
 const router = express.Router();
 
