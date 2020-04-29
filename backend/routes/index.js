@@ -8,9 +8,51 @@ import config from '../config.js'
 
 const router = express.Router();
 
-router.get('/api/login', (req, res) => {
-  console.log('hit that')
-  res.status(200).send({ response: 'I am alive' });
+router.post('/api/login', async (req, res) => {
+  if (req.body && req.body.email && req.body.password) {
+    const { email, password } = req.body;
+
+    const emailValid = validator.isEmail(email);
+    let emailTaken = false;
+
+    // I need to sanitize password
+    if (emailValid && password.length >= 4) {
+      let user = undefined;
+
+      try {
+        user = await db.oneOrNone(
+          "SELECT * FROM users WHERE email = $1",
+          [email]
+        );
+      } catch (error) {
+        res.status(500).send({ message: 'Failed fetching the user.' });
+      }
+
+      if (user) {
+        bcrypt.compare(password, user.password, function(error, result) {
+          if (result) {
+            const id = user.id;
+            const token = jwt.sign({ id }, config.privateKey, { expiresIn: '30d' });
+
+            res.status(200).send({
+              message: "Successfully signed in.",
+              id,
+              email,
+              jwt: token
+            });
+          } else {
+            res.status(403).send({ message: 'Wrong password.' });
+          }
+        });
+      } else {
+        res.status(403).send({ message: 'User not found.' });
+      }
+    } else {
+      res.status(400).send({ message: 'Bad data.' });
+    }
+  } else {
+    res.status(400).send({ message: 'Missing data.' });
+  }
 });
 
 router.post('/api/signup', async (req, res) => {
@@ -20,6 +62,7 @@ router.post('/api/signup', async (req, res) => {
     const emailValid = validator.isEmail(email);
     let emailTaken = false;
 
+    // I need to sanitize password
     if (emailValid) {
       try {
         emailTaken = await db.oneOrNone('SELECT id FROM users WHERE email = $1', [email]);

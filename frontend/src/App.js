@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import TopMenu from './components/TopMenu';
 import LandingPage from './components/LandingPage';
 import GameSession from './components/GameSession';
-// import Login from './components/Login';
+import Login from './components/Login';
 import Signup from './components/Signup';
 import Logout from './components/Logout';
 
@@ -19,9 +19,9 @@ function App(props) {
       case 'GameSession':
         toRender = <GameSession />;
         break;
-      // case 'Login':
-      //   toRender = <Login />;
-      //   break;
+      case 'Login':
+        toRender = <Login />;
+        break;
       case 'Signup':
         toRender = <Signup />;
         break;

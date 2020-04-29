@@ -17,6 +17,10 @@ function TopMenu(props) {
     connectToSocket();
   }
 
+  const handleLogin = () => {
+    setCurrentScreen('Login');
+  }
+
   const handleLogout = () => {
     disconnectFromSocket();
     localStorage.removeItem('jwt');
@@ -30,7 +34,12 @@ function TopMenu(props) {
   }
 
   const renderMainSection = () => {
-    let toRender = <button onClick={handleSignup}>Sign Up</button>
+    let toRender = (
+      <>
+        <button onClick={handleLogin}>Login</button>
+        <button onClick={handleSignup}>Sign Up</button>
+      </>
+    );
 
     if (userLoggedIn) {
       toRender = (
