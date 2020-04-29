@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { connectToSocket } from '../actions/socketActions';
+import { setCurrentScreen } from '../actions/applicationStateActions';
 
 function LandingPage(props) {
   const { connectToSocket, setCurrentScreen } = props;
@@ -11,10 +12,14 @@ function LandingPage(props) {
     connectToSocket();
   }
 
+  const handleSignup = () => {
+    setCurrentScreen('Signup');
+  }
+
   return (
     <div style={{ textAlign: "center" }}>
       <button onClick={handleStartNewGame}>Start New Game</button>
-      <button>Login</button>
+      <button onClick={handleSignup}>Sign Up</button>
     </div>
   );
 
@@ -28,7 +33,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    connectToSocket: connectToSocket(dispatch)
+    connectToSocket: connectToSocket(dispatch),
+    setCurrentScreen: setCurrentScreen(dispatch)
   };
 }
 

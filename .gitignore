@@ -25,6 +25,7 @@
 
 /backend/.DS_Store
 /backend/database.json
+/backend/config.js
 /backend/.env.local
 /backend/.env.development.local
 /backend/.env.test.local

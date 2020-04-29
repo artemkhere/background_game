@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   connectToSocket, disconnectFromSocket, socketEmit
 } from '../actions/socketActions';
+import { setCurrentScreen } from '../actions/applicationStateActions';
 import ClickableArea from './ClickableArea';
 
 function GameSession(props) {
@@ -65,7 +66,8 @@ function mapDispatchToProps(dispatch) {
   return {
     connectToSocket: connectToSocket(dispatch),
     disconnectFromSocket: disconnectFromSocket(dispatch),
-    socketEmit: socketEmit(dispatch)
+    socketEmit: socketEmit(dispatch),
+    setCurrentScreen: setCurrentScreen(dispatch)
   };
 }
 

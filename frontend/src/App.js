@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
 import TopMenu from './components/TopMenu';
 import LandingPage from './components/LandingPage';
 import GameSession from './components/GameSession';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Logout from './components/Logout';
 
 function App(props) {
-  const [currentScreen, setCurrentScreen] = useState('LandingPage');
-
   const renderMainSection = () => {
     let toRender;
 
-    if (currentScreen === 'LandingPage') {
-      toRender = <LandingPage setCurrentScreen={setCurrentScreen} />;
-    } else if (currentScreen === 'GameSession') {
-      toRender = <GameSession setCurrentScreen={setCurrentScreen} />;
-    } else {
-      toRender = <div>Error</div>;
+    switch(props.applicationState.currentScreen) {
+      case 'LandingPage':
+        toRender = <LandingPage />;
+        break;
+      case 'GameSession':
+        toRender = <GameSession />;
+        break;
+      case 'Login':
+        toRender = <Login />;
+        break;
+      case 'Signup':
+        toRender = <Signup />;
+        break;
+      case 'Logout':
+        toRender = <Logout />;
+        break;
+      default:
+        toRender = <div>Error</div>;
     }
 
     return toRender;
@@ -23,10 +37,18 @@ function App(props) {
 
   return (
     <div>
-      <TopMenu setCurrentScreen={setCurrentScreen} />
+      <TopMenu />
       {renderMainSection()}
     </div>
   );
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    applicationState: state.applicationState
+  };
+}
+
+export default connect(
+  mapStateToProps
+)(App);
