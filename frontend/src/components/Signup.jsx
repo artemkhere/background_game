@@ -7,9 +7,9 @@ import { setCurrentScreen } from '../actions/applicationStateActions';
 import { setUserData } from '../actions/userActions';
 
 function Signup(props) {
-  const { connectToSocket, setCurrentScreen, user } = props;
+  const { connectToSocket, setCurrentScreen, setUserData, user } = props;
   const [signupStep, setSignupStep] = useState('SignupForm');
-  const [signupError, setSignupError] = useState(undefined);
+  const [errorMessage, setErrorMessage] = useState(undefined);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -27,12 +27,12 @@ function Signup(props) {
 
     try {
       const newUserResponse = await axios.post("http://127.0.0.1:6969/api/signup", { email, password });
-      localStorage.setItem('jwt', newUserResponse.data.token);
+      localStorage.setItem('jwt', newUserResponse.data.jwt);
       setUserData(newUserResponse.data);
       setSignupStep('SignupSuccess');
     } catch (error) {
       setSignupStep('Error');
-      setSignupError(error.message);
+      setErrorMessage(error.message);
     }
   }
 
@@ -72,9 +72,9 @@ function Signup(props) {
     );
   }
 
-  const signupError = (error) => {
+  const signupError = () => {
     return (
-      <div>Error: error</div>
+      <div>Error: {errorMessage}</div>
     );
   }
 
@@ -88,8 +88,8 @@ function Signup(props) {
     return (
       <div style={{ textAlign: "center" }}>
         <div>Congrats, your account had been created!</div>
-        <div>Signed in as: user.email</div>
-        <div>User ID: user.id</div>
+        <div>Signed in as: {user.email}</div>
+        <div>User ID: {user.id}</div>
         <button onClick={handleStartNewGame}>Start New Game</button>
       </div>
     );
@@ -106,7 +106,7 @@ function Signup(props) {
         toRender = signupLoading();
         break;
       case 'Error':
-        toRender = signupError(error);
+        toRender = signupError();
         break;
       case 'SignupSuccess':
         toRender = signupSuccess();
@@ -126,7 +126,7 @@ function Signup(props) {
 function mapStateToProps(state) {
   return {
     socket: state.socket,
-    socket: state.user
+    user: state.user
   };
 }
 
