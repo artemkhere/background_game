@@ -17,6 +17,7 @@ export default {
   },
   user: {
     id: 0,
-    email: ''
+    email: '',
+    loggedIn: false
   }
 };

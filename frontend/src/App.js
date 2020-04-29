@@ -6,6 +6,7 @@ import LandingPage from './components/LandingPage';
 import GameSession from './components/GameSession';
 // import Login from './components/Login';
 import Signup from './components/Signup';
+import Logout from './components/Logout';
 
 function App(props) {
   const renderMainSection = () => {
@@ -23,6 +24,9 @@ function App(props) {
       //   break;
       case 'Signup':
         toRender = <Signup />;
+        break;
+      case 'Logout':
+        toRender = <Logout />;
         break;
       default:
         toRender = <div>Error</div>;

@@ -28,7 +28,12 @@ function Signup(props) {
     try {
       const newUserResponse = await axios.post("http://127.0.0.1:6969/api/signup", { email, password });
       localStorage.setItem('jwt', newUserResponse.data.jwt);
-      setUserData(newUserResponse.data);
+      const userData = {
+        id: newUserResponse.data.id,
+        email: newUserResponse.data.email,
+        loggedIn: true
+      };
+      setUserData(userData);
       setSignupStep('SignupSuccess');
     } catch (error) {
       setSignupStep('Error');
