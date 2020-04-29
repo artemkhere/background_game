@@ -55,6 +55,26 @@ router.post('/api/login', async (req, res) => {
   }
 });
 
+router.post('/api/auth', async (req, res) => {
+  if (req.body && req.body.token) {
+    const { token } = req.body;
+    const decodedToken = jwt.verify(token, config.privateKey);
+
+    const user = await db.oneOrNone(
+      "SELECT * FROM users WHERE id = $1",
+      [decodedToken.id]
+    );
+
+    res.status(200).send({
+      message: "Successfully authenticated.",
+      id: user.id,
+      email: user.email
+    });
+  } else {
+    res.status(400).send({ message: 'Missing data.' });
+  }
+});
+
 router.post('/api/signup', async (req, res) => {
   if (req.body && req.body.email && req.body.password) {
     const { email, password } = req.body;

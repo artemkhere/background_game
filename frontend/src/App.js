@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
+
+import { setUserData } from './actions/userActions';
 
 import TopMenu from './components/TopMenu';
 import LandingPage from './components/LandingPage';
@@ -9,6 +12,30 @@ import Signup from './components/Signup';
 import Logout from './components/Logout';
 
 function App(props) {
+  const { setUserData, user } = props;
+
+  const authenticate = async () => {
+    const jwt = localStorage.getItem('jwt');
+
+    if (jwt && !user.loggedIn) {
+      try {
+        const authResponse = await axios.post("http://127.0.0.1:6969/api/auth", { token: jwt });
+        const userData = {
+          id: authResponse.data.id,
+          email: authResponse.data.email,
+          loggedIn: true
+        };
+        setUserData(userData);
+      } catch (error) {
+        console.log('Error: failed to auth with the jwt.')
+      }
+    }
+  }
+
+  useEffect(() => {
+    authenticate();
+  });
+
   const renderMainSection = () => {
     let toRender;
 
@@ -45,10 +72,18 @@ function App(props) {
 
 function mapStateToProps(state) {
   return {
-    applicationState: state.applicationState
+    applicationState: state.applicationState,
+    user: state.user
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setUserData: setUserData(dispatch)
   };
 }
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(App);
