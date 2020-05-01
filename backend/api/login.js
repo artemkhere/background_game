@@ -28,27 +28,28 @@ export default async function handleLogin(body) {
     return { status: 500, data: { message: 'Failed fetching the user.' } };
   }
 
+
+  console.log(user)
+
   if (!user) {
     return { status: 403, data: { message: 'User not found.' } };
   }
 
-  let response = { status: 403, data: { message: 'Wrong password.' } };
-  bcrypt.compare(password, user.password, (error, result) => {
-    if (result) {
-      const id = user.id;
-      const token = jwt.sign({ id }, config.privateKey, { expiresIn: '30d' });
+  const match = await bcrypt.compare(password, user.password);
+  if (match) {
+    const id = user.id;
+    const token = await jwt.sign({ id }, config.privateKey, { expiresIn: '30d' });
 
-      response = {
-        status: 200,
-        data: {
-          message: "Successfully signed in.",
-          id,
-          email,
-          jwt: token
-        }
+    return {
+      status: 200,
+      data: {
+        message: "Successfully signed in.",
+        id,
+        email,
+        jwt: token
       }
     }
-  });
+  }
 
-  return response;
+  return { status: 403, data: { message: 'Wrong password.' } };
 }

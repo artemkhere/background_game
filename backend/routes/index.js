@@ -11,7 +11,6 @@ const router = express.Router();
 
 router.post('/api/login', async (req, res) => {
   const loginApiResponse = await handleLogin(req.body);
-  // console.log(loginApiResponse)
   res.status(loginApiResponse.status).send(loginApiResponse.data)
 });
 

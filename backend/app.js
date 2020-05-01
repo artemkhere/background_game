@@ -133,30 +133,6 @@ io.on('connection', (socket) => {
   // or wait for socket.on(no token, but maybe user id)
   // if no token no user id -- create new game save with nothing
   // if user id -- create new game save and associate it with user id
-
-
-  // in the future will be fetched
-  // let resources = 0;
-  // let gameState = { items: [] };
-  //
-  // socket.emit('updateGameSession', { resources, gameState });
-  //
-  // socket.on('areaClicked', (data) => {
-  //   resources += 1;
-  //   socket.emit('updateGameSession', { resources, gameState });
-  // });
-  //
-  // socket.on('buyItem', (data) => {
-  //   if (resources >= 5) {
-  //     resources -= 5;
-  //     gameState.items.push('New Item');
-  //     socket.emit('updateGameSession', { resources, gameState });
-  //   } else {
-  //     socket.emit('operationFailed', { reason: 'Not enough resources' });
-  //   }
-  // });
-  //
-  // socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
