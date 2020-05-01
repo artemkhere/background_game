@@ -28,9 +28,6 @@ export default async function handleLogin(body) {
     return { status: 500, data: { message: 'Failed fetching the user.' } };
   }
 
-
-  console.log(user)
-
   if (!user) {
     return { status: 403, data: { message: 'User not found.' } };
   }
