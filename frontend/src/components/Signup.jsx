@@ -3,13 +3,17 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import { connectToSocket } from '../actions/socketActions';
-import { setCurrentScreen } from '../actions/applicationStateActions';
+import {
+  setCurrentScreen, setApplicationLoading, setApplicationError
+} from '../actions/applicationStateActions';
 import { setUserData } from '../actions/userActions';
 
 function Signup(props) {
-  const { connectToSocket, setCurrentScreen, setUserData, user } = props;
+  const {
+    connectToSocket, setCurrentScreen, setUserData, user,
+    setApplicationLoading, setApplicationError
+  } = props;
   const [signupStep, setSignupStep] = useState('SignupForm');
-  const [errorMessage, setErrorMessage] = useState(undefined);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -23,7 +27,7 @@ function Signup(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setSignupStep('Loading');
+    setApplicationLoading(true);
 
     try {
       const newUserResponse = await axios.post("http://127.0.0.1:6969/api/signup", { email, password });
@@ -36,8 +40,7 @@ function Signup(props) {
       setUserData(userData);
       setSignupStep('SignupSuccess');
     } catch (error) {
-      setSignupStep('Error');
-      setErrorMessage(error.message);
+      setApplicationError(error);
     }
   }
 
@@ -71,18 +74,6 @@ function Signup(props) {
     );
   }
 
-  const signupLoading = () => {
-    return (
-      <div>Loading</div>
-    );
-  }
-
-  const signupError = () => {
-    return (
-      <div>Error: {errorMessage}</div>
-    );
-  }
-
   const handleStartNewGame = () => {
     setCurrentScreen('GameSession');
     // in this connectToSocket I will need to pass userID and jwt
@@ -106,12 +97,6 @@ function Signup(props) {
     switch(signupStep) {
       case 'SignupForm':
         toRender = signupForm();
-        break;
-      case 'Loading':
-        toRender = signupLoading();
-        break;
-      case 'Error':
-        toRender = signupError();
         break;
       case 'SignupSuccess':
         toRender = signupSuccess();
@@ -139,7 +124,9 @@ function mapDispatchToProps(dispatch) {
   return {
     connectToSocket: connectToSocket(dispatch),
     setCurrentScreen: setCurrentScreen(dispatch),
-    setUserData: setUserData(dispatch)
+    setUserData: setUserData(dispatch),
+    setApplicationLoading: setApplicationLoading(dispatch),
+    setApplicationError: setApplicationError(dispatch)
   };
 }
 
