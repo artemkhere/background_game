@@ -39,6 +39,7 @@ function Signup(props) {
       };
       setUserData(userData);
       setSignupStep('SignupSuccess');
+      setApplicationLoading(false);
     } catch (error) {
       setApplicationError(error);
     }

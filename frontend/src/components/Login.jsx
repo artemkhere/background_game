@@ -39,6 +39,7 @@ function Login(props) {
       };
       setUserData(userData);
       setLoginStep('LoginSuccess');
+      setApplicationLoading(false);
     } catch (error) {
       setApplicationError(error);
     }

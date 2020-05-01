@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { setApplicationLoading } from '../actions/applicationStateActions';
 
 function LoadingModal(props) {
-  const { setApplicationLoading, applicationState } = props;
-  const error = applicationState.loading;
+  const { setApplicationLoading } = props;
 
   const handleCloseModal = () => {
     setApplicationLoading(false);
@@ -20,9 +19,7 @@ function LoadingModal(props) {
 }
 
 function mapStateToProps(state) {
-  return {
-    applicationState: state.applicationState
-  };
+  return {};
 }
 
 function mapDispatchToProps(dispatch) {
