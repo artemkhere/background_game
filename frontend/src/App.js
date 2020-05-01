@@ -5,6 +5,8 @@ import axios from 'axios';
 import { setUserData } from './actions/userActions';
 
 import TopMenu from './components/TopMenu';
+import ErrorModal from './components/ErrorModal';
+import LoadingModal from './components/LoadingModal';
 import LandingPage from './components/LandingPage';
 import GameSession from './components/GameSession';
 import Login from './components/Login';
@@ -12,7 +14,7 @@ import Signup from './components/Signup';
 import Logout from './components/Logout';
 
 function App(props) {
-  const { setUserData, user } = props;
+  const { setUserData, user, applicationState } = props;
 
   const authenticate = async () => {
     const jwt = localStorage.getItem('jwt');
@@ -39,7 +41,7 @@ function App(props) {
   const renderMainSection = () => {
     let toRender;
 
-    switch(props.applicationState.currentScreen) {
+    switch(applicationState.currentScreen) {
       case 'LandingPage':
         toRender = <LandingPage />;
         break;
@@ -65,6 +67,8 @@ function App(props) {
   return (
     <div>
       <TopMenu />
+      {applicationState.error && <ErrorModal />}
+      {applicationState.loading && <LoadingModal />}
       {renderMainSection()}
     </div>
   );
