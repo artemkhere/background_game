@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-import db from '../dbConnection.js';
-import config from '../config.js';
+import db from '../../dbConnection.js';
+import config from '../../config.js';
 
 export default async function handleAuth(body) {
   if (!body || !body.token) {

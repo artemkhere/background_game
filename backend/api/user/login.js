@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import db from '../dbConnection.js';
-import config from '../config.js';
+import db from '../../dbConnection.js';
+import config from '../../config.js';
 
 export default async function handleLogin(body) {
   if (!body || !body.email || !body.password) {

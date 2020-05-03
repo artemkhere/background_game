@@ -1,8 +1,8 @@
 import express from 'express';
 
-import handleLogin from '../api/login.js';
-import handleAuth from '../api/auth.js';
-import handleSignup from '../api/signup.js';
+import handleLogin from '../api/user/login.js';
+import handleAuth from '../api/user/auth.js';
+import handleSignup from '../api/user/signup.js';
 
 const router = express.Router();
 
