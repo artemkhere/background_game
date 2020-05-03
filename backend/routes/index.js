@@ -1,10 +1,4 @@
 import express from 'express';
-import validator from 'validator';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-
-import db from '../dbConnection.js';
-import config from '../config.js';
 
 import handleLogin from '../api/login.js';
 import handleAuth from '../api/auth.js';

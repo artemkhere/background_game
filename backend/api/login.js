@@ -1,4 +1,3 @@
-import validator from 'validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -11,13 +10,7 @@ export default async function handleLogin(body) {
   }
 
   const { email, password } = body;
-  const emailValid = validator.isEmail(email);
-  let emailTaken = false;
   let user = undefined;
-
-  if (!emailValid || password.length < 4) {
-    return { status: 400, data: { message: 'Bad data.' } };
-  }
 
   try {
     user = await db.oneOrNone(
