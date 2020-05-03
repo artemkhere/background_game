@@ -18,7 +18,8 @@ export default function count(state = initialState.applicationState, action) {
       });
     case SET_APPLICATION_LOADING:
       return Object.assign({}, state, {
-        loading: action.payload
+        loading: action.payload,
+        error: false
       });
     default:
       return state;

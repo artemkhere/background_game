@@ -32,7 +32,13 @@ export default async function handleLogin(body) {
     return { status: 403, data: { message: 'User not found.' } };
   }
 
-  const match = await bcrypt.compare(password, user.password);
+  let match = undefined;
+  try {
+    match = await bcrypt.compare(password, user.password);
+  } catch (error) {
+    return { status: 500, data: { message: 'Could not verify password.' } };
+  }
+
   if (match) {
     const id = user.id;
     const token = await jwt.sign({ id }, config.privateKey, { expiresIn: '30d' });
