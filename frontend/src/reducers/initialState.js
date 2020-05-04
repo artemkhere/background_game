@@ -13,7 +13,9 @@ export default {
     }
   },
   applicationState: {
-    currentScreen: 'LandingPage'
+    currentScreen: 'LandingPage',
+    error: undefined,
+    loading: false
   },
   user: {
     id: 0,

@@ -3,13 +3,17 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import { connectToSocket } from '../actions/socketActions';
-import { setCurrentScreen } from '../actions/applicationStateActions';
+import {
+  setCurrentScreen, setApplicationLoading, setApplicationError
+} from '../actions/applicationStateActions';
 import { setUserData } from '../actions/userActions';
 
 function Login(props) {
-  const { connectToSocket, setCurrentScreen, setUserData, user } = props;
+  const {
+    connectToSocket, setCurrentScreen, setUserData, user,
+    setApplicationLoading, setApplicationError
+  } = props;
   const [loginStep, setLoginStep] = useState('LoginForm');
-  const [errorMessage, setErrorMessage] = useState(undefined);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -23,7 +27,7 @@ function Login(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoginStep('Loading');
+    setApplicationLoading(true);
 
     try {
       const loginResponse = await axios.post("http://127.0.0.1:6969/api/login", { email, password });
@@ -35,9 +39,9 @@ function Login(props) {
       };
       setUserData(userData);
       setLoginStep('LoginSuccess');
+      setApplicationLoading(false);
     } catch (error) {
-      setLoginStep('Error');
-      setErrorMessage(error.message);
+      setApplicationError(error);
     }
   }
 
@@ -71,21 +75,6 @@ function Login(props) {
     );
   }
 
-  const loginLoading = () => {
-    return (
-      <div>Loading</div>
-    );
-  }
-
-  const loginError = () => {
-    return (
-      <div>
-        <div>Error: {errorMessage}</div>
-        {loginForm()}
-      </div>
-    );
-  }
-
   const handleStartNewGame = () => {
     setCurrentScreen('GameSession');
     connectToSocket();
@@ -107,12 +96,6 @@ function Login(props) {
     switch(loginStep) {
       case 'LoginForm':
         toRender = loginForm();
-        break;
-      case 'Loading':
-        toRender = loginLoading();
-        break;
-      case 'Error':
-        toRender = loginError();
         break;
       case 'LoginSuccess':
         toRender = loginSuccess();
@@ -140,7 +123,9 @@ function mapDispatchToProps(dispatch) {
   return {
     connectToSocket: connectToSocket(dispatch),
     setCurrentScreen: setCurrentScreen(dispatch),
-    setUserData: setUserData(dispatch)
+    setUserData: setUserData(dispatch),
+    setApplicationLoading: setApplicationLoading(dispatch),
+    setApplicationError: setApplicationError(dispatch)
   };
 }
 
