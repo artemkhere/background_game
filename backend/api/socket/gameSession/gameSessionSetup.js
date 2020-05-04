@@ -1,114 +1,63 @@
-import jwt from 'jsonwebtoken';
-
-import config from '../../../config.js';
-import db from '../../../dbConnection.js';
+import handleAreaClicked from './handleAreaClicked.js';
+import handleBuyItem from './handleBuyItem.js';
+import handleDisconnect from './handleDisconnect.js';
+import createGameSave from './createGameSave.js';
+import getGameSaveByUserID from './getGameSaveByUserID.js';
+import assignGameSaveToUser from './assignGameSaveToUser.js';
+import updateGameSaveLastInteraction from './updateGameSaveLastInteraction.js';
+import verifyUser from './verifyUser.js';
 
 export default async function handleGameSessionSetup(socket) {
   socket.on('startGameSession', async (data) => {
     // missing data - can't determine how to proceed
     if (!data) {
+      socket.emit('error', { message: 'Missing data to start the Game Session.' });
       socket.disconnect(true);
       return;
     }
 
-    const { userID, token } = data;
     let resources = 0;
+    const setResources = (newValue) => { resources = newValue; }
     let gameState = { items: [] };
+    const setGameState = (newState) => { gameState = newState; }
     let gameSave;
 
-    if (userID !== 0 && token) {
-      // fetch a gameSave
-      const decodedToken = jwt.verify(token, config.privateKey);
-      if (decodedToken && decodedToken.id && decodedToken.id === userID) {
-        gameSave = await db.oneOrNone(
-          "SELECT * FROM game_saves WHERE user_id = $1",
-          [userID]
-        );
+    const { userID, token } = data;
+    const userLoggedIn = userID !== 0 && token;
 
-        if (!gameSave) {
-          gameSave = await db.one(`
-            INSERT
-            INTO game_saves(user_id, resources, game_state, created_on, last_interaction)
-            VALUES($1, $2, $3, to_timestamp($4), to_timestamp($5))
-            RETURNING id, resources, game_state
-          `,
-            [userID, 0, { items: [] }, Date.now() / 1000.0, Date.now() / 1000.0]
-          );
-
-          // update users with game save
-          db.none(`
-            UPDATE users
-            SET game_save_id = $1
-            WHERE id = $2
-          `,
-            [gameSave.id, userID]
-          );
-        } else {
-          db.none(`
-            UPDATE game_saves
-            SET last_interaction = to_timestamp($1)
-            WHERE id = $2
-          `,
-            [Date.now() / 1000.0, gameSave.id]
-          );
-        }
-
-        resources = gameSave.resources;
-        gameState = gameSave.game_state;
-        socket.emit('updateGameSession', { resources, gameState });
-      } else {
-        socket.emit('error', { message: 'Failed authentication.' });
-        socket.disconnect();
-      }
-    } else {
-      gameSave = await db.one(`
-        INSERT
-        INTO game_saves(resources, game_state, created_on, last_interaction)
-        VALUES($1, $2, to_timestamp($3), to_timestamp($4))
-        RETURNING id, resources, game_state
-      `,
-        [0, { items: [] }, Date.now() / 1000.0, Date.now() / 1000.0]
-      );
-
-      resources = gameSave.resources;
-      gameState = gameSave.game_state;
-      socket.emit('updateGameSession', { resources, gameState });
+    if (userLoggedIn && !verifyUser(userID, token)) {
+      socket.emit('error', { message: 'Failed user verification.' });
+      socket.disconnect();
+      return;
     }
 
-    socket.on('areaClicked', (data) => {
-      resources += 1;
-      socket.emit('updateGameSession', { resources, gameState });
+    if (userLoggedIn) {
+      gameSave = await getGameSaveByUserID(userID);
+
+      if (!gameSave) {
+        gameSave = await createGameSave(userID);
+        await assignGameSaveToUser(gameSave.id, userID)
+      } else {
+        await updateGameSaveLastInteraction(gameSave.id)
+      }
+    } else {
+      gameSave = await createGameSave();
+    }
+
+    resources = gameSave.resources;
+    gameState = gameSave.game_state;
+    socket.emit('updateGameSession', { resources, gameState });
+
+    socket.on('areaClicked', () => {
+      handleAreaClicked(resources, setResources, gameState, socket);
     });
 
     socket.on('buyItem', (data) => {
-      if (resources >= 5) {
-        resources -= 5;
-        gameState.items.push('New Item');
-        socket.emit('updateGameSession', { resources, gameState });
-      } else {
-        socket.emit('operationFailed', { reason: 'Not enough resources' });
-      }
+      handleBuyItem(resources, setResources, gameState, setGameState, socket, data);
     });
 
     socket.on('disconnect', () => {
-      if (gameSave) {
-        db.none(`
-          UPDATE game_saves
-          SET resources = $1, game_state = $2, last_interaction = to_timestamp($3)
-          WHERE id = $4
-        `,
-          [resources, gameState, Date.now() / 1000.0, gameSave.id]
-        );
-      }
+      handleDisconnect(resources, gameState, gameSave);
     });
   });
-
-  // wait for socket.on(with_token_and_user_id)
-  // verify token
-  // if (token.verified) {fetch save, set game "on's"}
-  // if (token.failed) {return error and drop connection}
-
-  // or wait for socket.on(no token, but maybe user id)
-  // if no token no user id -- create new game save with nothing
-  // if user id -- create new game save and associate it with user id
 }

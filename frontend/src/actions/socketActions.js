@@ -22,7 +22,7 @@ export function handleSocketConnect(dispatch, user) {
 
   socketEmit(dispatch)({
     eventName: 'startGameSession',
-    data: { userID, token: jwt }
+    data: { userID: 44, token: jwt }
   });
 
   dispatch({ type: SOCKET_CONNECT });
