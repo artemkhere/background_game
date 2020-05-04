@@ -9,9 +9,8 @@ import verifyUser from './verifyUser.js';
 
 export default async function handleGameSessionSetup(socket) {
   socket.on('startGameSession', async (data) => {
-    // missing data - can't determine how to proceed
     if (!data) {
-      socket.emit('error', { message: 'Missing data to start the Game Session.' });
+      // socket.emit('error', { message: 'Missing data to start the Game Session.' });
       socket.disconnect(true);
       return;
     }
@@ -26,7 +25,7 @@ export default async function handleGameSessionSetup(socket) {
     const userLoggedIn = userID !== 0 && token;
 
     if (userLoggedIn && !verifyUser(userID, token)) {
-      socket.emit('error', { message: 'Failed user verification.' });
+      // socket.emit('error', { message: 'Failed user verification.' });
       socket.disconnect();
       return;
     }
