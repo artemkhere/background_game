@@ -17,6 +17,9 @@ const createSocketMiddleware = (url) => {
       case SOCKET_TRIGGER_CONNECT:
         setSocketLoading(dispatch, true);
 
+        // drop old connection if trying to reconnect
+        if (socket) { socket.disconnect(); }
+
         socket = socketIOClient(url);
 
         socket.on('connect', (data) => {
@@ -29,6 +32,10 @@ const createSocketMiddleware = (url) => {
         });
 
         socket.on('error', (error) => {
+          setSocketError(dispatch, error);
+        });
+
+        socket.on('gameSessionError', (error) => {
           setSocketError(dispatch, error);
         });
 
