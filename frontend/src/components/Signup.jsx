@@ -11,7 +11,7 @@ import { setUserData } from '../actions/userActions';
 function Signup(props) {
   const {
     connectToSocket, setCurrentScreen, setUserData, user,
-    setApplicationLoading, setApplicationError
+    setApplicationLoading, setApplicationError, gameSession
   } = props;
   const [signupStep, setSignupStep] = useState('SignupForm');
   const [email, setEmail] = useState('');
@@ -30,7 +30,11 @@ function Signup(props) {
     setApplicationLoading(true);
 
     try {
-      const newUserResponse = await axios.post("http://127.0.0.1:6969/api/signup", { email, password });
+      const newUserResponse = await axios.post("http://127.0.0.1:6969/api/signup", {
+        email,
+        password,
+        gameSaveID: gameSession.id
+      });
       localStorage.setItem('jwt', newUserResponse.data.jwt);
       const userData = {
         id: newUserResponse.data.id,
@@ -117,7 +121,8 @@ function Signup(props) {
 function mapStateToProps(state) {
   return {
     socket: state.socket,
-    user: state.user
+    user: state.user,
+    gameSession: state.gameSession
   };
 }
 
