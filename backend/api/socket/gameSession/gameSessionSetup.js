@@ -43,16 +43,25 @@ export default async function handleGameSessionSetup(socket) {
       gameSave = await createGameSave();
     }
 
+    const gameSaveID = gameSave.id;
     resources = gameSave.resources;
     gameState = gameSave.game_state;
-    socket.emit('updateGameSession', { resources, gameState });
+    socket.emit('updateGameSession', { resources, gameState, gameSaveID });
 
     socket.on('areaClicked', () => {
-      handleAreaClicked(resources, setResources, gameState, socket);
+      handleAreaClicked(resources, setResources, gameState, gameSaveID, socket);
     });
 
     socket.on('buyItem', (data) => {
-      handleBuyItem(resources, setResources, gameState, setGameState, socket, data);
+      handleBuyItem(
+        resources,
+        setResources,
+        gameState,
+        setGameState,
+        gameSaveID,
+        socket,
+        data
+      );
     });
 
     socket.on('disconnect', () => {

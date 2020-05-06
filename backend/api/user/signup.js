@@ -4,13 +4,14 @@ import jwt from 'jsonwebtoken';
 
 import db from '../../dbConnection.js';
 import config from '../../config.js';
+import attachGameSaveToNewUser from './attachGameSaveToNewUser.js';
 
 export default async function handleSignup(body) {
   if (!body || !body.email || !body.password) {
     return { status: 400, data: { message: 'Missing data.' } };
   }
 
-  const { email, password } = body;
+  const { email, password, gameSaveID } = body;
 
   if (!validator.isEmail(email) || password.length < 4) {
     return { status: 400, data: { message: 'Bad data.' } };
@@ -36,19 +37,27 @@ export default async function handleSignup(body) {
     return { status: 500, data: { message: 'Failed generating safe password.' } };
   }
 
-  let newUserResponse = undefined;
+  let newUser = undefined;
   try {
-    newUserResponse = await db.one(`
+    newUser = await db.one(`
       INSERT INTO users(email, password, created_on)
       VALUES($1, $2, to_timestamp($3))
-      RETURNING id`,
+      RETURNING id, game_save_id`,
       [email, hash, Date.now() / 1000.0]
     );
   } catch (error) {
     return { status: 500, data: { message: 'Failed user creation.' } };
   }
 
-  const id = newUserResponse.id;
+  if (gameSaveID !== 0) {
+    try {
+      await attachGameSaveToNewUser(gameSaveID, newUser);
+    } catch (error) {
+      return { status: 500, data: { message: 'Failed attaching Game Save to target user.' } };
+    }
+  }
+
+  const id = newUser.id;
   const token = jwt.sign({ id }, config.privateKey, { expiresIn: '30d' });
 
   return {
