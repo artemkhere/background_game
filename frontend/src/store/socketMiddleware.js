@@ -6,6 +6,7 @@ import {
   setSocketLoading, handleSocketConnect, setSocketError
 } from '../actions/socketActions';
 import { updateGameSessionState } from '../actions/gameSessionActions';
+import { updateGameSchema } from '../actions/gameSchemaActions';
 
 const createSocketMiddleware = (url) => {
   let socket;
@@ -51,6 +52,10 @@ const createSocketMiddleware = (url) => {
 
         socket.on('updateGameSession', (data) => {
           updateGameSessionState(dispatch, data);
+        });
+
+        socket.on('updateGameSchema', (data) => {
+          updateGameSchema(dispatch, data);
         });
         break;
       case SOCKET_TRIGGER_DISCONNECT:

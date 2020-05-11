@@ -6,8 +6,9 @@ import getGameSaveByUserID from './getGameSaveByUserID.js';
 import assignGameSaveToUser from './assignGameSaveToUser.js';
 import updateGameSaveLastInteraction from './updateGameSaveLastInteraction.js';
 import verifyUser from './verifyUser.js';
+import setupGameSchema from './setupGameSchema.js';
 
-export default async function handleGameSessionSetup(socket) {
+export default async function handleSetupGameSession(socket) {
   socket.on('startGameSession', async (data) => {
     if (!data) {
       socket.emit('gameSessionError', { message: 'Missing data to start the Game Session.' });
@@ -47,6 +48,9 @@ export default async function handleGameSessionSetup(socket) {
     resources = gameSave.resources;
     gameState = gameSave.game_state;
     socket.emit('updateGameSession', { resources, gameState, gameSaveID });
+
+    const gameSchema = setupGameSchema(gameSave);
+    socket.emit('updateGameSchema', gameSchema);
 
     socket.on('areaClicked', () => {
       handleAreaClicked(resources, setResources, gameState, gameSaveID, socket);

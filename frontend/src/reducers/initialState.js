@@ -5,21 +5,24 @@ export default {
     loading: undefined,
     connected: false
   },
-  gameSchema: {},
+  gameSchema: {
+    itemShop: []
+  },
   gameSession: {
     id: 0,
     resources: 0,
     totalCollectedResources: 0,
     gameState: {
-      items: {
-        equipedItems: {
-          combo: false,
-          sectionOne: undefined,
-          sectionTwo: undefined,
-          sectionThree: undefined
-        },
-        inventory: []
-      }
+      items: []
+      // items: {
+      //   equipedItems: {
+      //     combo: false,
+      //     sectionOne: undefined,
+      //     sectionTwo: undefined,
+      //     sectionThree: undefined
+      //   },
+      //   inventory: []
+      // }
       // structures: [
       //   {
       //     unlocked: true,

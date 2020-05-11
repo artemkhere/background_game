@@ -10,10 +10,13 @@ import ClickableArea from './ClickableArea';
 function GameSession(props) {
   const { error, loading } = props.socket;
   const { resources, gameState } = props.gameSession;
+
   const {
     connectToSocket, disconnectFromSocket, setCurrentScreen,
-    socketEmit
+    socketEmit, gameSchema
   } = props;
+
+  console.log(gameSchema);
 
   const handleQuit = () => {
     disconnectFromSocket();
@@ -58,7 +61,8 @@ function GameSession(props) {
 function mapStateToProps(state) {
   return {
     socket: state.socket,
-    gameSession: state.gameSession
+    gameSession: state.gameSession,
+    gameSchema: state.gameSchema
   };
 }
 
