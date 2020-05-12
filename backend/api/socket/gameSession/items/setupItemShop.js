@@ -10,7 +10,9 @@ export default function setupItemShop(gameSave) {
       description: item.description,
       price: item.price,
       shouldDisplay: item.shouldDisplay(gameSave),
+      shouldDisplayRequirements: item.shouldDisplayRequirements,
       canBePurchased: item.canBePurchased(gameSave),
+      canBePurchasedRequirements: item.canBePurchasedRequirements
     };
   });
 

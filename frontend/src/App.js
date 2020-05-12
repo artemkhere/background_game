@@ -8,7 +8,7 @@ import TopMenu from './components/TopMenu';
 import ErrorModal from './components/ErrorModal';
 import LoadingModal from './components/LoadingModal';
 import LandingPage from './components/LandingPage';
-import GameSession from './components/GameSession';
+import GameSession from './components/GameSession/GameSession';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Logout from './components/Logout';

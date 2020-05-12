@@ -12,7 +12,9 @@ export default
       description: 'lol',
       price: 100,
       shouldDisplay: () => { return true; },
-      canBePurchased: () => { return true; }
+      shouldDisplayRequirements: 'Will always display',
+      canBePurchased: () => { return true; },
+      canBePurchasedRequirements: 'Can always be purchased',
     },
     // itemWithStructureImpact: {
     //   name: 'itemWithStructureImpact',

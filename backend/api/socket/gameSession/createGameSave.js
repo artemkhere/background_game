@@ -3,7 +3,16 @@ import db from '../../../dbConnection.js';
 export default async function createGameSave(
   userID,
   resources = 0,
-  gameState = { items: [] }
+  gameState = {
+    items: {
+      equipedItems: {
+        sectionOne: undefined,
+        sectionTwo: undefined,
+        sectionThree: undefined
+      },
+      inventory: []
+    }
+  }
 ) {
   let gameSave;
   const now = Date.now() / 1000.0;

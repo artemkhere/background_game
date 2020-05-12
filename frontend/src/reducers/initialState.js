@@ -13,16 +13,14 @@ export default {
     resources: 0,
     totalCollectedResources: 0,
     gameState: {
-      items: []
-      // items: {
-      //   equipedItems: {
-      //     combo: false,
-      //     sectionOne: undefined,
-      //     sectionTwo: undefined,
-      //     sectionThree: undefined
-      //   },
-      //   inventory: []
-      // }
+      items: {
+        equipedItems: {
+          sectionOne: undefined,
+          sectionTwo: undefined,
+          sectionThree: undefined
+        },
+        inventory: []
+      }
       // structures: [
       //   {
       //     unlocked: true,
