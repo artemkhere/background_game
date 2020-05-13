@@ -22,32 +22,10 @@ function GameSession(props) {
     setCurrentScreen('LandingPage');
   }
 
-  const handleBuyItem = () => {
-    socketEmit({ eventName: 'buyItem', data: { itemName: 'New Item' }});
-  }
-
-  console.log(gameState)
-
   const displayInventory = (inventory) => {
     return (
       <>
         {inventory.map((item) => {
-          return (
-            <div>
-              <div>Name: {item.name}</div>
-              <div>Price: {item.price}</div>
-              <div>Description: {item.description}</div>
-            </div>
-          );
-        })}
-      </>
-    );
-  }
-
-  const displayItemShop = (itemShop) => {
-    return (
-      <>
-        {itemShop.map((item) => {
           return (
             <div>
               <div>Name: {item.name}</div>
@@ -74,11 +52,9 @@ function GameSession(props) {
   return (
     <div style={{ textAlign: "center" }}>
       <button onClick={handleQuit}>Quit</button>
-      <div>Item Shop:</div>
-      {displayItemShop(gameSchema.itemShop)}
+      <ItemShop />
       <div>Inventory:</div>
       {displayInventory(gameState.items.inventory)}
-      <button onClick={handleBuyItem}>Buy Item</button>
       <div>Resources: {resources}</div>
       <ClickableArea />
     </div>

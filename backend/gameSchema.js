@@ -9,12 +9,42 @@ export default
       // clickEffectDescription: 'x2',
       // overTimeEffect: (resources) => { return resources; },
       // overTimeEffectDescription: 'x1',
-      description: 'lol',
-      price: 100,
+      description: "It's a cat.",
+      price: 10,
       shouldDisplay: () => { return true; },
       shouldDisplayRequirements: 'Will always display',
       canBePurchased: () => { return true; },
       canBePurchasedRequirements: 'Can always be purchased',
+    },
+    birb: {
+      name: 'Birb',
+      description: "It's a birb.",
+      price: 20,
+      shouldDisplay: () => { return true; },
+      shouldDisplayRequirements: 'Will always display',
+      canBePurchased: (gameSave) => {
+        return !!gameSave.game_state.items.inventory.find(({ name }) => {
+            return name === 'Kitty';
+        });
+      },
+      canBePurchasedRequirements: 'You need a Kitty to purchase a Birb.',
+    },
+    wabbit: {
+      name: 'Wabbit',
+      description: "It's a bunny.",
+      price: 30,
+      shouldDisplay: (gameSave) => {
+        return !!gameSave.game_state.items.inventory.find(({ name }) => {
+            return name === 'Birb';
+        });
+      },
+      shouldDisplayRequirements: 'Will show when you get a Birb.',
+      canBePurchased: (gameSave) => {
+        return !!gameSave.game_state.items.inventory.find(({ name }) => {
+            return name === 'Birb';
+        });
+      },
+      canBePurchasedRequirements: 'You need a Birb to purchase a Wabbit.',
     },
     // itemWithStructureImpact: {
     //   name: 'itemWithStructureImpact',

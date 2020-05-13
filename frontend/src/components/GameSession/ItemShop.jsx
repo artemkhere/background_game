@@ -11,8 +11,10 @@ function ItemShop(props) {
     socketEmit({ eventName: 'buyItem', data: { itemName: 'New Item' }});
   }
 
-  // parse items to be displayed and not
-  const itemList = itemShop.map((item) => {
+  console.log(gameSchema)
+
+  // parse items to be displayed and not shown
+  const itemList = gameSchema.itemShop.map((item) => {
     if (item.shouldDisplay) {
       const baseInfo = (
         <div>
@@ -40,12 +42,13 @@ function ItemShop(props) {
     } else {
       return (
         <div>
-        <div>??? MYSTERY ITEM ???</div>
+          <div>??? MYSTERY ITEM ???</div>
           <div>Will show when: {item.shouldDisplayRequirements}</div>
         </div>
       );
     }
   });
+
 
 
   return (
