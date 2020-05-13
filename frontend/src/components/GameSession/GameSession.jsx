@@ -17,10 +17,7 @@ function GameSession(props) {
     socketEmit, gameSchema
   } = props;
 
-  const handleQuit = () => {
-    disconnectFromSocket();
-    setCurrentScreen('LandingPage');
-  }
+  console.log(gameState)
 
   const displayInventory = (inventory) => {
     return (
@@ -51,7 +48,6 @@ function GameSession(props) {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <button onClick={handleQuit}>Quit</button>
       <ItemShop />
       <div>Inventory:</div>
       {displayInventory(gameState.items.inventory)}

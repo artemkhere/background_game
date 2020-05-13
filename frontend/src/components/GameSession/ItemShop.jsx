@@ -7,11 +7,14 @@ import ClickableArea from '../ClickableArea';
 function ItemShop(props) {
   const { socketEmit, gameSchema } = props;
 
-  const handleBuyItem = () => {
-    socketEmit({ eventName: 'buyItem', data: { itemName: 'New Item' }});
+  const handleBuyItem = (itemName) => {
+    return () => {
+      socketEmit({
+        eventName: 'itemAction',
+        data: { actionType: 'buy', itemName }
+      });
+    }
   }
-
-  console.log(gameSchema)
 
   // parse items to be displayed and not shown
   const itemList = gameSchema.itemShop.map((item) => {
@@ -28,7 +31,7 @@ function ItemShop(props) {
         return (
           <div>
             {baseInfo}
-            <button onClick={handleBuyItem}>Buy Item</button>
+            <button onClick={handleBuyItem(item.name)}>Buy Item</button>
           </div>
         );
       } else {

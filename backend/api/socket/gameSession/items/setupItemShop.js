@@ -1,6 +1,6 @@
 import gameSchema from '../../../../gameSchema.js';
 
-export default function setupItemShop(gameSave) {
+export default function setupItemShop(gameState) {
   const itemNames = Object.keys(gameSchema.items);
 
   const itemShop = itemNames.map((itemName) => {
@@ -9,9 +9,9 @@ export default function setupItemShop(gameSave) {
       name: item.name,
       description: item.description,
       price: item.price,
-      shouldDisplay: item.shouldDisplay(gameSave),
+      shouldDisplay: item.shouldDisplay(gameState),
       shouldDisplayRequirements: item.shouldDisplayRequirements,
-      canBePurchased: item.canBePurchased(gameSave),
+      canBePurchased: item.canBePurchased(gameState),
       canBePurchasedRequirements: item.canBePurchasedRequirements
     };
   });

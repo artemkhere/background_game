@@ -22,9 +22,10 @@ export default
       price: 20,
       shouldDisplay: () => { return true; },
       shouldDisplayRequirements: 'Will always display',
-      canBePurchased: (gameSave) => {
-        return !!gameSave.game_state.items.inventory.find(({ name }) => {
-            return name === 'Kitty';
+      canBePurchased: (gameState) => {
+        // ARTEM WARNING should look for both equiped and for inventory
+        return !!gameState.items.inventory.find(({ name }) => {
+          return name === 'Kitty';
         });
       },
       canBePurchasedRequirements: 'You need a Kitty to purchase a Birb.',
@@ -33,15 +34,17 @@ export default
       name: 'Wabbit',
       description: "It's a bunny.",
       price: 30,
-      shouldDisplay: (gameSave) => {
-        return !!gameSave.game_state.items.inventory.find(({ name }) => {
-            return name === 'Birb';
+      shouldDisplay: (gameState) => {
+        // ARTEM WARNING should look for both equiped and for inventory
+        return !!gameState.items.inventory.find(({ name }) => {
+          return name === 'Kitty';
         });
       },
-      shouldDisplayRequirements: 'Will show when you get a Birb.',
-      canBePurchased: (gameSave) => {
-        return !!gameSave.game_state.items.inventory.find(({ name }) => {
-            return name === 'Birb';
+      shouldDisplayRequirements: 'Will show when you get a Kitty.',
+      canBePurchased: (gameState) => {
+        // ARTEM WARNING should look for both equiped and for inventory
+        return !!gameState.items.inventory.find(({ name }) => {
+          return name === 'Birb';
         });
       },
       canBePurchasedRequirements: 'You need a Birb to purchase a Wabbit.',
