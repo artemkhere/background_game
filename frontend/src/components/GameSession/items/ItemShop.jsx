@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { socketEmit } from '../../actions/socketActions';
-import ClickableArea from '../ClickableArea';
+import { socketEmit } from '../../../actions/socketActions';
 
 function ItemShop(props) {
   const { socketEmit, gameSchema } = props;
@@ -51,8 +50,6 @@ function ItemShop(props) {
       );
     }
   });
-
-
 
   return (
     <div style={{ textAlign: "left" }}>
