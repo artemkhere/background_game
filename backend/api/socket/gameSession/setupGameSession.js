@@ -1,13 +1,14 @@
 import handleAreaClicked from './handleAreaClicked.js';
-import handleBuyItem from './handleBuyItem.js';
 import handleDisconnect from './handleDisconnect.js';
 import createGameSave from './createGameSave.js';
 import getGameSaveByUserID from './getGameSaveByUserID.js';
 import assignGameSaveToUser from './assignGameSaveToUser.js';
 import updateGameSaveLastInteraction from './updateGameSaveLastInteraction.js';
 import verifyUser from './verifyUser.js';
+import setupGameSchema from './setupGameSchema.js';
+import handleItemAction from './items/handleItemAction.js';
 
-export default async function handleGameSessionSetup(socket) {
+export default async function handleSetupGameSession(socket) {
   socket.on('startGameSession', async (data) => {
     if (!data) {
       socket.emit('gameSessionError', { message: 'Missing data to start the Game Session.' });
@@ -48,12 +49,15 @@ export default async function handleGameSessionSetup(socket) {
     gameState = gameSave.game_state;
     socket.emit('updateGameSession', { resources, gameState, gameSaveID });
 
+    const gameSchema = setupGameSchema(gameSave);
+    socket.emit('updateGameSchema', gameSchema);
+
     socket.on('areaClicked', () => {
       handleAreaClicked(resources, setResources, gameState, gameSaveID, socket);
     });
 
-    socket.on('buyItem', (data) => {
-      handleBuyItem(
+    socket.on('itemAction', (data) => {
+      handleItemAction(
         resources,
         setResources,
         gameState,

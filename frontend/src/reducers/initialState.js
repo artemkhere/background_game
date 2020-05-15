@@ -5,12 +5,29 @@ export default {
     loading: undefined,
     connected: false
   },
+  gameSchema: {
+    itemShop: []
+  },
   gameSession: {
     id: 0,
     resources: 0,
+    totalCollectedResources: 0,
     gameState: {
-      items: []
-    }
+      items: {
+        equipedItems: {
+          sectionOne: undefined,
+          sectionTwo: undefined,
+          sectionThree: undefined
+        },
+        inventory: []
+      }
+      // structures: [
+      //   {
+      //     unlocked: true,
+      //     structureType: {},
+      //   },
+      // ],
+    },
   },
   applicationState: {
     currentScreen: 'LandingPage',

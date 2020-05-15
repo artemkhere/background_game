@@ -1,5 +1,5 @@
-import handleGameSessionSetup from './gameSession/gameSessionSetup.js';
+import handleSetupGameSession from './gameSession/setupGameSession.js';
 
 export default function setupSocketApi(socket) {
-  handleGameSessionSetup(socket);
+  handleSetupGameSession(socket);
 }

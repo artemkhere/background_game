@@ -3,31 +3,34 @@ import { connect } from 'react-redux';
 
 import {
   connectToSocket, disconnectFromSocket, socketEmit
-} from '../actions/socketActions';
-import { setCurrentScreen } from '../actions/applicationStateActions';
-import ClickableArea from './ClickableArea';
+} from '../../actions/socketActions';
+import { setCurrentScreen } from '../../actions/applicationStateActions';
+import ClickableArea from '../ClickableArea';
+import ItemShop from './ItemShop';
 
 function GameSession(props) {
   const { error, loading } = props.socket;
   const { resources, gameState } = props.gameSession;
+
   const {
     connectToSocket, disconnectFromSocket, setCurrentScreen,
-    socketEmit
+    socketEmit, gameSchema
   } = props;
 
-  const handleQuit = () => {
-    disconnectFromSocket();
-    setCurrentScreen('LandingPage');
-  }
+  console.log(gameState)
 
-  const handleBuyItem = () => {
-    socketEmit({ eventName: 'buyItem', data: { itemName: 'New Item' } });
-  }
-
-  const displayItems = (items) => {
+  const displayInventory = (inventory) => {
     return (
       <>
-        {items.map((item) => { return <div>{item}</div>; })}
+        {inventory.map((item) => {
+          return (
+            <div>
+              <div>Name: {item.name}</div>
+              <div>Price: {item.price}</div>
+              <div>Description: {item.description}</div>
+            </div>
+          );
+        })}
       </>
     );
   }
@@ -36,7 +39,7 @@ function GameSession(props) {
     return (
       <div>
         <div>There was an error</div>
-        <button onClick={connectToSocket}>Connect to Socket</button>
+        <button onClick={connectToSocket}>Reconnect</button>
       </div>
     );
   };
@@ -45,10 +48,9 @@ function GameSession(props) {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <button onClick={handleQuit}>Quit</button>
-      <div>Items:</div>
-      {displayItems(gameState.items)}
-      <button onClick={handleBuyItem}>Buy Item</button>
+      <ItemShop />
+      <div>Inventory:</div>
+      {displayInventory(gameState.items.inventory)}
       <div>Resources: {resources}</div>
       <ClickableArea />
     </div>
@@ -58,7 +60,8 @@ function GameSession(props) {
 function mapStateToProps(state) {
   return {
     socket: state.socket,
-    gameSession: state.gameSession
+    gameSession: state.gameSession,
+    gameSchema: state.gameSchema
   };
 }
 
