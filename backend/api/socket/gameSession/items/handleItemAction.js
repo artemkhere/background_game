@@ -10,7 +10,7 @@ export default function handleItemAction(
   data
 ) {
   if (!data || !data.actionType) {
-    socket.emit('operationFailed', { reason: 'Data or actionType missing.' });
+    socket.emit('operationFailed', { message: 'Data or actionType missing.' });
     return;
   }
 
@@ -27,6 +27,6 @@ export default function handleItemAction(
       );
       break;
     default:
-      socket.emit('operationFailed', { reason: 'Unknown actionType.' });
+      socket.emit('operationFailed', { message: 'Unknown actionType.' });
   }
 }

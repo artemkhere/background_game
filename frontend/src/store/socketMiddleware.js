@@ -40,6 +40,12 @@ const createSocketMiddleware = (url) => {
           setSocketError(dispatch, error);
         });
 
+        // ARTEM WARNING
+        // should not ask to reconnect -- minor error in attempt to do something
+        socket.on('operationFailed', (error) => {
+          setSocketError(dispatch, error);
+        });
+
         socket.on('connect_timeout', (timeout) => {
           setSocketError(dispatch, timeout);
         });

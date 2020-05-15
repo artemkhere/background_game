@@ -10,19 +10,19 @@ export default function handleBuyItem(
   itemName
 ) {
   if (!itemName) {
-    socket.emit('operationFailed', { reason: "No itemName." });
+    socket.emit('operationFailed', { message: "No itemName." });
     return;
   }
 
   const itemShop = setupItemShop(gameState);
   const item = itemShop.find(({ name }) => { return name === itemName; })
   if (!item) {
-    socket.emit('operationFailed', { reason: "There is no item with that name." });
+    socket.emit('operationFailed', { message: "There is no item with that name." });
     return;
   }
 
   if (!item.canBePurchased || resources < item.price) {
-    socket.emit('operationFailed', { reason: "Item can't be purchased." });
+    socket.emit('operationFailed', { message: "Item can't be purchased." });
     return;
   }
 
