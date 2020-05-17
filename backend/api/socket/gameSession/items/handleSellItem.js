@@ -1,6 +1,6 @@
 import setupItemShop from './setupItemShop.js';
 
-export default function handleBuyItem(
+export default function handleSellItem(
   resources,
   setResources,
   gameState,
@@ -21,16 +21,20 @@ export default function handleBuyItem(
     return;
   }
 
-  if (!item.canBePurchased || resources < item.price) {
-    socket.emit('operationFailed', { message: "Item can't be purchased." });
+  const inventory = gameState.items.inventory;
+  const itemNotPresentInInventory = !inventory.find(({ name }) => { return name === itemName; });
+
+  if (itemNotPresentInInventory) {
+    socket.emit('operationFailed', { message: "Item is not in inventory." });
     return;
   }
 
-  const newResources = resources - item.price;
+  const newResources = resources + item.price;
   setResources(newResources);
 
   const newGameState = {...gameState};
-  newGameState.items.inventory.push(item);
+  const newInventory = [...inventory];
+  newGameState.items.inventory = newInventory;
   setGameState(newGameState);
 
   socket.emit('updateGameSession', {

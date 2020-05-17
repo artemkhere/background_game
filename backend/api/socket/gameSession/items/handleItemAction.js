@@ -1,4 +1,5 @@
 import handleBuyItem from './handleBuyItem.js';
+import handleSellItem from './handleSellItem.js';
 
 export default function handleItemAction(
   resources,
@@ -17,6 +18,17 @@ export default function handleItemAction(
   switch (data.actionType) {
     case 'buy':
       handleBuyItem(
+        resources,
+        setResources,
+        gameState,
+        setGameState,
+        gameSaveID,
+        socket,
+        data.itemName
+      );
+      break;
+    case 'sell':
+      handleSellItem(
         resources,
         setResources,
         gameState,

@@ -1,4 +1,4 @@
-import db from '../../../dbConnection.js';
+import db from '../../../../dbConnection.js';
 
 export default async function getGameSaveByUserID(userID) {
   return await db.oneOrNone(
