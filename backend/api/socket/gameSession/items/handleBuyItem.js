@@ -7,11 +7,11 @@ export default function handleBuyItem(
   socket
 ) {
   const {
-    resources,
+    getResources,
     setResources,
-    gameState,
+    getGameState,
     setGameState,
-    gameHistory,
+    getGameHistory,
     setGameHistory
   } = gameSessionState;
 
@@ -20,26 +20,26 @@ export default function handleBuyItem(
     return;
   }
 
-  const itemShop = setupItemShop(gameHistory);
+  const itemShop = setupItemShop(getGameHistory());
   const item = itemShop.find(({ name }) => { return name === itemName; });
   if (!item) {
     socket.emit('operationFailed', { message: "There is no item with that name." });
     return;
   }
 
-  if (!item.canBePurchased || resources < item.price) {
+  if (!item.canBePurchased || getResources() < item.price) {
     socket.emit('operationFailed', { message: "Item can't be purchased." });
     return;
   }
 
-  const newResources = resources - item.price;
+  const newResources = getResources() - item.price;
   setResources(newResources);
 
-  const newGameState = {...gameState};
+  const newGameState = {...getGameState()};
   newGameState.items.inventory.push(item);
   setGameState(newGameState);
 
-  const newHistory = {...gameHistory};
+  const newHistory = {...getGameHistory()};
   newHistory.items.purchased.push(item);
   setGameHistory(newHistory);
 

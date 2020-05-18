@@ -4,11 +4,11 @@ export default function setGameSessionStateReference(
 ) {
   return () => {
     socket.emit('updateGameSession', {
-      gameSaveID: gameSessionState.gameSaveID,
+      gameSaveID: gameSessionState.getGameSaveID(),
       resources: gameSessionState.getResources(),
-      gameState: gameSessionState.gameState,
-      gameHistory: gameSessionState.gameHistory,
-      gameSchema: gameSessionState.gameSchema
+      gameState: gameSessionState.getGameState(),
+      gameHistory: gameSessionState.getGameHistory(),
+      gameSchema: gameSessionState.getGameSchema()
     });
   }
 }
