@@ -17,8 +17,8 @@ export default function handleEquipItem(
   }
 
   const newGameState = {...getGameState()};
-  const newInventory = [...getGameState().items.inventory];
-  const newEquipped = [...getGameState().items.equipped];
+  const newInventory = [...newGameState.items.inventory];
+  const newEquipped = [...newGameState.items.equipped];
 
   let itemIndex;
   const item = newInventory.find(({ name }, index) => {

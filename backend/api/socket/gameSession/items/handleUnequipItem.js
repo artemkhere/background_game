@@ -12,8 +12,8 @@ export default function handleUnequipItem(
   }
 
   const newGameState = {...getGameState()};
-  const newInventory = [...getGameState().items.inventory];
-  const newEquipped = [...getGameState().items.equipped];
+  const newInventory = [...newGameState.items.inventory];
+  const newEquipped = [...newGameState.items.equipped];
   const targetItem = newGameState.items.equipped[equippedIndex];
 
   if (!targetItem) {
