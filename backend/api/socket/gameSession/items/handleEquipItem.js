@@ -17,10 +17,10 @@ export default function handleEquipItem(
   }
 
   const newGameState = {...getGameState()};
-  const newInventory = [...newGameState.items.inventory];
+  const inventory = [...newGameState.items.inventory];
 
   let itemIndex;
-  const item = newInventory.find(({ name }, index) => {
+  const item = inventory.find(({ name }, index) => {
     if (name === itemName) { itemIndex = index; }
     return name === itemName;
   });
@@ -31,8 +31,7 @@ export default function handleEquipItem(
   }
 
   newGameState.items.equipped.push(item);
-  newInventory.splice(itemIndex, 1);
-  newGameState.items.inventory = newInventory;
+  newGameState.items.inventory.splice(itemIndex, 1);
   setGameState(newGameState);
 
   handleUpdateGameSession();
