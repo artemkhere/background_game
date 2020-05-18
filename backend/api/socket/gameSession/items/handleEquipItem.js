@@ -18,7 +18,6 @@ export default function handleEquipItem(
 
   const newGameState = {...getGameState()};
   const newInventory = [...newGameState.items.inventory];
-  const newEquipped = [...newGameState.items.equipped];
 
   let itemIndex;
   const item = newInventory.find(({ name }, index) => {
@@ -31,8 +30,7 @@ export default function handleEquipItem(
     return;
   }
 
-  newEquipped.push(item);
-  newGameState.items.equipped = newEquipped;
+  newGameState.items.equipped.push(item);
   newInventory.splice(itemIndex, 1);
   newGameState.items.inventory = newInventory;
   setGameState(newGameState);

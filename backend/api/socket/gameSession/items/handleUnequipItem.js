@@ -12,8 +12,6 @@ export default function handleUnequipItem(
   }
 
   const newGameState = {...getGameState()};
-  const newInventory = [...newGameState.items.inventory];
-  const newEquipped = [...newGameState.items.equipped];
   const targetItem = newGameState.items.equipped[equippedIndex];
 
   if (!targetItem) {
@@ -21,10 +19,8 @@ export default function handleUnequipItem(
     return;
   }
 
-  newInventory.push(targetItem);
-  newGameState.items.inventory = newInventory;
-  newEquipped.splice(equippedIndex, 1);
-  newGameState.items.equipped = newEquipped;
+  newGameState.items.inventory.push(targetItem);
+  newGameState.items.equipped.splice(equippedIndex, 1);
   setGameState(newGameState);
 
   handleUpdateGameSession();
