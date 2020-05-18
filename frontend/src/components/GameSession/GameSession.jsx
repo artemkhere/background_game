@@ -15,7 +15,7 @@ function GameSession(props) {
 
   const {
     connectToSocket, disconnectFromSocket, setCurrentScreen,
-    socketEmit, gameSchema
+    socketEmit
   } = props;
 
   if (error) {
@@ -42,8 +42,7 @@ function GameSession(props) {
 function mapStateToProps(state) {
   return {
     socket: state.socket,
-    gameSession: state.gameSession,
-    gameSchema: state.gameSchema
+    gameSession: state.gameSession
   };
 }
 

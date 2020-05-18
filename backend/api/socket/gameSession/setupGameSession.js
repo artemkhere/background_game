@@ -3,11 +3,11 @@ import handleDisconnect from './handleDisconnect.js';
 import createGameSave from './gameSave/createGameSave.js';
 import getGameSaveByUserID from './gameSave/getGameSaveByUserID.js';
 import assignGameSaveToUser from './gameSave/assignGameSaveToUser.js';
-import updateGameSaveLastInteraction from './updateGameSaveLastInteraction.js';
+import updateGameSaveLastInteraction from './gameSave/updateGameSaveLastInteraction.js';
 import verifyUser from './verifyUser.js';
 import handleItemAction from './items/handleItemAction.js';
-import handleUpdateGameSession from './handleUpdateGameSession.js';
 import initiateGameSessionState from './initiateGameSessionState.js';
+import setGameSessionStateReference from './setGameSessionStateReference.js';
 
 export default async function handleSetupGameSession(socket) {
   socket.on('startGameSession', async (data) => {
@@ -45,8 +45,7 @@ export default async function handleSetupGameSession(socket) {
       gameSave.game_state,
       gameSave.game_history
     );
-
-    const handleUpdateGameSession = setGameSessionStateReference();
+    const handleUpdateGameSession = setGameSessionStateReference(gameSessionState, socket);
     handleUpdateGameSession();
 
     socket.on('areaClicked', () => {

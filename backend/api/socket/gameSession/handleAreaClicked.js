@@ -1,18 +1,16 @@
-import handleUpdateGameSession from '../handleUpdateGameSession.js';
-
 export default function handleAreaClicked(
   gameSessionState,
   handleUpdateGameSession,
   socket
 ) {
   const {
-    resources,
+    getResources,
     setResources,
     gameHistory,
     setGameHistory
   } = gameSessionState;
 
-  const updatedResources = resources + 1;
+  const updatedResources = getResources() + 1;
   setResources(updatedResources);
 
   const newHistory = {...gameHistory};

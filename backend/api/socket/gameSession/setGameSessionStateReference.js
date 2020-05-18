@@ -5,7 +5,7 @@ export default function setGameSessionStateReference(
   return () => {
     socket.emit('updateGameSession', {
       gameSaveID: gameSessionState.gameSaveID,
-      resources: gameSessionState.resources,
+      resources: gameSessionState.getResources(),
       gameState: gameSessionState.gameState,
       gameHistory: gameSessionState.gameHistory,
       gameSchema: gameSessionState.gameSchema

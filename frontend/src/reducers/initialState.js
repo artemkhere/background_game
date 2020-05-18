@@ -5,13 +5,9 @@ export default {
     loading: undefined,
     connected: false
   },
-  gameSchema: {
-    itemShop: []
-  },
   gameSession: {
     id: 0,
     resources: 0,
-    totalCollectedResources: 0,
     gameState: {
       items: {
         equipedItems: {
@@ -21,13 +17,17 @@ export default {
         },
         inventory: []
       }
-      // structures: [
-      //   {
-      //     unlocked: true,
-      //     structureType: {},
-      //   },
-      // ],
     },
+    gameHistory: {
+      resources: 0,
+      clicks: 0,
+      items: {
+        purchased: []
+      }
+    },
+    gameSchema: {
+      itemShop: []
+    }
   },
   applicationState: {
     currentScreen: 'LandingPage',

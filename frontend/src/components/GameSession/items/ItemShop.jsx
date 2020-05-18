@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { socketEmit } from '../../../actions/socketActions';
 
 function ItemShop(props) {
-  const { socketEmit, gameSchema } = props;
+  const { socketEmit } = props;
+  const { gameSchema } = props.gameSession;
 
   const handleBuyItem = (itemName) => {
     return () => {
@@ -61,7 +62,7 @@ function ItemShop(props) {
 
 function mapStateToProps(state) {
   return {
-    gameSchema: state.gameSchema
+    gameSession: state.gameSession,
   };
 }
 
