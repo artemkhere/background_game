@@ -1,5 +1,6 @@
 import handleBuyItem from './handleBuyItem.js';
 import handleSellItem from './handleSellItem.js';
+import handleEquipItem from './handleEquipItem.js';
 
 export default function handleItemAction(
   gameSessionState,
@@ -23,6 +24,14 @@ export default function handleItemAction(
       break;
     case 'sell':
       handleSellItem(
+        gameSessionState,
+        handleUpdateGameSession,
+        data.itemName,
+        socket
+      );
+      break;
+    case 'equip':
+      handleEquipItem(
         gameSessionState,
         handleUpdateGameSession,
         data.itemName,

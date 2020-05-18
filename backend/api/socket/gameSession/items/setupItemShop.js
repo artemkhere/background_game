@@ -1,4 +1,4 @@
-import gameSchema from '../../../../initialStates/gameSchema.js';
+import gameSchema from '../initialStates/gameSchema.js';
 
 export default function setupItemShop(gameHistory) {
   const itemNames = Object.keys(gameSchema.items);

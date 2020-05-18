@@ -16,6 +16,15 @@ function ItemInventory(props) {
     }
   }
 
+  const handleEquipItem = (itemName) => {
+    return () => {
+      socketEmit({
+        eventName: 'itemAction',
+        data: { actionType: 'equip', itemName }
+      });
+    }
+  }
+
   const itemList = (inventory) => {
     return (
       <>
@@ -25,7 +34,8 @@ function ItemInventory(props) {
               <div>Name: {item.name}</div>
               <div>Price: {item.price}</div>
               <div>Description: {item.description}</div>
-              <button onClick={handleSellItem(item.name)}>Sell {item.name}</button>
+              <button onClick={handleSellItem(item.name)}>Sell</button>
+              <button onClick={handleEquipItem(item.name)}>Equip</button>
             </div>
           );
         })}

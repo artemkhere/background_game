@@ -8,6 +8,7 @@ import { setCurrentScreen } from '../../actions/applicationStateActions';
 import ClickableArea from '../ClickableArea';
 import ItemShop from './items/ItemShop';
 import ItemInventory from './items/ItemInventory';
+import ItemsEquipped from './items/ItemsEquipped';
 
 function GameSession(props) {
   const { error, loading } = props.socket;
@@ -35,6 +36,7 @@ function GameSession(props) {
       <ItemInventory />
       <div>Resources: {resources}</div>
       <ClickableArea />
+      <ItemsEquipped />
     </div>
   );
 }

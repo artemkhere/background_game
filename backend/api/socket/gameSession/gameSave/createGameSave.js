@@ -1,6 +1,6 @@
 import db from '../../../../dbConnection.js';
-import initialGameState from '../../../../initialStates/gameState.js';
-import initialGameHistory from '../../../../initialStates/gameHistory.js';
+import initialGameState from '../initialStates/gameState.js';
+import initialGameHistory from '../initialStates/gameHistory.js';
 
 export default async function createGameSave(
   userID,

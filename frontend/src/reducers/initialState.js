@@ -10,11 +10,7 @@ export default {
     resources: 0,
     gameState: {
       items: {
-        equipedItems: {
-          sectionOne: undefined,
-          sectionTwo: undefined,
-          sectionThree: undefined
-        },
+        equipped: [],
         inventory: []
       }
     },
