@@ -43,9 +43,7 @@ export default function handleSellItem(
   setResources(newResources);
 
   const newGameState = {...getGameState()};
-  const newInventory = [...inventory];
-  newInventory.splice(itemIndex, 1);
-  newGameState.items.inventory = newInventory;
+  newGameState.items.inventory.splice(itemIndex, 1);
   setGameState(newGameState);
 
   handleUpdateGameSession();
