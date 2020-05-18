@@ -1,6 +1,5 @@
 export default
 {
-  // items are only multipliers not adders
   items: {
     kitty: {
       name: 'Kitty',
@@ -22,9 +21,8 @@ export default
       price: 20,
       shouldDisplay: () => { return true; },
       shouldDisplayRequirements: 'Will always display',
-      canBePurchased: (gameState) => {
-        // ARTEM WARNING should look for both equiped and for inventory
-        return !!gameState.items.inventory.find(({ name }) => {
+      canBePurchased: (gameHistory) => {
+        return !!gameHistory.items.purchased.find(({ name }) => {
           return name === 'Kitty';
         });
       },
@@ -34,16 +32,16 @@ export default
       name: 'Wabbit',
       description: "It's a bunny.",
       price: 30,
-      shouldDisplay: (gameState) => {
+      shouldDisplay: (gameHistory) => {
         // ARTEM WARNING should look for both equiped and for inventory
-        return !!gameState.items.inventory.find(({ name }) => {
+        return !!gameHistory.items.purchased.find(({ name }) => {
           return name === 'Kitty';
         });
       },
       shouldDisplayRequirements: 'Will show when you get a Kitty.',
-      canBePurchased: (gameState) => {
+      canBePurchased: (gameHistory) => {
         // ARTEM WARNING should look for both equiped and for inventory
-        return !!gameState.items.inventory.find(({ name }) => {
+        return !!gameHistory.items.purchased.find(({ name }) => {
           return name === 'Birb';
         });
       },

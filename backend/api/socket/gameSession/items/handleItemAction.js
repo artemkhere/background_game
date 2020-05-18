@@ -2,13 +2,10 @@ import handleBuyItem from './handleBuyItem.js';
 import handleSellItem from './handleSellItem.js';
 
 export default function handleItemAction(
-  resources,
-  setResources,
-  gameState,
-  setGameState,
-  gameSaveID,
-  socket,
-  data
+  gameSessionState,
+  handleUpdateGameSession,
+  data,
+  socket
 ) {
   if (!data || !data.actionType) {
     socket.emit('operationFailed', { message: 'Data or actionType missing.' });
@@ -18,27 +15,22 @@ export default function handleItemAction(
   switch (data.actionType) {
     case 'buy':
       handleBuyItem(
-        resources,
-        setResources,
-        gameState,
-        setGameState,
-        gameSaveID,
-        socket,
-        data.itemName
+        gameSessionState,
+        handleUpdateGameSession,
+        data.itemName,
+        socket
       );
       break;
     case 'sell':
       handleSellItem(
-        resources,
-        setResources,
-        gameState,
-        setGameState,
-        gameSaveID,
-        socket,
-        data.itemName
+        gameSessionState,
+        handleUpdateGameSession,
+        data.itemName,
+        socket
       );
       break;
     default:
       socket.emit('operationFailed', { message: 'Unknown actionType.' });
+      return;
   }
 }

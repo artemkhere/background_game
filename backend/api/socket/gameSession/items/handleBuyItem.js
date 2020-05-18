@@ -1,20 +1,26 @@
 import setupItemShop from './setupItemShop.js';
 
 export default function handleBuyItem(
-  resources,
-  setResources,
-  gameState,
-  setGameState,
-  gameSaveID,
-  socket,
-  itemName
+  gameSessionState,
+  handleUpdateGameSession,
+  itemName,
+  socket
 ) {
+  const {
+    resources,
+    setResources,
+    gameState,
+    setGameState,
+    gameHistory,
+    setGameHistory
+  } = gameSessionState;
+
   if (!itemName) {
     socket.emit('operationFailed', { message: "No itemName." });
     return;
   }
 
-  const itemShop = setupItemShop(gameState);
+  const itemShop = setupItemShop(gameHistory);
   const item = itemShop.find(({ name }) => { return name === itemName; });
   if (!item) {
     socket.emit('operationFailed', { message: "There is no item with that name." });
@@ -33,9 +39,9 @@ export default function handleBuyItem(
   newGameState.items.inventory.push(item);
   setGameState(newGameState);
 
-  socket.emit('updateGameSession', {
-    gameSaveID,
-    resources: newResources,
-    gameState: newGameState
-  });
+  const newHistory = {...gameHistory};
+  newHistory.items.purchased.push(item);
+  setGameHistory(newHistory);
+
+  handleUpdateGameSession();
 }
