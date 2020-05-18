@@ -19,6 +19,8 @@ function GameSession(props) {
     socketEmit
   } = props;
 
+  console.log(error)
+
   if (error) {
     return (
       <div>

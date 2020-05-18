@@ -7,11 +7,11 @@ function ItemsEquipped(props) {
   const { socketEmit } = props;
   const { gameState } = props.gameSession;
 
-  const handleUnequipItem = (itemName, equippedIndex) => {
+  const handleUnequipItem = (equippedIndex) => {
     return () => {
       socketEmit({
         eventName: 'itemAction',
-        data: { actionType: 'unequip', itemName, equippedIndex }
+        data: { actionType: 'unequip', equippedIndex }
       });
     }
   }
@@ -23,7 +23,7 @@ function ItemsEquipped(props) {
           return (
             <div>
               <div>Name: {item.name}</div>
-              <button onClick={handleUnequipItem(item.name, equippedIndex)}>Unequip</button>
+              <button onClick={handleUnequipItem(equippedIndex)}>Unequip</button>
             </div>
           );
         })}

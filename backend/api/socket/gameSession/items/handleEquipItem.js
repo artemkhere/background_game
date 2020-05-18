@@ -31,7 +31,8 @@ export default function handleEquipItem(
     return;
   }
 
-  newGameState.items.equipped.push(item);
+  newEquipped.push(item);
+  newGameState.items.equipped = newEquipped;
   newInventory.splice(itemIndex, 1);
   newGameState.items.inventory = newInventory;
   setGameState(newGameState);

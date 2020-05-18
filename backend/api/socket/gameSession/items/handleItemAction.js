@@ -1,6 +1,7 @@
 import handleBuyItem from './handleBuyItem.js';
 import handleSellItem from './handleSellItem.js';
 import handleEquipItem from './handleEquipItem.js';
+import handleUnequipItem from './handleUnequipItem.js';
 
 export default function handleItemAction(
   gameSessionState,
@@ -35,6 +36,14 @@ export default function handleItemAction(
         gameSessionState,
         handleUpdateGameSession,
         data.itemName,
+        socket
+      );
+      break;
+    case 'unequip':
+      handleUnequipItem(
+        gameSessionState,
+        handleUpdateGameSession,
+        data.equippedIndex,
         socket
       );
       break;
