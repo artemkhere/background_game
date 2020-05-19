@@ -33,5 +33,7 @@ export default async function attachGameSaveToNewUser(gameSaveID, newUser) {
     } catch (error) {
       return { status: 500, data: { message: 'Failed attaching Game Save to target user.' } };
     }
+  } else {
+    return { status: 500, data: { message: 'User or gameSave is not valid.' } };
   }
 }

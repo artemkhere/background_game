@@ -1,10 +1,8 @@
-import {
-  UPDATE_GAME_SESSION_STATE
-} from './actionTypes';
+import { UPDATE_GAME_SESSION } from './actionTypes';
 
-export function updateGameSessionState(dispatch, data) {
+export function updateGameSession(dispatch, data) {
   dispatch({
-    type: UPDATE_GAME_SESSION_STATE,
+    type: UPDATE_GAME_SESSION,
     payload: data
   });
 }

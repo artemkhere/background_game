@@ -1,6 +1,6 @@
 import setupItemShop from './setupItemShop.js';
 
-export default function handleBuyItem(
+export default function handleSellItem(
   gameSessionState,
   handleUpdateGameSession,
   itemName,
@@ -27,21 +27,24 @@ export default function handleBuyItem(
     return;
   }
 
-  if (!item.canBePurchased || getResources() < item.price) {
-    socket.emit('operationFailed', { message: "Item can't be purchased." });
+  const inventory = getGameState().items.inventory;
+  let itemIndex;
+  const itemNotPresentInInventory = !inventory.find(({ name }, index) => {
+    if (name === itemName) { itemIndex = index; }
+    return name === itemName;
+  });
+
+  if (itemNotPresentInInventory) {
+    socket.emit('operationFailed', { message: "Item is not in inventory." });
     return;
   }
 
-  const newResources = getResources() - item.price;
+  const newResources = getResources() + Math.ceil(item.price / 2);
   setResources(newResources);
 
   const newGameState = {...getGameState()};
-  newGameState.items.inventory.push(item);
+  newGameState.items.inventory.splice(itemIndex, 1);
   setGameState(newGameState);
-
-  const newHistory = {...getGameHistory()};
-  newHistory.items.purchased.push(item);
-  setGameHistory(newHistory);
 
   handleUpdateGameSession();
 }

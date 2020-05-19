@@ -1,12 +1,13 @@
 import handleAreaClicked from './handleAreaClicked.js';
 import handleDisconnect from './handleDisconnect.js';
-import createGameSave from './createGameSave.js';
-import getGameSaveByUserID from './getGameSaveByUserID.js';
-import assignGameSaveToUser from './assignGameSaveToUser.js';
-import updateGameSaveLastInteraction from './updateGameSaveLastInteraction.js';
+import createGameSave from './gameSave/createGameSave.js';
+import getGameSaveByUserID from './gameSave/getGameSaveByUserID.js';
+import assignGameSaveToUser from './gameSave/assignGameSaveToUser.js';
+import updateGameSaveLastInteraction from './gameSave/updateGameSaveLastInteraction.js';
 import verifyUser from './verifyUser.js';
-import setupGameSchema from './setupGameSchema.js';
 import handleItemAction from './items/handleItemAction.js';
+import initiateGameSessionState from './initiateGameSessionState.js';
+import setGameSessionStateReference from './setGameSessionStateReference.js';
 
 export default async function handleSetupGameSession(socket) {
   socket.on('startGameSession', async (data) => {
@@ -16,21 +17,15 @@ export default async function handleSetupGameSession(socket) {
       return;
     }
 
-    let resources = 0;
-    const setResources = (newValue) => { resources = newValue; }
-    let gameState = { items: [] };
-    const setGameState = (newState) => { gameState = newState; }
-    let gameSave;
-
     const { userID, token } = data;
     const userLoggedIn = userID !== 0 && token;
-
     if (userLoggedIn && !verifyUser(userID, token)) {
       socket.emit('gameSessionError', { message: 'Failed user verification.' });
       socket.disconnect();
       return;
     }
 
+    let gameSave;
     if (userLoggedIn) {
       gameSave = await getGameSaveByUserID(userID);
 
@@ -44,32 +39,34 @@ export default async function handleSetupGameSession(socket) {
       gameSave = await createGameSave();
     }
 
-    const gameSaveID = gameSave.id;
-    resources = gameSave.resources;
-    gameState = gameSave.game_state;
-    socket.emit('updateGameSession', { resources, gameState, gameSaveID });
-
-    const gameSchema = setupGameSchema(gameSave);
-    socket.emit('updateGameSchema', gameSchema);
+    let gameSessionState = initiateGameSessionState(
+      gameSave.id,
+      gameSave.resources,
+      gameSave.game_state,
+      gameSave.game_history
+    );
+    const handleUpdateGameSession = setGameSessionStateReference(gameSessionState, socket);
+    handleUpdateGameSession();
 
     socket.on('areaClicked', () => {
-      handleAreaClicked(resources, setResources, gameState, gameSaveID, socket);
+      handleAreaClicked(
+        gameSessionState,
+        handleUpdateGameSession,
+        socket
+      );
     });
 
     socket.on('itemAction', (data) => {
       handleItemAction(
-        resources,
-        setResources,
-        gameState,
-        setGameState,
-        gameSaveID,
-        socket,
-        data
+        gameSessionState,
+        handleUpdateGameSession,
+        data,
+        socket
       );
     });
 
     socket.on('disconnect', () => {
-      handleDisconnect(resources, gameState, gameSave);
+      handleDisconnect(gameSessionState, gameSave);
     });
   });
 }

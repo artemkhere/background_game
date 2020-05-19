@@ -1,14 +1,16 @@
 import db from '../../../dbConnection.js';
 
-export default function handleDisconnect(resources, gameState, gameSave) {
+export default function handleDisconnect(gameSessionState, gameSave) {
   // nothing to do
-  if (!gameSave) { return; }
+  if (!gameSessionState || !gameSave) { return; }
+
+  const { getResources, getGameState, getGameHistory } = gameSessionState;
 
   db.none(`
     UPDATE game_saves
-    SET resources = $1, game_state = $2, last_interaction = to_timestamp($3)
-    WHERE id = $4
+    SET resources = $1, game_state = $2, game_history = $3, last_interaction = to_timestamp($4)
+    WHERE id = $5
   `,
-    [resources, gameState, Date.now() / 1000.0, gameSave.id]
+    [getResources(), getGameState(), getGameHistory(), Date.now() / 1000.0, gameSave.id]
   );
 }

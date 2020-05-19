@@ -6,7 +6,9 @@ import {
 } from '../../actions/socketActions';
 import { setCurrentScreen } from '../../actions/applicationStateActions';
 import ClickableArea from '../ClickableArea';
-import ItemShop from './ItemShop';
+import ItemShop from './items/ItemShop';
+import ItemInventory from './items/ItemInventory';
+import ItemsEquipped from './items/ItemsEquipped';
 
 function GameSession(props) {
   const { error, loading } = props.socket;
@@ -14,26 +16,10 @@ function GameSession(props) {
 
   const {
     connectToSocket, disconnectFromSocket, setCurrentScreen,
-    socketEmit, gameSchema
+    socketEmit
   } = props;
 
-  console.log(gameState)
-
-  const displayInventory = (inventory) => {
-    return (
-      <>
-        {inventory.map((item) => {
-          return (
-            <div>
-              <div>Name: {item.name}</div>
-              <div>Price: {item.price}</div>
-              <div>Description: {item.description}</div>
-            </div>
-          );
-        })}
-      </>
-    );
-  }
+  console.log(error)
 
   if (error) {
     return (
@@ -49,10 +35,10 @@ function GameSession(props) {
   return (
     <div style={{ textAlign: "center" }}>
       <ItemShop />
-      <div>Inventory:</div>
-      {displayInventory(gameState.items.inventory)}
+      <ItemInventory />
       <div>Resources: {resources}</div>
       <ClickableArea />
+      <ItemsEquipped />
     </div>
   );
 }
@@ -60,8 +46,7 @@ function GameSession(props) {
 function mapStateToProps(state) {
   return {
     socket: state.socket,
-    gameSession: state.gameSession,
-    gameSchema: state.gameSchema
+    gameSession: state.gameSession
   };
 }
 

@@ -1,17 +1,19 @@
-import gameSchema from '../../../../gameSchema.js';
+import gameSchema from '../initialStates/gameSchema.js';
 
-export default function setupItemShop(gameState) {
+export default function setupItemShop(gameHistory) {
   const itemNames = Object.keys(gameSchema.items);
 
   const itemShop = itemNames.map((itemName) => {
     const item = gameSchema.items[itemName];
     return {
       name: item.name,
+      clickEffect: item.clickEffect,
+      clickEffectDescription: item.clickEffectDescription,
       description: item.description,
       price: item.price,
-      shouldDisplay: item.shouldDisplay(gameState),
+      shouldDisplay: item.shouldDisplay(gameHistory),
       shouldDisplayRequirements: item.shouldDisplayRequirements,
-      canBePurchased: item.canBePurchased(gameState),
+      canBePurchased: item.canBePurchased(gameHistory),
       canBePurchasedRequirements: item.canBePurchasedRequirements
     };
   });
