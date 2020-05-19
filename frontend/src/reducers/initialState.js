@@ -12,17 +12,22 @@ export default {
       items: {
         equipped: [],
         inventory: []
-      }
+      },
+      structures: []
     },
     gameHistory: {
       resources: 0,
       clicks: 0,
       items: {
         purchased: []
+      },
+      structures: {
+        purchased: []
       }
     },
     gameSchema: {
-      itemShop: []
+      itemShop: [],
+      structureShop: []
     }
   },
   applicationState: {

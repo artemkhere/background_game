@@ -9,6 +9,7 @@ import ClickableArea from '../ClickableArea';
 import ItemShop from './items/ItemShop';
 import ItemInventory from './items/ItemInventory';
 import ItemsEquipped from './items/ItemsEquipped';
+import StructureShop from './structures/StructureShop';
 
 function GameSession(props) {
   const { error, loading } = props.socket;
@@ -39,6 +40,7 @@ function GameSession(props) {
       <div>Resources: {resources}</div>
       <ClickableArea />
       <ItemsEquipped />
+      <StructureShop />
     </div>
   );
 }
