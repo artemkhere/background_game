@@ -4,9 +4,9 @@ export default
     kitty: {
       name: 'Kitty',
       // pass in gameState to calculate what needs to be done
-      // clickEffect: (resources, gameState) => { return resources * 2; },
-      // clickEffectDescription: 'x2',
-      // overTimeEffect: (resources) => { return resources; },
+      clickEffect: (clickValue, gameState) => { return clickValue * 2; },
+      clickEffectDescription: 'x2',
+      // overTimeEffect: (overTimeValue, gameState) => { return overTimeValue; },
       // overTimeEffectDescription: 'x1',
       description: "It's a cat.",
       price: 10,
@@ -18,6 +18,8 @@ export default
     birb: {
       name: 'Birb',
       description: "It's a birb.",
+      clickEffect: (clickValue, gameState) => { return clickValue * 3; },
+      clickEffectDescription: 'x3',
       price: 20,
       shouldDisplay: () => { return true; },
       shouldDisplayRequirements: 'Will always display',
@@ -30,6 +32,8 @@ export default
     },
     wabbit: {
       name: 'Wabbit',
+      clickEffect: (clickValue, gameState) => { return clickValue * 4; },
+      clickEffectDescription: 'x4',
       description: "It's a bunny.",
       price: 30,
       shouldDisplay: (gameHistory) => {

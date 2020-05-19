@@ -7,6 +7,8 @@ export default function setupItemShop(gameHistory) {
     const item = gameSchema.items[itemName];
     return {
       name: item.name,
+      clickEffect: item.clickEffect,
+      clickEffectDescription: item.clickEffectDescription,
       description: item.description,
       price: item.price,
       shouldDisplay: item.shouldDisplay(gameHistory),
