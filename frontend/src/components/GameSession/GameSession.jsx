@@ -10,6 +10,7 @@ import ItemShop from './items/ItemShop';
 import ItemInventory from './items/ItemInventory';
 import ItemsEquipped from './items/ItemsEquipped';
 import StructureShop from './structures/StructureShop';
+import StructureSlots from './structures/StructureSlots';
 
 function GameSession(props) {
   const { error, loading } = props.socket;
@@ -41,6 +42,7 @@ function GameSession(props) {
       <ClickableArea />
       <ItemsEquipped />
       <StructureShop />
+      <StructureSlots />
     </div>
   );
 }

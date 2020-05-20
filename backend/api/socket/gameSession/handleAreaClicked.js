@@ -15,6 +15,11 @@ export default function handleAreaClicked(
   let clickValue = 1;
   const gameState = getGameState();
 
+  const builtStructures = gameState.structures.built;
+  builtStructures.forEach(({ clickEffect }) => {
+    clickValue = clickEffect(clickValue, gameState);
+  });
+
   const equippedItems = gameState.items.equipped;
   equippedItems.forEach(({ clickEffect }) => {
     clickValue = clickEffect(clickValue, gameState);

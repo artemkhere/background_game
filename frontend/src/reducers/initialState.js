@@ -13,7 +13,10 @@ export default {
         equipped: [],
         inventory: []
       },
-      structures: []
+      structures: {
+        built: [],
+        availableSlots: 1
+      }
     },
     gameHistory: {
       resources: 0,

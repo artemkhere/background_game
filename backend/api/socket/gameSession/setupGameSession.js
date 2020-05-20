@@ -8,6 +8,7 @@ import verifyUser from './verifyUser.js';
 import handleItemAction from './items/handleItemAction.js';
 import initiateGameSessionState from './initiateGameSessionState.js';
 import setGameSessionStateReference from './setGameSessionStateReference.js';
+import handleStructureAction from './structures/handleStructureAction.js';
 
 export default async function handleSetupGameSession(socket) {
   socket.on('startGameSession', async (data) => {
@@ -58,6 +59,15 @@ export default async function handleSetupGameSession(socket) {
 
     socket.on('itemAction', (data) => {
       handleItemAction(
+        gameSessionState,
+        handleUpdateGameSession,
+        data,
+        socket
+      );
+    });
+
+    socket.on('structureAction', (data) => {
+      handleStructureAction(
         gameSessionState,
         handleUpdateGameSession,
         data,
