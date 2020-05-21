@@ -6,12 +6,16 @@ export default {
     connected: false
   },
   gameSession: {
-    id: 0,
+    gameSaveID: 0,
     resources: 0,
     gameState: {
       items: {
         equipped: [],
         inventory: []
+      },
+      structures: {
+        built: [],
+        availableBuildSlots: 1
       }
     },
     gameHistory: {
@@ -19,10 +23,14 @@ export default {
       clicks: 0,
       items: {
         purchased: []
+      },
+      structures: {
+        purchased: []
       }
     },
     gameSchema: {
-      itemShop: []
+      itemShop: [],
+      structureShop: []
     }
   },
   applicationState: {

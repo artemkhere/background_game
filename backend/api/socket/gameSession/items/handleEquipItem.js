@@ -4,20 +4,25 @@ export default function handleEquipItem(
   itemName,
   socket
 ) {
-  const { getGameState, setGameState } = gameSessionState;
-
   if (!itemName) {
     socket.emit('operationFailed', { message: "No itemName." });
     return;
   }
 
-  if (getGameState().items.equipped.length >= 3) {
-    socket.emit('operationFailed', { message: "Can't equip more than 3 items." });
+  const { getGameState, setGameState } = gameSessionState;
+  const gameState = getGameState();
+  const {
+    equipped,
+    availableEquipSlots,
+    inventory
+  } = gameState.items
+
+  if (equipped.length >= availableEquipSlots) {
+    socket.emit('operationFailed', { message: `Can't equip more than ${availableEquipSlots} items.` });
     return;
   }
 
-  const newGameState = {...getGameState()};
-  const inventory = [...newGameState.items.inventory];
+  const newGameState = {...gameState};
 
   let itemIndex;
   const item = inventory.find(({ name }, index) => {

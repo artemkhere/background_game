@@ -3,34 +3,27 @@ import { connect } from 'react-redux';
 
 import { socketEmit } from '../../../actions/socketActions';
 
-function ItemsEquipped(props) {
+function StructureSlots(props) {
   const { socketEmit } = props;
   const { gameState } = props.gameSession;
 
-  const handleUnequipItem = (equippedIndex) => {
+  const handleSellStructure = (builtIndex) => {
     return () => {
       socketEmit({
-        eventName: 'itemAction',
-        data: { actionType: 'unequip', equippedIndex }
+        eventName: 'structureAction',
+        data: { actionType: 'sell', builtIndex }
       });
     }
   }
 
-  const handleBuyEquipSlot = () => {
-    socketEmit({
-      eventName: 'itemAction',
-      data: { actionType: 'buyEquipSlot' }
-    });
-  }
-
-  const equippedList = (equipped) => {
+  const structureSlots = (structuresBuilt) => {
     return (
       <>
-        {equipped.map((item, equippedIndex) => {
+        {structuresBuilt.map((structure, builtIndex) => {
           return (
             <div>
-              <div>Name: {item.name}</div>
-              <button onClick={handleUnequipItem(equippedIndex)}>Unequip</button>
+              <div>Name: {structure.name}</div>
+              <button onClick={handleSellStructure(builtIndex)}>Sell</button>
             </div>
           );
         })}
@@ -40,9 +33,8 @@ function ItemsEquipped(props) {
 
   return (
     <div style={{ textAlign: "left" }}>
-      <div>Equipped Items:</div>
-      {equippedList(gameState.items.equipped)}
-      <button onClick={handleBuyEquipSlot}>+</button>
+      <div>Structures:</div>
+      {structureSlots(gameState.structures.built)}
     </div>
   );
 }
@@ -62,4 +54,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ItemsEquipped);
+)(StructureSlots);

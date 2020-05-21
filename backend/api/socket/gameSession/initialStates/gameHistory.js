@@ -4,5 +4,8 @@ export default
   clicks: 0,
   items: {
     purchased: []
+  },
+  structures: {
+    purchased: []
   }
 }

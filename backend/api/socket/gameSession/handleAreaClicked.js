@@ -14,8 +14,22 @@ export default function handleAreaClicked(
 
   let clickValue = 1;
   const gameState = getGameState();
-
+  const builtStructures = gameState.structures.built;
   const equippedItems = gameState.items.equipped;
+
+  // apply item effects over structures
+  // equippedItems.forEach(({ structureEffect }) => {
+  //   builtStructures.forEach(({ clickEffect }) => {
+  //     clickValue = clickEffect(clickValue, gameState);
+  //   });
+  // });
+
+  // apply effects from structure
+  builtStructures.forEach(({ clickEffect }) => {
+    clickValue = clickEffect(clickValue, gameState);
+  });
+
+  // apply effects from items
   equippedItems.forEach(({ clickEffect }) => {
     clickValue = clickEffect(clickValue, gameState);
   });
