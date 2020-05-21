@@ -1,4 +1,7 @@
 export default
+// there should be no functions
+// setup item shop should do all the calculations on what needs to be displayed
+// and what is not
 {
   itemEquipSlotPrices: [0, 10, 100, 1000, 10000],
   items: {
