@@ -1,5 +1,6 @@
 export default
 {
+  itemEquipSlotPrices: [0, 10, 100, 1000, 10000],
   items: {
     kitty: {
       name: 'Kitty',
@@ -48,17 +49,6 @@ export default
       },
       canBePurchasedRequirements: 'You need a Birb to purchase a Wabbit.',
     },
-    // itemWithStructureImpact: {
-    //   name: 'itemWithStructureImpact',
-    //   clickEffect: (resources) => { return buildingTypeClick * 2; },
-    //   clickEffectDescription: 'x2',
-    //   overTimeEffect: (resources) => { return resources; },
-    //   overTimeEffectDescription: 'x1',
-    //   description: 'lol',
-    //   price: 100,
-    //   requirementsToDisplay: () => { return true; },
-    //   requirementTsoPurchase: () => { return true; }
-    // }
   },
   itemCombos: {
     kittykittykitty: {

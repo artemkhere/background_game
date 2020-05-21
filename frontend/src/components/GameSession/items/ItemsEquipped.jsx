@@ -16,6 +16,13 @@ function ItemsEquipped(props) {
     }
   }
 
+  const handleBuyEquipSlot = () => {
+    socketEmit({
+      eventName: 'itemAction',
+      data: { actionType: 'buyEquipSlot' }
+    });
+  }
+
   const equippedList = (equipped) => {
     return (
       <>
@@ -35,6 +42,7 @@ function ItemsEquipped(props) {
     <div style={{ textAlign: "left" }}>
       <div>Equipped Items:</div>
       {equippedList(gameState.items.equipped)}
+      <button onClick={handleBuyEquipSlot}>+</button>
     </div>
   );
 }
