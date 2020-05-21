@@ -6,7 +6,7 @@ export default {
     connected: false
   },
   gameSession: {
-    id: 0,
+    gameSaveID: 0,
     resources: 0,
     gameState: {
       items: {
@@ -15,7 +15,7 @@ export default {
       },
       structures: {
         built: [],
-        availableSlots: 1
+        availableBuildSlots: 1
       }
     },
     gameHistory: {

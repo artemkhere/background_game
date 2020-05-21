@@ -2,10 +2,11 @@ export default
 {
   items: {
     equipped: [],
+    availableEquipSlots: 1,
     inventory: []
   },
   structures: {
     built: [],
-    availableSlots: 1
+    availableBuildSlots: 1
   }
 }

@@ -32,7 +32,7 @@ export default function handleBuyStructure(
   if (
     !structure.canBePurchased ||
     getResources() < structure.price ||
-    gameState.structures.built.length >= gameState.structures.availableSlots
+    gameState.structures.built.length >= gameState.structures.availableBuildSlots
   ) {
     socket.emit('operationFailed', { message: "Structure can't be purchased." });
     return;
