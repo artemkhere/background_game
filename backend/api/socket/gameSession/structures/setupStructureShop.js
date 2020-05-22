@@ -8,7 +8,7 @@ export default function setupStructureShop(gameHistory) {
     const structure = gameSchema.structures[structureName];
     return {
       name: structure.name,
-      clickEffect: structure.clickEffect,
+      effect: structure.effect,
       clickEffectDescription: structure.clickEffectDescription,
       description: structure.description,
       price: structure.price,
