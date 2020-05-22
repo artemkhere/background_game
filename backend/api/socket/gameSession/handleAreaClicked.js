@@ -1,3 +1,21 @@
+function applyEffect(currentValue, effect) {
+  let newValue = currentValue;
+  const { impact, amount } = effect;
+
+  switch (impact) {
+    case 'mul':
+      newValue = newValue * amount;
+      break;
+    case 'plus':
+      newValue = newValue + amount;
+      break;
+    default:
+      break;
+  }
+
+  return newValue;
+}
+
 export default function handleAreaClicked(
   gameSessionState,
   handleUpdateGameSession,
@@ -12,26 +30,26 @@ export default function handleAreaClicked(
     setGameHistory
   } = gameSessionState;
 
-  let clickValue = 1;
   const gameState = getGameState();
   const builtStructures = gameState.structures.built;
   const equippedItems = gameState.items.equipped;
+  let clickValue = 1;
 
-  // apply item effects over structures
-  // equippedItems.forEach(({ structureEffect }) => {
-  //   builtStructures.forEach(({ clickEffect }) => {
-  //     clickValue = clickEffect(clickValue, gameState);
-  //   });
-  // });
+  builtStructures.forEach(({ name, effect }) => {
+    let { impact, amount } = effect.allClicks;
 
-  // apply effects from structure
-  builtStructures.forEach(({ clickEffect }) => {
-    clickValue = clickEffect(clickValue, gameState);
+    equippedItems.forEach((item) => {
+      const itemStructuresEffect = item.effect.structures;
+      if (itemStructuresEffect.names.includes(name)) {
+        amount = applyEffect(amount, itemStructuresEffect);
+      }
+    });
+
+    clickValue = applyEffect(clickValue, { impact, amount });
   });
 
-  // apply effects from items
-  equippedItems.forEach(({ clickEffect }) => {
-    clickValue = clickEffect(clickValue, gameState);
+  equippedItems.forEach(({ effect }) => {
+    clickValue = applyEffect(clickValue, effect.allClicks);
   });
 
   const updatedResources = getResources() + clickValue;

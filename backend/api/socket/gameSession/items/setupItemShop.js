@@ -1,4 +1,5 @@
 import gameSchema from '../initialStates/gameSchema.js';
+import determineAvailability from '../determineAvailability.js';
 
 export default function setupItemShop(gameHistory) {
   const itemNames = Object.keys(gameSchema.items);
@@ -7,13 +8,13 @@ export default function setupItemShop(gameHistory) {
     const item = gameSchema.items[itemName];
     return {
       name: item.name,
-      clickEffect: item.clickEffect,
+      effect: item.effect,
       clickEffectDescription: item.clickEffectDescription,
       description: item.description,
       price: item.price,
-      shouldDisplay: item.shouldDisplay(gameHistory),
+      shouldDisplay: determineAvailability(item.shouldDisplay, gameHistory),
       shouldDisplayRequirements: item.shouldDisplayRequirements,
-      canBePurchased: item.canBePurchased(gameHistory),
+      canBePurchased: determineAvailability(item.canBePurchased, gameHistory),
       canBePurchasedRequirements: item.canBePurchasedRequirements
     };
   });

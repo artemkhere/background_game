@@ -46,7 +46,7 @@ export default function handleBuyStructure(
   setGameState(newGameState);
 
   const newHistory = {...getGameHistory()};
-  newHistory.structures.purchased.push(structure);
+  newHistory.purchased.push(structure);
   setGameHistory(newHistory);
 
   handleUpdateGameSession();

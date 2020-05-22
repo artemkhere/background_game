@@ -40,7 +40,7 @@ export default function handleBuyItem(
   setGameState(newGameState);
 
   const newHistory = {...getGameHistory()};
-  newHistory.items.purchased.push(item);
+  newHistory.purchased.push(item);
   setGameHistory(newHistory);
 
   handleUpdateGameSession();
