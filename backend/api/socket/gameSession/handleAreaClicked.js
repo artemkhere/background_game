@@ -30,18 +30,17 @@ export default function handleAreaClicked(
     setGameHistory
   } = gameSessionState;
 
-  let clickValue = 1;
   const gameState = getGameState();
   const builtStructures = gameState.structures.built;
   const equippedItems = gameState.items.equipped;
+  let clickValue = 1;
 
-  // apply effects from structure
   builtStructures.forEach(({ name, effect }) => {
     let { impact, amount } = effect.allClicks;
 
     equippedItems.forEach((item) => {
       const itemStructuresEffect = item.effect.structures;
-      if (itemStructureEffect.names.includes(name)) {
+      if (itemStructuresEffect.names.includes(name)) {
         amount = applyEffect(amount, itemStructuresEffect);
       }
     });
@@ -49,7 +48,6 @@ export default function handleAreaClicked(
     clickValue = applyEffect(clickValue, { impact, amount });
   });
 
-  // apply effects from items
   equippedItems.forEach(({ effect }) => {
     clickValue = applyEffect(clickValue, effect.allClicks);
   });
