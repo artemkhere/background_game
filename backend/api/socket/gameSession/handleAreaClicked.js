@@ -1,3 +1,18 @@
+function applyClickEffect(currentValue, effect, targets) {
+  let newValue = currentValue;
+  const { impact, amount } = effect;
+
+  switch (impact) {
+    case 'mul':
+      newValue = newValue * amount;
+      break;
+    default:
+      break;
+  }
+
+  return newValue;
+}
+
 export default function handleAreaClicked(
   gameSessionState,
   handleUpdateGameSession,
@@ -30,8 +45,8 @@ export default function handleAreaClicked(
   });
 
   // apply effects from items
-  equippedItems.forEach(({ clickEffect }) => {
-    clickValue = clickEffect(clickValue, gameState);
+  equippedItems.forEach(({ effect }) => {
+    clickValue = applyClickEffect(clickValue, effect.allClicks);
   });
 
   const updatedResources = getResources() + clickValue;

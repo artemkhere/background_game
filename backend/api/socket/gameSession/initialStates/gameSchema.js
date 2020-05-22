@@ -7,8 +7,18 @@ export default
   items: {
     kitty: {
       name: 'Kitty',
-      clickEffect: (clickValue, gameState) => { return clickValue * 2; },
-      clickEffectDescription: 'x2',
+      effect: {
+        structures: {
+          names: ['Nasty Toilet'],
+          impact: 'mul',
+          amount: 2
+        },
+        allClicks: {
+          impact: 'mul',
+          amount: 2
+        },
+      },
+      clickDescription: 'x2 from all clicks and for Nasty Toilets',
       // overTimeEffect: (overTimeValue, gameState) => { return overTimeValue; },
       // overTimeEffectDescription: 'x1',
       description: "It's a cat.",
@@ -18,28 +28,28 @@ export default
       canBePurchased: {},
       canBePurchasedRequirements: 'Can always be purchased',
     },
-    birb: {
-      name: 'Birb',
-      description: "It's a birb.",
-      clickEffect: (clickValue, gameState) => { return clickValue * 3; },
-      clickEffectDescription: 'x3',
-      price: 20,
-      shouldDisplay: {},
-      shouldDisplayRequirements: 'Will always display',
-      canBePurchased: { purchased: ['Kitty'] },
-      canBePurchasedRequirements: 'You need a Kitty to purchase a Birb.',
-    },
-    wabbit: {
-      name: 'Wabbit',
-      clickEffect: (clickValue, gameState) => { return clickValue * 4; },
-      clickEffectDescription: 'x4',
-      description: "It's a bunny.",
-      price: 30,
-      shouldDisplay: { purchased: ['Kitty'] },
-      shouldDisplayRequirements: 'Will show when you get a Kitty.',
-      canBePurchased: { purchased: ['Birb'] },
-      canBePurchasedRequirements: 'You need a Birb to purchase a Wabbit.',
-    },
+    // birb: {
+    //   name: 'Birb',
+    //   description: "It's a birb.",
+    //   clickEffect: (clickValue, gameState) => { return clickValue * 3; },
+    //   clickEffectDescription: 'x3',
+    //   price: 20,
+    //   shouldDisplay: {},
+    //   shouldDisplayRequirements: 'Will always display',
+    //   canBePurchased: { purchased: ['Kitty'] },
+    //   canBePurchasedRequirements: 'You need a Kitty to purchase a Birb.',
+    // },
+    // wabbit: {
+    //   name: 'Wabbit',
+    //   clickEffect: (clickValue, gameState) => { return clickValue * 4; },
+    //   clickEffectDescription: 'x4',
+    //   description: "It's a bunny.",
+    //   price: 30,
+    //   shouldDisplay: { purchased: ['Kitty'] },
+    //   shouldDisplayRequirements: 'Will show when you get a Kitty.',
+    //   canBePurchased: { purchased: ['Birb'] },
+    //   canBePurchasedRequirements: 'You need a Birb to purchase a Wabbit.',
+    // },
   },
   structures: {
     nastyToilet: {
