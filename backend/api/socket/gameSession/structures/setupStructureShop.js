@@ -1,4 +1,5 @@
 import gameSchema from '../initialStates/gameSchema.js';
+import determineAvailability from '../determineAvailability.js';
 
 export default function setupStructureShop(gameHistory) {
   const structureNames = Object.keys(gameSchema.structures);
@@ -11,9 +12,9 @@ export default function setupStructureShop(gameHistory) {
       clickEffectDescription: structure.clickEffectDescription,
       description: structure.description,
       price: structure.price,
-      shouldDisplay: structure.shouldDisplay(gameHistory),
+      shouldDisplay: determineAvailability(structure.shouldDisplay, gameHistory),
       shouldDisplayRequirements: structure.shouldDisplayRequirements,
-      canBePurchased: structure.canBePurchased(gameHistory),
+      canBePurchased: determineAvailability(structure.canBePurchased, gameHistory),
       canBePurchasedRequirements: structure.canBePurchasedRequirements
     };
   });
