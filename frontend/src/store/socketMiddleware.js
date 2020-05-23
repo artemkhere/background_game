@@ -5,6 +5,7 @@ import {
 import {
   setSocketLoading, handleSocketConnect, setSocketError
 } from '../actions/socketActions';
+import { setApplicationError } from '../actions/applicationStateActions';
 import { updateGameSession } from '../actions/gameSessionActions';
 
 const createSocketMiddleware = (url) => {
@@ -39,10 +40,8 @@ const createSocketMiddleware = (url) => {
           setSocketError(dispatch, error);
         });
 
-        // ARTEM WARNING
-        // should not ask to reconnect -- minor error in attempt to do something
         socket.on('operationFailed', (error) => {
-          setSocketError(dispatch, error);
+          setApplicationError(dispatch)(error);
         });
 
         socket.on('connect_timeout', (timeout) => {
