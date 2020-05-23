@@ -1,6 +1,6 @@
 import handleAreaClicked from './handleAreaClicked.js';
-import handleDisconnect from './handleDisconnect.js';
 import createGameSave from './gameSave/createGameSave.js';
+import updateGameSave from './gameSave/updateGameSave.js';
 import getGameSaveByUserID from './gameSave/getGameSaveByUserID.js';
 import assignGameSaveToUser from './gameSave/assignGameSaveToUser.js';
 import updateGameSaveLastInteraction from './gameSave/updateGameSaveLastInteraction.js';
@@ -9,6 +9,9 @@ import handleItemAction from './items/handleItemAction.js';
 import initiateGameSessionState from './initiateGameSessionState.js';
 import setGameSessionStateReference from './setGameSessionStateReference.js';
 import handleStructureAction from './structures/handleStructureAction.js';
+
+let autoSave;
+const save = () => { updateGameSave(gameSessionState, gameSave); }
 
 export default async function handleSetupGameSession(socket) {
   socket.on('startGameSession', async (data) => {
@@ -49,6 +52,8 @@ export default async function handleSetupGameSession(socket) {
     const handleUpdateGameSession = setGameSessionStateReference(gameSessionState, socket);
     handleUpdateGameSession();
 
+    autoSave = setInterval(save, 60000);
+
     socket.on('areaClicked', () => {
       handleAreaClicked(
         gameSessionState,
@@ -75,8 +80,11 @@ export default async function handleSetupGameSession(socket) {
       );
     });
 
-    socket.on('disconnect', () => {
-      handleDisconnect(gameSessionState, gameSave);
+    ['disconnect', 'connect_timeout', 'connect_error', 'error'].forEach((eventName) => {
+      socket.on(eventName, (data) => {
+        updateGameSave(gameSessionState, gameSave);
+        clearInterval(autoSave);
+      });
     });
   });
 }
