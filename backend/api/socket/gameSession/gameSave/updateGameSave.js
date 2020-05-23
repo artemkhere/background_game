@@ -1,6 +1,6 @@
-import db from '../../../dbConnection.js';
+import db from '../../../../dbConnection.js';
 
-export default function handleDisconnect(gameSessionState, gameSave) {
+export default function updateGameSave(gameSessionState, gameSave) {
   // nothing to do
   if (!gameSessionState || !gameSave) { return; }
 
