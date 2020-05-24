@@ -17,6 +17,22 @@ const save = (gameSessionState, gameSave) => {
   }
 }
 
+// let autoHarvest;
+// const harvestResources = (
+//   gameSessionState,
+//   handleUpdateGameSession,
+//   socket
+// ) => {
+//   return () => {
+//     handleHarvestResouces(
+//       gameSessionState,
+//       handleUpdateGameSession,
+//       socket,
+//       lastInteraction
+//     );
+//   }
+// }
+
 export default async function handleSetupGameSession(socket) {
   socket.on('startGameSession', async (data) => {
     if (!data) {
@@ -54,9 +70,20 @@ export default async function handleSetupGameSession(socket) {
       gameSave.game_history
     );
     const handleUpdateGameSession = setGameSessionStateReference(gameSessionState, socket);
+    // handleHarvestResouces(
+    //   gameSessionState,
+    //   handleUpdateGameSession,
+    //   socket,
+    //   gameSave.last_interaction
+    // );
     handleUpdateGameSession();
 
     autoSave = setInterval(save(gameSessionState, gameSave), 60000);
+    // autoHarvest = setInterval(harvestResources(
+    //   gameSessionState,
+    //   handleUpdateGameSession,
+    //   socket
+    // ), 10000);
 
     socket.on('areaClicked', () => {
       handleAreaClicked(
@@ -88,6 +115,7 @@ export default async function handleSetupGameSession(socket) {
       socket.on(eventName, (data) => {
         updateGameSave(gameSessionState, gameSave);
         clearInterval(autoSave);
+        // clearInterval(autoHarvest);
       });
     });
   });

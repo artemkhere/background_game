@@ -1,25 +1,8 @@
-function applyEffect(currentValue, effect) {
-  let newValue = currentValue;
-  const { impact, amount } = effect;
-
-  switch (impact) {
-    case 'mul':
-      newValue = newValue * amount;
-      break;
-    case 'plus':
-      newValue = newValue + amount;
-      break;
-    default:
-      break;
-  }
-
-  return newValue;
-}
-
 export default function handleAreaClicked(
   gameSessionState,
   handleUpdateGameSession,
-  socket
+  socket,
+  lastInteraction
 ) {
   const {
     getResources,
@@ -30,13 +13,16 @@ export default function handleAreaClicked(
     setGameHistory
   } = gameSessionState;
 
+  // harvest all resources from when the user was away
+  if (lastInteraction) { return; }
+
   const gameState = getGameState();
   const builtStructures = gameState.structures.built;
   const equippedItems = gameState.items.equipped;
-  let clickValue = 1;
+  let harvestValue = 0;
 
   builtStructures.forEach(({ name, effect }) => {
-    let { impact, amount } = effect.clicks;
+    let { impact, amount } = effect.harvest;
 
     equippedItems.forEach((item) => {
       const itemStructuresEffect = item.effect.structures;

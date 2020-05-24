@@ -1,7 +1,4 @@
 export default
-// there should be no functions
-// setup item shop should do all the calculations on what needs to be displayed
-// and what is not
 {
   itemEquipSlotPrices: [0, 10, 100, 1000, 10000],
   items: {
@@ -13,14 +10,12 @@ export default
           impact: 'mul',
           amount: 2
         },
-        allClicks: {
+        clicks: {
           impact: 'mul',
           amount: 1
         },
       },
       clickDescription: 'x2 from all clicks and for Nasty Toilets',
-      // overTimeEffect: (overTimeValue, gameState) => { return overTimeValue; },
-      // overTimeEffectDescription: 'x1',
       description: "It's a cat.",
       price: 10,
       shouldDisplay: {},
@@ -37,7 +32,7 @@ export default
           impact: 'mul',
           amount: 1
         },
-        allClicks: {
+        clicks: {
           impact: 'mul',
           amount: 3
         },
@@ -57,7 +52,7 @@ export default
           impact: 'mul',
           amount: 1
         },
-        allClicks: {
+        clicks: {
           impact: 'mul',
           amount: 4
         },
@@ -75,7 +70,7 @@ export default
     nastyToilet: {
       name: 'Nasty Toilet',
       effect: {
-        allClicks: {
+        clicks: {
           impact: 'plus',
           amount: 1
         },
@@ -92,10 +87,11 @@ export default
       name: 'Toddler Bathroom',
       description: "Small kids poop here.",
       effect: {
-        allClicks: {
+        clicks: {
           impact: 'plus',
           amount: 2
         },
+
       },
       clickEffectDescription: '+ 2',
       price: 20,
@@ -107,7 +103,7 @@ export default
     badComedian: {
       name: 'Bad Comedian',
       effect: {
-        allClicks: {
+        clicks: {
           impact: 'plus',
           amount: 3
         },
