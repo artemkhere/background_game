@@ -11,7 +11,11 @@ import setGameSessionStateReference from './setGameSessionStateReference.js';
 import handleStructureAction from './structures/handleStructureAction.js';
 
 let autoSave;
-const save = () => { updateGameSave(gameSessionState, gameSave); }
+const save = (gameSessionState, gameSave) => {
+  return () => {
+    updateGameSave(gameSessionState, gameSave);
+  }
+}
 
 export default async function handleSetupGameSession(socket) {
   socket.on('startGameSession', async (data) => {
@@ -52,7 +56,7 @@ export default async function handleSetupGameSession(socket) {
     const handleUpdateGameSession = setGameSessionStateReference(gameSessionState, socket);
     handleUpdateGameSession();
 
-    autoSave = setInterval(save, 60000);
+    autoSave = setInterval(save(gameSessionState, gameSave), 60000);
 
     socket.on('areaClicked', () => {
       handleAreaClicked(
