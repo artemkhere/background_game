@@ -1,4 +1,6 @@
-export default function handleAreaClicked(
+import applyEffect from './applyEffect.js';
+
+export default function handleHarvestResources(
   gameSessionState,
   handleUpdateGameSession,
   socket,
@@ -31,19 +33,18 @@ export default function handleAreaClicked(
       }
     });
 
-    clickValue = applyEffect(clickValue, { impact, amount });
+    harvestValue = applyEffect(harvestValue, { impact, amount });
   });
 
   equippedItems.forEach(({ effect }) => {
-    clickValue = applyEffect(clickValue, effect.clicks);
+    harvestValue = applyEffect(harvestValue, effect.harvest);
   });
 
-  const updatedResources = getResources() + clickValue;
+  const updatedResources = getResources() + harvestValue;
   setResources(updatedResources);
 
   const newHistory = {...getGameHistory()};
-  newHistory.resources = newHistory.resources + clickValue;
-  newHistory.clicks = newHistory.clicks + 1;
+  newHistory.resources = newHistory.resources + harvestValue;
   setGameHistory(newHistory);
 
   handleUpdateGameSession();

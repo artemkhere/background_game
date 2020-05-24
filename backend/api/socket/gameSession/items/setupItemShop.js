@@ -10,6 +10,7 @@ export default function setupItemShop(gameHistory) {
       name: item.name,
       effect: item.effect,
       clickEffectDescription: item.clickEffectDescription,
+      harvestEffectDescription: item.harvestEffectDescription,
       description: item.description,
       price: item.price,
       shouldDisplay: determineAvailability(item.shouldDisplay, gameHistory),
