@@ -15,13 +15,11 @@ export default function handleHarvestResources(
     setGameHistory
   } = gameSessionState;
 
-  // harvest all resources from when the user was away
-  if (lastInteraction) { return; }
-
   const gameState = getGameState();
   const builtStructures = gameState.structures.built;
   const equippedItems = gameState.items.equipped;
   let harvestValue = 0;
+  let cycles = 1;
 
   builtStructures.forEach(({ name, effect }) => {
     let { impact, amount } = effect.harvest;
@@ -40,7 +38,13 @@ export default function handleHarvestResources(
     harvestValue = applyEffect(harvestValue, effect.harvest);
   });
 
-  const updatedResources = getResources() + harvestValue;
+  // harvest all resources from when the user was away
+  if (lastInteraction) {
+    const lastCycle = lastInteraction.getTime();
+    cycles = Math.floor((Date.now() - lastCycle) / 1000)
+  }
+
+  const updatedResources = getResources() + harvestValue * cycles;
   setResources(updatedResources);
 
   const newHistory = {...getGameHistory()};

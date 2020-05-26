@@ -83,7 +83,7 @@ export default async function handleSetupGameSession(socket) {
       gameSessionState,
       handleUpdateGameSession,
       socket
-    ), 1000);
+    ), 10000);
 
     socket.on('areaClicked', () => {
       handleAreaClicked(
