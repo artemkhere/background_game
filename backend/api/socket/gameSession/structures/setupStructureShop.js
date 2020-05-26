@@ -10,6 +10,7 @@ export default function setupStructureShop(gameHistory) {
       name: structure.name,
       effect: structure.effect,
       clickEffectDescription: structure.clickEffectDescription,
+      harvestEffectDescription: structure.harvestEffectDescription,
       description: structure.description,
       price: structure.price,
       shouldDisplay: determineAvailability(structure.shouldDisplay, gameHistory),

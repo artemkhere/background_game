@@ -1,9 +1,10 @@
 import applyEffect from './applyEffect.js';
 
-export default function handleAreaClicked(
+export default function handleHarvestResources(
   gameSessionState,
   handleUpdateGameSession,
-  socket
+  socket,
+  lastInteraction
 ) {
   const {
     getResources,
@@ -17,10 +18,11 @@ export default function handleAreaClicked(
   const gameState = getGameState();
   const builtStructures = gameState.structures.built;
   const equippedItems = gameState.items.equipped;
-  let clickValue = 1;
+  let harvestValue = 0;
+  let cycles = 1;
 
   builtStructures.forEach(({ name, effect }) => {
-    let { impact, amount } = effect.clicks;
+    let { impact, amount } = effect.harvest;
 
     equippedItems.forEach((item) => {
       const itemStructuresEffect = item.effect.structures;
@@ -29,19 +31,24 @@ export default function handleAreaClicked(
       }
     });
 
-    clickValue = applyEffect(clickValue, { impact, amount });
+    harvestValue = applyEffect(harvestValue, { impact, amount });
   });
 
   equippedItems.forEach(({ effect }) => {
-    clickValue = applyEffect(clickValue, effect.clicks);
+    harvestValue = applyEffect(harvestValue, effect.harvest);
   });
 
-  const updatedResources = getResources() + clickValue;
+  // harvest all resources from when the user was away
+  if (lastInteraction) {
+    const lastCycle = lastInteraction.getTime();
+    cycles = Math.floor((Date.now() - lastCycle) / 1000)
+  }
+
+  const updatedResources = getResources() + harvestValue * cycles;
   setResources(updatedResources);
 
   const newHistory = {...getGameHistory()};
-  newHistory.resources = newHistory.resources + clickValue;
-  newHistory.clicks = newHistory.clicks + 1;
+  newHistory.resources = newHistory.resources + harvestValue;
   setGameHistory(newHistory);
 
   handleUpdateGameSession();

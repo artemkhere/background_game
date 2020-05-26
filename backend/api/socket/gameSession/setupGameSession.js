@@ -1,4 +1,5 @@
 import handleAreaClicked from './handleAreaClicked.js';
+import handleHarvestResources from './handleHarvestResources.js';
 import createGameSave from './gameSave/createGameSave.js';
 import updateGameSave from './gameSave/updateGameSave.js';
 import getGameSaveByUserID from './gameSave/getGameSaveByUserID.js';
@@ -11,7 +12,26 @@ import setGameSessionStateReference from './setGameSessionStateReference.js';
 import handleStructureAction from './structures/handleStructureAction.js';
 
 let autoSave;
-const save = () => { updateGameSave(gameSessionState, gameSave); }
+const save = (gameSessionState, gameSave) => {
+  return () => {
+    updateGameSave(gameSessionState, gameSave);
+  }
+}
+
+let autoHarvest;
+const harvestResources = (
+  gameSessionState,
+  handleUpdateGameSession,
+  socket
+) => {
+  return () => {
+    handleHarvestResources(
+      gameSessionState,
+      handleUpdateGameSession,
+      socket
+    );
+  }
+}
 
 export default async function handleSetupGameSession(socket) {
   socket.on('startGameSession', async (data) => {
@@ -50,9 +70,20 @@ export default async function handleSetupGameSession(socket) {
       gameSave.game_history
     );
     const handleUpdateGameSession = setGameSessionStateReference(gameSessionState, socket);
+    handleHarvestResources(
+      gameSessionState,
+      handleUpdateGameSession,
+      socket,
+      gameSave.last_interaction
+    );
     handleUpdateGameSession();
 
-    autoSave = setInterval(save, 60000);
+    autoSave = setInterval(save(gameSessionState, gameSave), 60000);
+    autoHarvest = setInterval(harvestResources(
+      gameSessionState,
+      handleUpdateGameSession,
+      socket
+    ), 10000);
 
     socket.on('areaClicked', () => {
       handleAreaClicked(
@@ -84,6 +115,7 @@ export default async function handleSetupGameSession(socket) {
       socket.on(eventName, (data) => {
         updateGameSave(gameSessionState, gameSave);
         clearInterval(autoSave);
+        clearInterval(autoHarvest);
       });
     });
   });
