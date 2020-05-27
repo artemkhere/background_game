@@ -145,5 +145,19 @@ export default
       canBePurchased: { purchased: ['Toddler Bathroom'] },
       canBePurchasedRequirements: 'You need a Toddler Bathroom to purchase a Bad Comedian.',
     },
+  },
+  consumables: {
+    tuna: {
+      name: 'Tuna',
+      effect: {
+        amount: 20,
+        cycles: 2
+      },
+      // price = amount * cycles / whatever * increase 10% of ever active consumable
+      effectDescription: 'Will produce 20 resources every 10 seconds. Lasts 20 seconds.',
+      description: "It's a can of tuna.",
+      shouldDisplay: {},
+      shouldDisplayRequirements: 'Will always display'
+    }
   }
 };

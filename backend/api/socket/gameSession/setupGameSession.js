@@ -10,6 +10,7 @@ import handleItemAction from './items/handleItemAction.js';
 import initiateGameSessionState from './initiateGameSessionState.js';
 import setGameSessionStateReference from './setGameSessionStateReference.js';
 import handleStructureAction from './structures/handleStructureAction.js';
+import handleConsumableAction from './consumables/handleConsumableAction.js';
 
 let autoSave;
 const save = (gameSessionState, gameSave) => {
@@ -104,6 +105,15 @@ export default async function handleSetupGameSession(socket) {
 
     socket.on('structureAction', (data) => {
       handleStructureAction(
+        gameSessionState,
+        handleUpdateGameSession,
+        data,
+        socket
+      );
+    });
+
+    socket.on('consumableAction', (data) => {
+      handleConsumableAction(
         gameSessionState,
         handleUpdateGameSession,
         data,
