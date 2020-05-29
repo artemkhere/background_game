@@ -24,9 +24,6 @@ export default function initiateGameSessionState(
   }
 
   let gameSchemaReference = setupGameSchema(gameHistoryReference, gameStateReference);
-  // const setGameSchema = (newSchema) => {
-  //   gameSchemaReference = newSchema;
-  // }
   const getGameSchema = () => { return gameSchemaReference; }
 
   return {
