@@ -1,4 +1,5 @@
 import handleBuyConsumable from './handleBuyConsumable.js';
+import handleRemoveConsumable from './handleRemoveConsumable.js';
 
 export default function handleConsumableAction(
   gameSessionState,
@@ -17,6 +18,15 @@ export default function handleConsumableAction(
         gameSessionState,
         handleUpdateGameSession,
         data.consumableName,
+        socket
+      );
+      break;
+    case 'remove':
+      handleRemoveConsumable(
+        gameSessionState,
+        handleUpdateGameSession,
+        targetIndex,
+        targetDescription,
         socket
       );
       break;

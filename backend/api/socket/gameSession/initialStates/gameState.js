@@ -9,5 +9,6 @@ export default
     built: [],
     availableBuildSlots: 1
   },
-  consumables: []
+  consumables: [],
+  lastCycle: undefined
 }

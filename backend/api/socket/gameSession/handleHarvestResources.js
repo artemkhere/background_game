@@ -3,8 +3,7 @@ import applyEffect from './applyEffect.js';
 export default function handleHarvestResources(
   gameSessionState,
   handleUpdateGameSession,
-  socket,
-  lastInteraction
+  socket
 ) {
   const {
     getResources,
@@ -15,11 +14,16 @@ export default function handleHarvestResources(
     setGameHistory
   } = gameSessionState;
 
-  const gameState = getGameState();
-  const builtStructures = gameState.structures.built;
-  const equippedItems = gameState.items.equipped;
+  const newGameState = {...getGameState()};
+  const builtStructures = newGameState.structures.built;
+  const equippedItems = newGameState.items.equipped;
   let harvestValue = 0;
-  let cycles = 1;
+
+  const now = Date.now();
+  if (!newGameState.lastCycle) { newGameState.lastCycle = now; }
+  const cycles = Math.floor((now - newGameState.lastCycle) / 10000);
+  if (cycles > 0) { newGameState.lastCycle = now; }
+  setGameState(newGameState);
 
   builtStructures.forEach(({ name, effect }) => {
     let { impact, amount } = effect.harvest;
@@ -37,12 +41,6 @@ export default function handleHarvestResources(
   equippedItems.forEach(({ effect }) => {
     harvestValue = applyEffect(harvestValue, effect.harvest);
   });
-
-  // harvest all resources from when the user was away
-  if (lastInteraction) {
-    const lastCycle = lastInteraction.getTime();
-    cycles = Math.floor((Date.now() - lastCycle) / 1000)
-  }
 
   const updatedResources = getResources() + harvestValue * cycles;
   setResources(updatedResources);

@@ -74,8 +74,7 @@ export default async function handleSetupGameSession(socket) {
     handleHarvestResources(
       gameSessionState,
       handleUpdateGameSession,
-      socket,
-      gameSave.last_interaction
+      socket
     );
     handleUpdateGameSession();
 
@@ -84,7 +83,7 @@ export default async function handleSetupGameSession(socket) {
       gameSessionState,
       handleUpdateGameSession,
       socket
-    ), 10000);
+    ), 1000);
 
     socket.on('areaClicked', () => {
       handleAreaClicked(
