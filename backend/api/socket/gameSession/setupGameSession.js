@@ -1,5 +1,5 @@
 import handleAreaClicked from './handleAreaClicked.js';
-import handleHarvestResources from './handleHarvestResources.js';
+import handleHarvestResources from './harvestResources/handleHarvestResources.js';
 import createGameSave from './gameSave/createGameSave.js';
 import updateGameSave from './gameSave/updateGameSave.js';
 import getGameSaveByUserID from './gameSave/getGameSaveByUserID.js';

@@ -1,8 +1,6 @@
-import applyEffect from './applyEffect.js';
-
-const calculateCycles = (lastCycle) => {
-  return Math.floor((Date.now() - lastCycle) / 10000);
-}
+import applyEffect from '../applyEffect.js';
+import calculateCycles from './calculateCycles.js';
+import handleConsumablesHarvest from './handleConsumablesHarvest.js';
 
 export default function handleHarvestResources(
   gameSessionState,
@@ -25,14 +23,8 @@ export default function handleHarvestResources(
   let harvestValue = 0;
   const now = Date.now();
 
-  consumables.forEach((consumable) => {
-    let cycles = calculateCycles(consumable.lastCycle);
-    if (cycles > consumable.cycles) {
-      cycles = consumable.cycles;
-      // remove consumable after
-    }
-    consumable.lastCycle = now;
-  });
+  const { consumablesHarvest, newConsumables } = handleConsumablesHarvest(consumables);
+  newGameState.consumables = newConsumables;
 
   if (!newGameState.lastCycle) { newGameState.lastCycle = now; }
   const cycles = calculateCycles(newGameState.lastCycle);
@@ -55,7 +47,7 @@ export default function handleHarvestResources(
     harvestValue = applyEffect(harvestValue, effect.harvest);
   });
 
-  const updatedResources = getResources() + harvestValue * cycles;
+  const updatedResources = getResources() + harvestValue * cycles + consumablesHarvest;
   setResources(updatedResources);
 
   const newHistory = {...getGameHistory()};

@@ -156,7 +156,9 @@ export default
       effectDescription: 'Will produce 20 resources every 10 seconds. Lasts 20 seconds.',
       description: "It's a can of tuna.",
       shouldDisplay: {},
-      shouldDisplayRequirements: 'Will always display'
+      shouldDisplayRequirements: 'Will always display',
+      lastCycle: undefined,
+      purchased: undefined
     }
   }
 };

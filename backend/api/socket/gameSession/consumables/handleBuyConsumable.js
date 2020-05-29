@@ -37,7 +37,9 @@ export default function handleBuyConsumable(
   const newResources = resources - consumable.price;
   setResources(newResources);
 
-  newGameState.consumables.push(consumable);
+  const newConsumable = {...consumable};
+  newConsumable.purchased = Date.now();
+  newGameState.consumables.push(newConsumable);
   setGameState(newGameState);
 
   const newHistory = {...getGameHistory()};
