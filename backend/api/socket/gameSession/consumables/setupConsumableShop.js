@@ -26,6 +26,7 @@ export default function setupConsumableShop(gameHistory, gameState) {
       price: calculatePrice(consumable, gameState),
       shouldDisplay: determineAvailability(consumable.shouldDisplay, gameHistory),
       shouldDisplayRequirements: consumable.shouldDisplayRequirements,
+      lastCycle: Date.now()
     };
   });
 

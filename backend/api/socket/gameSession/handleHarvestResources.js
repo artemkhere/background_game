@@ -1,5 +1,9 @@
 import applyEffect from './applyEffect.js';
 
+const calculateCycles = (lastCycle) => {
+  return Math.floor((Date.now() - lastCycle) / 10000);
+}
+
 export default function handleHarvestResources(
   gameSessionState,
   handleUpdateGameSession,
@@ -17,13 +21,22 @@ export default function handleHarvestResources(
   const newGameState = {...getGameState()};
   const builtStructures = newGameState.structures.built;
   const equippedItems = newGameState.items.equipped;
+  const consumables = newGameState.consumables;
   let harvestValue = 0;
-
   const now = Date.now();
+
+  consumables.forEach((consumable) => {
+    let cycles = calculateCycles(consumable.lastCycle);
+    if (cycles > consumable.cycles) {
+      cycles = consumable.cycles;
+      // remove consumable after
+    }
+    consumable.lastCycle = now;
+  });
+
   if (!newGameState.lastCycle) { newGameState.lastCycle = now; }
-  const cycles = Math.floor((now - newGameState.lastCycle) / 10000);
+  const cycles = calculateCycles(newGameState.lastCycle);
   if (cycles > 0) { newGameState.lastCycle = now; }
-  setGameState(newGameState);
 
   builtStructures.forEach(({ name, effect }) => {
     let { impact, amount } = effect.harvest;
@@ -48,6 +61,8 @@ export default function handleHarvestResources(
   const newHistory = {...getGameHistory()};
   newHistory.resources = newHistory.resources + harvestValue;
   setGameHistory(newHistory);
+
+  setGameState(newGameState);
 
   handleUpdateGameSession();
 }
