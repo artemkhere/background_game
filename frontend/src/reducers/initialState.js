@@ -16,7 +16,8 @@ export default {
       structures: {
         built: [],
         availableBuildSlots: 1
-      }
+      },
+      consumables: []
     },
     gameHistory: {
       resources: 0,
@@ -30,7 +31,8 @@ export default {
     },
     gameSchema: {
       itemShop: [],
-      structureShop: []
+      structureShop: [],
+      consumableShop: []
     }
   },
   applicationState: {

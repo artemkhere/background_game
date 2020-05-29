@@ -1,10 +1,11 @@
-import applyEffect from './applyEffect.js';
+import applyEffect from '../applyEffect.js';
+import calculateCycles from './calculateCycles.js';
+import handleConsumablesHarvest from './handleConsumablesHarvest.js';
 
 export default function handleHarvestResources(
   gameSessionState,
   handleUpdateGameSession,
-  socket,
-  lastInteraction
+  socket
 ) {
   const {
     getResources,
@@ -15,11 +16,19 @@ export default function handleHarvestResources(
     setGameHistory
   } = gameSessionState;
 
-  const gameState = getGameState();
-  const builtStructures = gameState.structures.built;
-  const equippedItems = gameState.items.equipped;
+  const newGameState = {...getGameState()};
+  const builtStructures = newGameState.structures.built;
+  const equippedItems = newGameState.items.equipped;
+  const consumables = newGameState.consumables;
   let harvestValue = 0;
-  let cycles = 1;
+  const now = Date.now();
+
+  const { consumablesHarvest, newConsumables } = handleConsumablesHarvest(consumables);
+  newGameState.consumables = newConsumables;
+
+  if (!newGameState.lastCycle) { newGameState.lastCycle = now; }
+  const cycles = calculateCycles(newGameState.lastCycle);
+  if (cycles > 0) { newGameState.lastCycle = now; }
 
   builtStructures.forEach(({ name, effect }) => {
     let { impact, amount } = effect.harvest;
@@ -38,18 +47,14 @@ export default function handleHarvestResources(
     harvestValue = applyEffect(harvestValue, effect.harvest);
   });
 
-  // harvest all resources from when the user was away
-  if (lastInteraction) {
-    const lastCycle = lastInteraction.getTime();
-    cycles = Math.floor((Date.now() - lastCycle) / 1000)
-  }
-
-  const updatedResources = getResources() + harvestValue * cycles;
+  const updatedResources = getResources() + harvestValue * cycles + consumablesHarvest;
   setResources(updatedResources);
 
   const newHistory = {...getGameHistory()};
   newHistory.resources = newHistory.resources + harvestValue;
   setGameHistory(newHistory);
+
+  setGameState(newGameState);
 
   handleUpdateGameSession();
 }

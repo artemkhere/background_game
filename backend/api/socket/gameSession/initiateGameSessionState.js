@@ -16,15 +16,15 @@ export default function initiateGameSessionState(
   const getGameState = () => { return gameStateReference; }
   const setGameState = (newState) => { gameStateReference = newState; }
 
-  let gameSchemaReference = setupGameSchema(gameHistory);
-  const getGameSchema = () => { return gameSchemaReference; }
-
   let gameHistoryReference = gameHistory;
   const getGameHistory = () => { return gameHistoryReference; }
   const setGameHistory = (newHistory) => {
     gameHistory = newHistory;
-    gameSchemaReference = setupGameSchema(newHistory);
+    gameSchemaReference = setupGameSchema(newHistory, gameStateReference);
   }
+
+  let gameSchemaReference = setupGameSchema(gameHistoryReference, gameStateReference);
+  const getGameSchema = () => { return gameSchemaReference; }
 
   return {
     getGameSaveID,

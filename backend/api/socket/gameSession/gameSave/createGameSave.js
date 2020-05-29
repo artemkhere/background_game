@@ -16,7 +16,7 @@ export default async function createGameSave(
       INSERT
       INTO game_saves(user_id, resources, game_state, game_history, created_on, last_interaction)
       VALUES($1, $2, $3, $4, to_timestamp($5), to_timestamp($6))
-      RETURNING id, resources, game_state, game_history
+      RETURNING id, resources, game_state, game_history, created_on, last_interaction
     `,
       [userID, resources, gameState, gameHistory, now, now]
     );
@@ -25,7 +25,7 @@ export default async function createGameSave(
       INSERT
       INTO game_saves(resources, game_state, game_history, created_on, last_interaction)
       VALUES($1, $2, $3, to_timestamp($4), to_timestamp($5))
-      RETURNING id, resources, game_state, game_history
+      RETURNING id, resources, game_state, game_history, created_on, last_interaction
     `,
       [resources, gameState, gameHistory, now, now]
     );

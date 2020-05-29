@@ -1,5 +1,5 @@
 import handleAreaClicked from './handleAreaClicked.js';
-import handleHarvestResources from './handleHarvestResources.js';
+import handleHarvestResources from './harvestResources/handleHarvestResources.js';
 import createGameSave from './gameSave/createGameSave.js';
 import updateGameSave from './gameSave/updateGameSave.js';
 import getGameSaveByUserID from './gameSave/getGameSaveByUserID.js';
@@ -10,6 +10,7 @@ import handleItemAction from './items/handleItemAction.js';
 import initiateGameSessionState from './initiateGameSessionState.js';
 import setGameSessionStateReference from './setGameSessionStateReference.js';
 import handleStructureAction from './structures/handleStructureAction.js';
+import handleConsumableAction from './consumables/handleConsumableAction.js';
 
 let autoSave;
 const save = (gameSessionState, gameSave) => {
@@ -73,8 +74,7 @@ export default async function handleSetupGameSession(socket) {
     handleHarvestResources(
       gameSessionState,
       handleUpdateGameSession,
-      socket,
-      gameSave.last_interaction
+      socket
     );
     handleUpdateGameSession();
 
@@ -83,7 +83,7 @@ export default async function handleSetupGameSession(socket) {
       gameSessionState,
       handleUpdateGameSession,
       socket
-    ), 10000);
+    ), 1000);
 
     socket.on('areaClicked', () => {
       handleAreaClicked(
@@ -104,6 +104,15 @@ export default async function handleSetupGameSession(socket) {
 
     socket.on('structureAction', (data) => {
       handleStructureAction(
+        gameSessionState,
+        handleUpdateGameSession,
+        data,
+        socket
+      );
+    });
+
+    socket.on('consumableAction', (data) => {
+      handleConsumableAction(
         gameSessionState,
         handleUpdateGameSession,
         data,
