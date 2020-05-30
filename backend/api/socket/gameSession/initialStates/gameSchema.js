@@ -81,6 +81,7 @@ export default
       canBePurchasedRequirements: 'You need a Birb to purchase a Wabbit.',
     },
   },
+  structureBuildSlotPrices: [0, 10, 100, 1000, 10000],
   structures: {
     nastyToilet: {
       name: 'Nasty Toilet',

@@ -16,6 +16,13 @@ function StructureSlots(props) {
     }
   }
 
+  const handleBuyBuildSlot = () => {
+    socketEmit({
+      eventName: 'structureAction',
+      data: { actionType: 'buyBuildSlot' }
+    });
+  }
+
   const structureSlots = (structuresBuilt) => {
     return (
       <>
@@ -35,6 +42,7 @@ function StructureSlots(props) {
     <div style={{ textAlign: "left" }}>
       <div>Structures:</div>
       {structureSlots(gameState.structures.built)}
+      <button onClick={handleBuyBuildSlot}>+</button>
     </div>
   );
 }
