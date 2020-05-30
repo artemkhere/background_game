@@ -12,6 +12,7 @@ import ItemsEquipped from './items/ItemsEquipped';
 import StructureShop from './structures/StructureShop';
 import StructureSlots from './structures/StructureSlots';
 import ConsumableShop from './consumables/ConsumableShop';
+import CurrentConsumables from './consumables/CurrentConsumables';
 
 function GameSession(props) {
   const { error, loading } = props.socket;
@@ -45,6 +46,7 @@ function GameSession(props) {
       <StructureShop />
       <StructureSlots />
       <ConsumableShop />
+      <CurrentConsumables />
     </div>
   );
 }
