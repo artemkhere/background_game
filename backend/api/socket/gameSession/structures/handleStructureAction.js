@@ -1,5 +1,6 @@
 import handleBuyStructure from './handleBuyStructure.js';
 import handleSellStructure from './handleSellStructure.js';
+import handleBuyBuildSlot from './handleBuyBuildSlot.js';
 
 export default function handleStructureAction(
   gameSessionState,
@@ -26,6 +27,13 @@ export default function handleStructureAction(
         gameSessionState,
         handleUpdateGameSession,
         data.builtIndex,
+        socket
+      );
+      break;
+    case 'buyBuildSlot':
+      handleBuyBuildSlot(
+        gameSessionState,
+        handleUpdateGameSession,
         socket
       );
       break;
