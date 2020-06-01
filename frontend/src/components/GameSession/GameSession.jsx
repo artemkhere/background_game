@@ -5,7 +5,7 @@ import {
   connectToSocket, disconnectFromSocket, socketEmit
 } from '../../actions/socketActions';
 import { setCurrentScreen } from '../../actions/applicationStateActions';
-import ClickableArea from '../ClickableArea';
+import ClickableArea from './ClickableArea';
 import ItemShop from './items/ItemShop';
 import ItemInventory from './items/ItemInventory';
 import ItemsEquipped from './items/ItemsEquipped';

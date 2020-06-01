@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { socketEmit } from '../actions/socketActions';
+import { socketEmit } from '../../actions/socketActions';
 
 function ClickableArea(props) {
   const handleClick = () => {
@@ -9,8 +9,11 @@ function ClickableArea(props) {
   }
 
   return (
-    <div>
-      <button onClick={handleClick}>
+    <div className="waste-container">
+      <button
+        className="waste-button"
+        onClick={handleClick}
+      >
         Click me
       </button>
     </div>

@@ -1,0 +1,13 @@
+.waste-container {
+  min-width: 200px;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+
+  .waste-button {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #bbb;
+  }
+}
