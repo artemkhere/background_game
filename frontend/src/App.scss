@@ -1,3 +1,16 @@
+// import starting from the src/ folder
+// @import "variables.scss";
+
+// $primaryColor: #BADA55;
+
+// can also be relative import
+// @import "./variables.scss";
+
+// we can use the $primaryColor variable now
+// h1, h2 {
+//   color: $primaryColor;
+// }
+
 .waste-container {
   min-width: 200px;
   min-height: 200px;
