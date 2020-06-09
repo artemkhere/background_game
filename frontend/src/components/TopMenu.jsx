@@ -24,6 +24,7 @@ function TopMenu(props) {
   const handleLogout = () => {
     disconnectFromSocket();
     localStorage.removeItem('jwt');
+    localStorage.removeItem('gameSaveID');
     setUserLoggedIn(false);
     setCurrentScreen('Logout');
   }

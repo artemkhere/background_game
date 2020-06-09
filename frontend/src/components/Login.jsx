@@ -38,6 +38,7 @@ function Login(props) {
         loggedIn: true
       };
       setUserData(userData);
+      localStorage.removeItem('gameSaveID');
       setLoginStep('LoginSuccess');
       setApplicationLoading(false);
     } catch (error) {

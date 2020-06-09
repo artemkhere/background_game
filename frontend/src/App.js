@@ -19,25 +19,22 @@ function App(props) {
   const { setUserData, user, applicationState } = props;
 
   const authenticate = async () => {
-    const jwt = localStorage.getItem('jwt');
-
-    if (jwt && !user.loggedIn) {
-      try {
-        const authResponse = await axios.post("http://127.0.0.1:6969/api/auth", { token: jwt });
-        const userData = {
-          id: authResponse.data.id,
-          email: authResponse.data.email,
-          loggedIn: true
-        };
-        setUserData(userData);
-      } catch (error) {
-        console.log('Error: failed to auth with jwt.')
-      }
+    try {
+      const authResponse = await axios.post("http://127.0.0.1:6969/api/auth", { token: jwt });
+      const userData = {
+        id: authResponse.data.id,
+        email: authResponse.data.email,
+        loggedIn: true
+      };
+      setUserData(userData);
+    } catch (error) {
+      console.error('Error: failed to auth with jwt.')
     }
   }
 
   useEffect(() => {
-    authenticate();
+    const jwt = localStorage.getItem('jwt');
+    if (jwt && !user.loggedIn) { authenticate(); }
   });
 
   const renderMainSection = () => {
