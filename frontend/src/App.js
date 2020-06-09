@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+import "./App.scss";
+
 import { setUserData } from './actions/userActions';
 
 import TopMenu from './components/TopMenu';
