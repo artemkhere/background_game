@@ -42,7 +42,7 @@ export default async function handleSetupGameSession(socket) {
       return;
     }
 
-    const { userID, token } = data;
+    const { userID, gameSaveID, token } = data;
     const userLoggedIn = userID !== 0 && token;
     if (userLoggedIn && !verifyUser(userID, token)) {
       socket.emit('gameSessionError', { message: 'Failed user verification.' });
@@ -60,9 +60,13 @@ export default async function handleSetupGameSession(socket) {
       } else {
         await updateGameSaveLastInteraction(gameSave.id)
       }
-    } else {
-      gameSave = await createGameSave();
+    }}
+
+    if (!userLoggedIn && gameSaveID) {
+      gameSave = await getGameSaveBySaveID(gameSaveID);
     }
+
+    if (!gameSave) { gameSave = await createGameSave(); }
 
     let gameSessionState = initiateGameSessionState(
       gameSave.id,

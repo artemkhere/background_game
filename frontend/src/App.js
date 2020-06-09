@@ -18,7 +18,7 @@ import Logout from './components/Logout';
 function App(props) {
   const { setUserData, user, applicationState } = props;
 
-  const authenticate = async () => {
+  const authenticate = async (jwt) => {
     try {
       const authResponse = await axios.post("http://127.0.0.1:6969/api/auth", { token: jwt });
       const userData = {
@@ -34,7 +34,7 @@ function App(props) {
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
-    if (jwt && !user.loggedIn) { authenticate(); }
+    if (jwt && !user.loggedIn) { authenticate(jwt); }
   });
 
   const renderMainSection = () => {

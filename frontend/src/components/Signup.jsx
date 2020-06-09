@@ -33,7 +33,7 @@ function Signup(props) {
       const newUserResponse = await axios.post("http://127.0.0.1:6969/api/signup", {
         email,
         password,
-        gameSaveID: gameSession.gameSaveID
+        gameSaveID: gameSession.gameSaveID || localStorage.getItem('gameSaveID')
       });
       localStorage.setItem('jwt', newUserResponse.data.jwt);
       const userData = {
