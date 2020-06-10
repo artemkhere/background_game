@@ -3,6 +3,7 @@ import handleHarvestResources from './harvestResources/handleHarvestResources.js
 import createGameSave from './gameSave/createGameSave.js';
 import updateGameSave from './gameSave/updateGameSave.js';
 import getGameSaveByUserID from './gameSave/getGameSaveByUserID.js';
+import getGameSaveBySaveID from './gameSave/getGameSaveBySaveID.js';
 import assignGameSaveToUser from './gameSave/assignGameSaveToUser.js';
 import updateGameSaveLastInteraction from './gameSave/updateGameSaveLastInteraction.js';
 import verifyUser from './verifyUser.js';
@@ -51,22 +52,29 @@ export default async function handleSetupGameSession(socket) {
     }
 
     let gameSave;
-    if (userLoggedIn) {
-      gameSave = await getGameSaveByUserID(userID);
+    try {
+      if (userLoggedIn) {
+        gameSave = await getGameSaveByUserID(userID);
 
-      if (!gameSave) {
-        gameSave = await createGameSave(userID);
-        await assignGameSaveToUser(gameSave.id, userID)
-      } else {
-        await updateGameSaveLastInteraction(gameSave.id)
+        if (!gameSave && gameSaveID) {
+          gameSave = await assignGameSaveToUser(gameSaveID, userID);
+        } else if (!gameSave) {
+          gameSave = await createGameSave(userID);
+        } else {
+          await updateGameSaveLastInteraction(gameSave.id)
+        }
       }
-    }}
 
-    if (!userLoggedIn && gameSaveID) {
-      gameSave = await getGameSaveBySaveID(gameSaveID);
+      if (!userLoggedIn && gameSaveID) {
+        gameSave = await getGameSaveBySaveID(gameSaveID);
+      }
+
+      if (!gameSave) { gameSave = await createGameSave(); }
+    } catch (error) {
+      socket.emit('gameSessionError', { message: 'Failed fetching Game Save.' });
+      socket.disconnect();
+      return;
     }
-
-    if (!gameSave) { gameSave = await createGameSave(); }
 
     let gameSessionState = initiateGameSessionState(
       gameSave.id,
