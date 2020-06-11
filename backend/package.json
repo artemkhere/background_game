@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "background-game",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Artem K",
@@ -7,6 +7,9 @@
   "scripts": {
     "start": "nodemon --exec babel-node app.js ",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "13.12.0"
   },
   "dependencies": {
     "@babel/cli": "^7.8.4",

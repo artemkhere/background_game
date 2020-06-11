@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 
 import handleLogin from '../api/user/login.js';
 import handleAuth from '../api/user/auth.js';
@@ -22,7 +23,7 @@ router.post('/api/signup', async (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  res.status(200).send({ response: 'Server is running.' });
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 module.exports = router;
