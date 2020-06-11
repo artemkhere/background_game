@@ -19,10 +19,11 @@ export function setSocketLoading(dispatch, loading) {
 export function handleSocketConnect(dispatch, user) {
   const jwt = localStorage.getItem('jwt');
   const userID = user.id;
+  const gameSaveID = localStorage.getItem('gameSaveID');
 
   socketEmit(dispatch)({
     eventName: 'startGameSession',
-    data: { userID, token: jwt }
+    data: { userID, gameSaveID, token: jwt }
   });
 
   dispatch({ type: SOCKET_CONNECT });

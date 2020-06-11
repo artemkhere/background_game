@@ -1,10 +1,7 @@
 import handleAreaClicked from './handleAreaClicked.js';
 import handleHarvestResources from './harvestResources/handleHarvestResources.js';
-import createGameSave from './gameSave/createGameSave.js';
+import setupGameSave from './gameSave/setupGameSave.js';
 import updateGameSave from './gameSave/updateGameSave.js';
-import getGameSaveByUserID from './gameSave/getGameSaveByUserID.js';
-import assignGameSaveToUser from './gameSave/assignGameSaveToUser.js';
-import updateGameSaveLastInteraction from './gameSave/updateGameSaveLastInteraction.js';
 import verifyUser from './verifyUser.js';
 import handleItemAction from './items/handleItemAction.js';
 import initiateGameSessionState from './initiateGameSessionState.js';
@@ -42,7 +39,7 @@ export default async function handleSetupGameSession(socket) {
       return;
     }
 
-    const { userID, token } = data;
+    const { userID, gameSaveID, token } = data;
     const userLoggedIn = userID !== 0 && token;
     if (userLoggedIn && !verifyUser(userID, token)) {
       socket.emit('gameSessionError', { message: 'Failed user verification.' });
@@ -51,17 +48,13 @@ export default async function handleSetupGameSession(socket) {
     }
 
     let gameSave;
-    if (userLoggedIn) {
-      gameSave = await getGameSaveByUserID(userID);
-
-      if (!gameSave) {
-        gameSave = await createGameSave(userID);
-        await assignGameSaveToUser(gameSave.id, userID)
-      } else {
-        await updateGameSaveLastInteraction(gameSave.id)
-      }
-    } else {
-      gameSave = await createGameSave();
+    try {
+      gameSave = await setupGameSave(userID, gameSaveID, userLoggedIn);
+      if (!gameSave) { throw new Error('No Game Save.'); }
+    } catch (error) {
+      socket.emit('gameSessionError', { message: 'Failed fetching Game Save.' });
+      socket.disconnect();
+      return;
     }
 
     let gameSessionState = initiateGameSessionState(
