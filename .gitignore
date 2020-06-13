@@ -1,35 +1,35 @@
 # dependencies
-/app/client/node_modules
-/app/client/build
-/app/client/.pnp
-/app/client/.pnp.js
-/app/node_modules
+/client/node_modules
+/client/build
+/client/.pnp
+/client/.pnp.js
+/node_modules
 
 # testing
-/app/client/coverage
-/app/coverage
+/client/coverage
+/coverage
 
 # production
-/app/client/build
+/client/build
 
 # misc
 .DS_Store
-/app/client/.DS_Store
-/app/client/.env.local
-/app/client/.env.development.local
-/app/client/.env.test.local
-/app/client/.env.production.local
-/app/client/npm-debug.log*
-/app/client/yarn-debug.log*
-/app/client/yarn-error.log*
+/client/.DS_Store
+/client/.env.local
+/client/.env.development.local
+/client/.env.test.local
+/client/.env.production.local
+/client/npm-debug.log*
+/client/yarn-debug.log*
+/client/yarn-error.log*
 
-/app/.DS_Store
-/app/database.json
-/app/config.js
-/app/.env.local
-/app/.env.development.local
-/app/.env.test.local
-/app/.env.production.local
-/app/npm-debug.log*
-/app/yarn-debug.log*
-/app/yarn-error.log*
+/.DS_Store
+/database.json
+/config.js
+/.env.local
+/.env.development.local
+/.env.test.local
+/.env.production.local
+/npm-debug.log*
+/yarn-debug.log*
+/yarn-error.log*
