@@ -2,7 +2,7 @@ import validator from 'validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import db from '../../dbConnection.js';
+import getDB from '../../dbConnection.js';
 import config from '../../config.js';
 import attachGameSaveToNewUser from './attachGameSaveToNewUser.js';
 
@@ -12,6 +12,7 @@ export default async function handleSignup(body) {
   }
 
   const { email, password, gameSaveID } = body;
+  const db = getDB();
 
   if (!validator.isEmail(email) || password.length < 4) {
     return { status: 400, data: { message: 'Bad data.' } };

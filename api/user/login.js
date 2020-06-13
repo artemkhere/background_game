@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import db from '../../dbConnection.js';
+import getDB from '../../dbConnection.js';
 import config from '../../config.js';
 
 export default async function handleLogin(body) {
@@ -11,6 +11,7 @@ export default async function handleLogin(body) {
 
   const { email, password } = body;
   let user = undefined;
+  const db = getDB();
 
   try {
     user = await db.oneOrNone(

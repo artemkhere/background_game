@@ -1,6 +1,8 @@
-import db from '../../../../dbConnection.js';
+import getDB from '../../../../dbConnection.js';
 
 export default async function assignGameSaveToUser(gameSaveID, userID) {
+  const db = getDB();
+  
   const gameSave = await db.oneOrNone(
     "SELECT * FROM game_saves WHERE id = $1",
     [gameSaveID]

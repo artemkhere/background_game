@@ -3,6 +3,7 @@ import http from 'http';
 import socketIO from 'socket.io';
 import cors from 'cors';
 import path from 'path';
+require('dotenv').config();
 
 import index from './routes/index';
 import setupSocketApi from './api/socket/setup.js';

@@ -1,7 +1,9 @@
-import db from '../../dbConnection.js';
+import getDB from '../../dbConnection.js';
 
 export default async function attachGameSaveToNewUser(gameSaveID, newUser) {
+  const db = getDB();
   let gameSave = undefined;
+
   try {
     gameSave = await db.one(`
       SELECT user_id

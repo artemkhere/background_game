@@ -1,13 +1,22 @@
 // Loading and initializing the library:
 const pgPromise = require('pg-promise')();
-import config from './config.js'
 
-// Preparing the connection details:
-const { user, password, host, database, port } = config.db.dev;
-const connection = `postgres://${user}:${password}@${host}:${port}/${database}`;
+let db;
 
-// Creating a new database instance from the connection details:
-const db = pgPromise(connection);
+export default function getDB() {
+  if (!db) {
+    // Preparing the connection details:
+    const {
+      DB_USER,
+      DB_PASSWORD,
+      DB_HOST,
+      DB_PORT,
+      DB_DATABASE
+    } = process.env;
 
-// Exporting the database object for shared use:
-module.exports = db;
+    const connection = `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}`;
+
+    db = pgPromise(connection);
+  }
+  return db;
+}
