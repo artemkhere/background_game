@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  connectToSocket, disconnectFromSocket, socketEmit
-} from '../../actions/socketActions';
-import { setCurrentScreen } from '../../actions/applicationStateActions';
+import { connectToSocket } from '../../actions/socketActions';
 import ClickableArea from './ClickableArea';
 import ItemShop from './items/ItemShop';
 import ItemInventory from './items/ItemInventory';
@@ -16,12 +13,9 @@ import CurrentConsumables from './consumables/CurrentConsumables';
 
 function GameSession(props) {
   const { error, loading } = props.socket;
-  const { resources, gameState } = props.gameSession;
+  const { resources } = props.gameSession;
 
-  const {
-    connectToSocket, disconnectFromSocket, setCurrentScreen,
-    socketEmit
-  } = props;
+  const { connectToSocket } = props;
 
   if (error) {
     return (
@@ -58,10 +52,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    connectToSocket: connectToSocket(dispatch),
-    disconnectFromSocket: disconnectFromSocket(dispatch),
-    socketEmit: socketEmit(dispatch),
-    setCurrentScreen: setCurrentScreen(dispatch)
+    connectToSocket: connectToSocket(dispatch)
   };
 }
 
