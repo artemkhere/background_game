@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import getDB from '../../dbConnection.js';
-import config from '../../config.js';
 import attachGameSaveToNewUser from './attachGameSaveToNewUser.js';
 
 export default async function handleSignup(body) {
@@ -59,7 +58,7 @@ export default async function handleSignup(body) {
   }
 
   const id = newUser.id;
-  const token = jwt.sign({ id }, config.privateKey, { expiresIn: '30d' });
+  const token = jwt.sign({ id }, process.env.PRIVATE_KEY, { expiresIn: '30d' });
 
   return {
     status: 200,
