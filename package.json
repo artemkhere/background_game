@@ -5,7 +5,8 @@
   "author": "Artem K",
   "license": "MIT",
   "scripts": {
-    "start": "concurrently \"nodemon --exec babel-node app.js\" \"cd client && yarn run start\"",
+    "start": "nodemon --exec babel-node app.js",
+    "start-dev": "concurrently \"nodemon --exec babel-node app.js\" \"cd client && yarn run start\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "yarn install && cd client && yarn install && yarn run build"
   },
