@@ -11,10 +11,11 @@ export default function getDB() {
       DB_PASSWORD,
       DB_HOST,
       DB_PORT,
-      DB_DATABASE
+      DB_DATABASE,
+      DATABASE_URL
     } = process.env;
 
-    const connection = `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}`;
+    const connection = DATABASE_URL || `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}`;
 
     db = pgPromise(connection);
   }

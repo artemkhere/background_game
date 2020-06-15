@@ -24,7 +24,6 @@
 /client/yarn-error.log*
 
 /.DS_Store
-/database.json
 /config.js
 /.env
 /npm-debug.log*
