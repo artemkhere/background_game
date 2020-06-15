@@ -5,10 +5,10 @@
   "author": "Artem K",
   "license": "MIT",
   "scripts": {
-    "start": "db-migrate up && nodemon --exec babel-node app.js",
+    "start": "nodemon --exec babel-node app.js",
     "start-dev": "concurrently \"nodemon --exec babel-node app.js\" \"cd client && yarn run start\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "yarn install && cd client && yarn install && yarn run build"
+    "heroku-postbuild": "yarn install && db-migrate up && cd client && yarn install && yarn run build"
   },
   "engines": {
     "node": "13.12.0"
