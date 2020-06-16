@@ -30,7 +30,7 @@ function Signup(props) {
     setApplicationLoading(true);
 
     try {
-      const newUserResponse = await axios.post("http://127.0.0.1:6969/api/signup", {
+      const newUserResponse = await axios.post(`${process.env.REACT_APP_HOST_URL}/api/signup`, {
         email,
         password,
         gameSaveID: gameSession.gameSaveID || localStorage.getItem('gameSaveID')

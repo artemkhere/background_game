@@ -8,7 +8,7 @@ require('dotenv').config();
 import index from './routes/index';
 import setupSocketApi from './api/socket/setup.js';
 
-const port = process.env.PORT || 6969;
+const port = process.env.PORT || 80;
 const app = express();
 
 // CORS - currently allow all requests

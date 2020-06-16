@@ -6,9 +6,9 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon --exec babel-node app.js",
-    "start-dev": "concurrently \"nodemon --exec babel-node app.js\" \"cd client && yarn run start\"",
+    "start-dev": "concurrently \"nodemon --exec babel-node app.js\" \"cd client && REACT_APP_HOST_URL=http://127.0.0.1:6969 yarn run start\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "yarn install && db-migrate up && cd client && yarn install && yarn run build"
+    "heroku-postbuild": "yarn install && db-migrate up && cd client && yarn install && REACT_APP_HOST_URL=https://background-game-artem.herokuapp.com:80 yarn run build"
   },
   "engines": {
     "node": "13.12.0"

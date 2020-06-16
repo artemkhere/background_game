@@ -30,7 +30,7 @@ function Login(props) {
     setApplicationLoading(true);
 
     try {
-      const loginResponse = await axios.post("http://127.0.0.1:6969/api/login", { email, password });
+      const loginResponse = await axios.post(`${process.env.REACT_APP_HOST_URL}/api/login`, { email, password });
       localStorage.setItem('jwt', loginResponse.data.jwt);
       const userData = {
         id: loginResponse.data.id,
