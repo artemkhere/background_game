@@ -1,6 +1,8 @@
-import db from '../../../../dbConnection.js';
+import getDB from '../../../../dbConnection.js';
 
 export default async function updateGameSaveLastInteraction(gameSaveID) {
+  const db = getDB();
+
   db.none(`
     UPDATE game_saves
     SET last_interaction = to_timestamp($1)

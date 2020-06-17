@@ -5,8 +5,10 @@
   "author": "Artem K",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon --exec babel-node app.js ",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon --exec babel-node app.js",
+    "start-dev": "concurrently \"nodemon --exec babel-node app.js\" \"cd client && REACT_APP_HOST_URL=http://127.0.0.1:6969 yarn run start\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "yarn install && db-migrate up && cd client && yarn install && REACT_APP_HOST_URL=http://background-game-artem.herokuapp.com:80 yarn run build"
   },
   "engines": {
     "node": "13.12.0"
@@ -18,6 +20,9 @@
     "@babel/preset-env": "^7.9.5",
     "bcrypt": "^4.0.1",
     "cors": "^2.8.5",
+    "db-migrate": "^0.11.11",
+    "db-migrate-pg": "^1.2.2",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.3",

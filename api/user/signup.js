@@ -2,8 +2,7 @@ import validator from 'validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import db from '../../dbConnection.js';
-import config from '../../config.js';
+import getDB from '../../dbConnection.js';
 import attachGameSaveToNewUser from './attachGameSaveToNewUser.js';
 
 export default async function handleSignup(body) {
@@ -12,6 +11,7 @@ export default async function handleSignup(body) {
   }
 
   const { email, password, gameSaveID } = body;
+  const db = getDB();
 
   if (!validator.isEmail(email) || password.length < 4) {
     return { status: 400, data: { message: 'Bad data.' } };
@@ -58,7 +58,7 @@ export default async function handleSignup(body) {
   }
 
   const id = newUser.id;
-  const token = jwt.sign({ id }, config.privateKey, { expiresIn: '30d' });
+  const token = jwt.sign({ id }, process.env.PRIVATE_KEY, { expiresIn: '30d' });
 
   return {
     status: 200,

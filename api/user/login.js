@@ -1,8 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import db from '../../dbConnection.js';
-import config from '../../config.js';
+import getDB from '../../dbConnection.js';
 
 export default async function handleLogin(body) {
   if (!body || !body.email || !body.password) {
@@ -11,6 +10,7 @@ export default async function handleLogin(body) {
 
   const { email, password } = body;
   let user = undefined;
+  const db = getDB();
 
   try {
     user = await db.oneOrNone(
@@ -34,7 +34,7 @@ export default async function handleLogin(body) {
 
   if (match) {
     const id = user.id;
-    const token = await jwt.sign({ id }, config.privateKey, { expiresIn: '30d' });
+    const token = await jwt.sign({ id }, process.env.PRIVATE_KEY, { expiresIn: '30d' });
 
     return {
       status: 200,

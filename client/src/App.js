@@ -20,7 +20,7 @@ function App(props) {
 
   const authenticate = async (jwt) => {
     try {
-      const authResponse = await axios.post("http://127.0.0.1:6969/api/auth", { token: jwt });
+      const authResponse = await axios.post(`${process.env.REACT_APP_HOST_URL}/api/auth`, { token: jwt });
       const userData = {
         id: authResponse.data.id,
         email: authResponse.data.email,

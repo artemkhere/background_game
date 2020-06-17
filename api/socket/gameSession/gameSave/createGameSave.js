@@ -1,4 +1,4 @@
-import db from '../../../../dbConnection.js';
+import getDB from '../../../../dbConnection.js';
 import initialGameState from '../initialStates/gameState.js';
 import initialGameHistory from '../initialStates/gameHistory.js';
 
@@ -10,6 +10,7 @@ export default async function createGameSave(
 ) {
   let gameSave;
   const now = Date.now() / 1000.0;
+  const db = getDB();
 
   if (userID) {
     gameSave = await db.one(`

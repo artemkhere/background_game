@@ -1,10 +1,11 @@
-import db from '../../../../dbConnection.js';
+import getDB from '../../../../dbConnection.js';
 
 export default function updateGameSave(gameSessionState, gameSave) {
   // nothing to do
   if (!gameSessionState || !gameSave) { return; }
 
   const { getResources, getGameState, getGameHistory } = gameSessionState;
+  const db = getDB();
 
   db.none(`
     UPDATE game_saves

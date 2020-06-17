@@ -4,7 +4,7 @@ import createSocketMiddleware from './socketMiddleware';
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const socketMiddleware = createSocketMiddleware("http://127.0.0.1:6969");
+const socketMiddleware = createSocketMiddleware(process.env.REACT_APP_HOST_URL);
 
 export default function configureStore() {
   return createStore(

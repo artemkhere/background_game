@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import db from '../../dbConnection.js';
-import config from '../../config.js';
+import getDB from '../../dbConnection.js';
 
 export default async function handleAuth(body) {
   if (!body || !body.token) {
@@ -9,7 +8,8 @@ export default async function handleAuth(body) {
   }
 
   const { token } = body;
-  const decodedToken = jwt.verify(token, config.privateKey);
+  const decodedToken = jwt.verify(token, process.env.PRIVATE_KEY);
+  const db = getDB();
 
   const user = await db.oneOrNone(
     "SELECT * FROM users WHERE id = $1",

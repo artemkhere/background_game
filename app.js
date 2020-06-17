@@ -3,11 +3,12 @@ import http from 'http';
 import socketIO from 'socket.io';
 import cors from 'cors';
 import path from 'path';
+require('dotenv').config();
 
 import index from './routes/index';
 import setupSocketApi from './api/socket/setup.js';
 
-const port = process.env.PORT || 6969;
+const port = process.env.PORT || 80;
 const app = express();
 
 // CORS - currently allow all requests
@@ -19,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
 // serve frontend files
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // routes
 app.use(index);
