@@ -4,11 +4,9 @@ import { connect } from 'react-redux';
 // import { connectToSocket } from '../../actions/socketActions';
 
 export default function Arena(props) {
-  // const [hero, setHero] = useState(initiateHero(hero));
-  // const [enemy, setEnemy] = useState(generateEnemy(1));
-
-  // Similar to componentDidMount and componentDidUpdate:
-  useEffect(() => {});
+  const [hero, setHero] = useState({});
+  const [enemy, setEnemy] = useState({});
+  const [turn, setTurn] = useState(1);
 
   const baseStats = {
     hitChance: 0.75,
@@ -20,7 +18,7 @@ export default function Arena(props) {
     health: 10
   };
 
-  const hero = {
+  const heroModel = {
     attributes: {
       dexterity: 3, // hit chance, crit chance
       agility: 3, // dodge chance, crit dmg multiplier
@@ -119,6 +117,13 @@ export default function Arena(props) {
     return mana;
   }
 
+  const calculateHealth = (stamina, equipped) => {
+    let health = baseStats.health;
+    health += stamina * 2;
+    health += getModifierFromEquipment('health', equipped);
+    return health;
+  }
+
   const generateStats = (attributes, equipped) => {
     const hitChance = calculateHitChance(attributes.dexterity, equipped);
     const critChance = calculateCritChance(attributes.dexterity, equipped);
@@ -126,27 +131,34 @@ export default function Arena(props) {
     const dodgeChance = calculateDodgeChance(attributes.agility, equipped);
     const damage = calculateDamage(attributes.strength, equipped);
     const mana = calculateMana(attributes.wizdom, equipped);
-
-    // mana: 5,
-    // health: 10
+    const health = calculateHealth(attributes.stamina, equipped);
 
     return {
       hitChance,
+      critChance,
+      critMultiplier,
+      dodgeChance,
+      damage,
+      mana,
+      health
     }
   }
 
-  const initiateHero = ({ attributes, equipped }) => {
+  const initiateCharacter = ({ attributes, equipped }) => {
     const listOfEquipment = Object.values(equipped).filter((piece) => {
       return piece != null;
     });
 
     const fullAttributes = applyAttributeModifiersFromEquipment(attributes, listOfEquipment);
     const stats = generateStats(fullAttributes, listOfEquipment);
-
-    console.log(stats);
   }
 
-  initiateHero(hero);
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+    setHero(hero);
+    setEnemy(enemy);
+    setTurn(1);
+  });
 
   const handleTurn = () => {
     console.log("turn handled");
