@@ -14,6 +14,7 @@ import GameSession from './components/GameSession/GameSession';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Logout from './components/Logout';
+import Arena from './components/Arena/Arena';
 
 function App(props) {
   const { setUserData, user, applicationState } = props;
@@ -55,6 +56,9 @@ function App(props) {
         break;
       case 'Logout':
         toRender = <Logout />;
+        break;
+      case 'Arena':
+        toRender = <Arena />;
         break;
       default:
         toRender = <div>Error</div>;
