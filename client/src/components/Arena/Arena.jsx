@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 // import { connectToSocket } from '../../actions/socketActions';
 
 export default function Arena(props) {
-  const [hero, setHero] = useState({});
-  const [enemy, setEnemy] = useState({});
-  const [turn, setTurn] = useState(1);
-
   const baseStats = {
     hitChance: 0.75,
     critChance: 0.05,
@@ -151,21 +147,47 @@ export default function Arena(props) {
 
     const fullAttributes = applyAttributeModifiersFromEquipment(attributes, listOfEquipment);
     const stats = generateStats(fullAttributes, listOfEquipment);
+
+    return {
+      attributes: fullAttributes,
+      stats
+    };
   }
 
+  const [hero, setHero] = useState(initiateCharacter(heroModel));
+  const [enemy, setEnemy] = useState(initiateCharacter(heroModel));
+  const [turn, setTurn] = useState(1);
+
   // Similar to componentDidMount and componentDidUpdate:
-  useEffect(() => {
-    setHero(hero);
-    setEnemy(enemy);
-    setTurn(1);
-  });
+  useEffect(() => {});
 
   const handleTurn = () => {
     console.log("turn handled");
   }
 
+  const renderHero = () => {
+    const attributes = Object.keys(hero.attributes).map((attName) => {
+      return <li>{attName}: {hero.attributes[attName]}</li>
+    });
+    const stats = Object.keys(hero.stats).map((statName) => {
+      return <li>{statName}: {hero.stats[statName]}</li>
+    });
+
+    return (
+      <div>
+        <h3>Hero:</h3>
+        <h5>Attributes</h5>
+        <ul>{attributes}</ul>
+        <br />
+        <h5>Stats</h5>
+        <ul>{stats}</ul>
+      </div>
+    );
+  }
+
   return (
-    <div style={{ textAlign: "center" }}>
+    <div>
+      {hero.attributes && hero.stats && renderHero()}
       <button onClick={handleTurn}>Attack</button>
     </div>
   );
