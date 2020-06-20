@@ -214,7 +214,7 @@ export default function Arena(props) {
     let logUpdate = '';
 
     if (criticalHit) {
-      damage = damage * calculateCritMultiplier(attacker.attributes.agility, attacker.equipped);
+      damage = Math.ceil(damage * calculateCritMultiplier(attacker.attributes.agility, attacker.equipped));
       logUpdate = logUpdate + "CRITICAL! ";
     }
 
@@ -285,8 +285,7 @@ export default function Arena(props) {
 
     return (
       <div>
-        <h3>Hero:</h3>
-        <br />
+        <h3>Intergalagctic Chuckle Fish</h3>
         <h5>Stats</h5>
         <ul>{stats}</ul>
       </div>
@@ -303,8 +302,7 @@ export default function Arena(props) {
 
     return (
       <div style={{ textAlign: 'right' }}>
-        <h3>Enemy:</h3>
-        <br />
+        <h3>Sweet Pickle Water Mutant</h3>
         <h5>Stats</h5>
         <ul>{stats}</ul>
       </div>
