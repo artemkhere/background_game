@@ -11,6 +11,7 @@ export default function Arena(props) {
     dodgeChance: 0.1,
     damage: 1,
     mana: 5,
+    spells: 1,
     health: 10
   };
 
@@ -18,9 +19,9 @@ export default function Arena(props) {
     attributes: {
       dexterity: 3, // hit chance, crit chance
       agility: 3, // dodge chance, crit dmg multiplier
-      intellect: 3, // spell requirements, chances to hit, spell effect
+      intellect: 3, // spell requirements, spell effect
       stamina: 5, // amount of health
-      wizdom: 3, // amount of mana
+      wizdom: 3, // amount of mana, amount of spells
       strength: 2 // dmg done
     },
     equipped: {
@@ -101,6 +102,7 @@ export default function Arena(props) {
   const calculateDamage = (strength, equipped, enemyArmour = 0) => {
     let damage = baseStats.damage;
     damage += strength;
+    damage += Math.floor(Math.random() * Math.ceil(strength / 3));
     damage += getModifierFromEquipment('damage', equipped);
     damage -= enemyArmour;
     return damage > 0 ? damage : 1;
@@ -111,6 +113,13 @@ export default function Arena(props) {
     mana += wizdom * 2;
     mana += getModifierFromEquipment('mana', equipped);
     return mana;
+  }
+
+  const calculateSpells = (wizdom, equipped) => {
+    let spells = baseStats.spells;
+    spells += Math.floor(wizdom / 3);
+    spells += getModifierFromEquipment('spells', equipped);
+    return spells;
   }
 
   const calculateHealth = (stamina, equipped) => {
@@ -127,6 +136,7 @@ export default function Arena(props) {
     const dodgeChance = calculateDodgeChance(attributes.agility, equipped);
     const damage = calculateDamage(attributes.strength, equipped);
     const mana = calculateMana(attributes.wizdom, equipped);
+    const spells = calculateSpells(attributes.wizdom, equipped);
     const health = calculateHealth(attributes.stamina, equipped);
 
     return {
@@ -136,6 +146,7 @@ export default function Arena(props) {
       dodgeChance,
       damage,
       mana,
+      spells,
       health
     }
   }
@@ -150,25 +161,124 @@ export default function Arena(props) {
 
     return {
       attributes: fullAttributes,
-      stats
+      stats,
+      equipped: listOfEquipment
     };
   }
 
   const [hero, setHero] = useState(initiateCharacter(heroModel));
   const [enemy, setEnemy] = useState(initiateCharacter(heroModel));
   const [turn, setTurn] = useState(1);
+  const [log, setLog] = useState('');
 
   // Similar to componentDidMount and componentDidUpdate:
-  useEffect(() => {});
+  // useEffect(() => {});
 
-  const handleTurn = () => {
-    console.log("turn handled");
+  const getAttackResult = (attacker, defender) => {
+    console.log(Math.random())
+    const attackHits = Math.random() <= calculateHitChance(
+      attacker.attributes.dexterity,
+      attacker.equipped,
+      defender.attributes.agility
+    );
+
+    if (!attackHits) {
+      return {
+        logUpdate: log + "Attacker missed. ",
+        damage: 0
+      };
+    }
+
+    const enemyDodges = Math.random() <= calculateDodgeChance(
+      defender.attributes.agility,
+      defender.equipped,
+      attacker.attributes.dexterity
+    );
+
+    if (enemyDodges) {
+      return {
+        logUpdate: log + "Defender dodges. ",
+        damage: 0
+      };
+    }
+
+    const criticalHit = Math.random() <= calculateCritChance(
+      attacker.attributes.dexterity,
+      attacker.equipped
+    );
+
+    let damage = calculateDamage(
+      attacker.attributes.strength,
+      attacker.equipped
+    );
+    let logUpdate = '';
+
+    if (criticalHit) {
+      damage = damage * calculateCritMultiplier(attacker.attributes.agility, attacker.equipped);
+      logUpdate = logUpdate + "CRITICAL! ";
+    }
+
+    return {
+      logUpdate: logUpdate + `Attacker deals ${damage} damage. `,
+      damage
+    };
+  }
+
+  const handleHeroAction = (source, target, action, specialMove) => {
+    switch(action) {
+      case 'attack':
+        const { logUpdate, damage } = getAttackResult(source, target);
+        const udpatedEnemy = {...enemy};
+        udpatedEnemy.stats.health -= damage;
+        setEnemy(udpatedEnemy);
+        console.log("HERO: " + logUpdate)
+        setLog(log + logUpdate);
+        break;
+      default:
+        console.log("Unknown move");
+        return "Unknown move";
+    }
+  }
+
+  const handleEnemyAction = (source, target, action, specialMove) => {
+    switch(action) {
+      case 'attack':
+        const { logUpdate, damage } = getAttackResult(source, target);
+        const udpatedHero = {...hero};
+        udpatedHero.stats.health -= damage;
+        setHero(udpatedHero);
+        console.log("ENEMY: " + logUpdate)
+        setLog(log + logUpdate);
+        break;
+      default:
+        console.log("Unknown move");
+        return "Unknown move";
+    }
+  }
+
+  const handleTurn = (heroAction) => {
+    return () => {
+      setLog("Next turn");
+
+      handleHeroAction(hero, enemy, heroAction);
+      handleEnemyAction(enemy, hero, 'attack');
+
+      if (hero.stats.health <= 0) {
+        hero.stats.health = 0;
+        setLog('Hero lost!')
+      }
+
+      if (enemy.stats.health <= 0) {
+        hero.stats.health = 0;
+        setLog('Hero won!')
+      }
+    }
   }
 
   const renderHero = () => {
-    const attributes = Object.keys(hero.attributes).map((attName) => {
-      return <li>{attName}: {hero.attributes[attName]}</li>
-    });
+    // const attributes = Object.keys(hero.attributes).map((attName) => {
+    //   return <li>{attName}: {hero.attributes[attName]}</li>
+    // });
     const stats = Object.keys(hero.stats).map((statName) => {
       return <li>{statName}: {hero.stats[statName]}</li>
     });
@@ -176,8 +286,6 @@ export default function Arena(props) {
     return (
       <div>
         <h3>Hero:</h3>
-        <h5>Attributes</h5>
-        <ul>{attributes}</ul>
         <br />
         <h5>Stats</h5>
         <ul>{stats}</ul>
@@ -185,10 +293,33 @@ export default function Arena(props) {
     );
   }
 
+  const renderEnemy = () => {
+    // const attributes = Object.keys(enemy.attributes).map((attName) => {
+    //   return <li>{attName}: {enemy.attributes[attName]}</li>
+    // });
+    const stats = Object.keys(enemy.stats).map((statName) => {
+      return <li>{statName}: {enemy.stats[statName]}</li>
+    });
+
+    return (
+      <div style={{ textAlign: 'right' }}>
+        <h3>Enemy:</h3>
+        <br />
+        <h5>Stats</h5>
+        <ul>{stats}</ul>
+      </div>
+    );
+  }
+
+  // combat process
+
   return (
     <div>
       {hero.attributes && hero.stats && renderHero()}
-      <button onClick={handleTurn}>Attack</button>
+      <h2 style={{ textAlign: 'center' }}>Log</h2>
+      <p style={{ textAlign: 'center' }}>{log}</p>
+      <button onClick={handleTurn('attack')}>Attack</button>
+      {enemy.attributes && enemy.stats && renderEnemy()}
     </div>
   );
 }
