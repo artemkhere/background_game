@@ -57,6 +57,7 @@ function TopMenu(props) {
   return (
     <div style={{ textAlign: "right" }}>
       <button onClick={handlePlay}>Play</button>
+      <button onClick={() => { setCurrentScreen('Arena'); }}>Arena Experiment</button>
       {renderMainSection()}
     </div>
   );
