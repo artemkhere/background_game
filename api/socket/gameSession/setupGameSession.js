@@ -8,6 +8,7 @@ import initiateGameSessionState from './initiateGameSessionState.js';
 import setGameSessionStateReference from './setGameSessionStateReference.js';
 import handleStructureAction from './structures/handleStructureAction.js';
 import handleConsumableAction from './consumables/handleConsumableAction.js';
+import initiateBattle from './arena/initiateBattle.js';
 
 let autoSave;
 const save = (gameSessionState, gameSave) => {
@@ -111,6 +112,39 @@ export default async function handleSetupGameSession(socket) {
         data,
         socket
       );
+    });
+
+    socket.on('initiateBattle', (data) => {
+      const heroModel = {
+        attributes: {
+          dexterity: 3, // hit chance, crit chance
+          agility: 3, // dodge chance, crit dmg multiplier
+          intellect: 3, // spell requirements, spell effect
+          stamina: 5, // amount of health
+          wizdom: 3, // amount of mana, amount of spells
+          strength: 2 // dmg done
+        },
+        equipped: {
+          weapon: undefined,
+          ring: undefined,
+          amulet: undefined,
+          head: undefined,
+          body: undefined,
+          legs: {
+            name: 'Poopy booties',
+            rarity: 'common',
+            effects: {
+              dexterity: 1,
+              damage: 1,
+              hitChance: 0.05
+            }
+          },
+          feet: undefined,
+        }
+      }
+
+      const { getHero, getEnemy }= initiateBattle(heroModel, heroModel);
+      socket.emit('battleStarted', { hero: getHero(), enemy: getEnemy() });
     });
 
     ['disconnect', 'connect_timeout', 'connect_error', 'error'].forEach((eventName) => {

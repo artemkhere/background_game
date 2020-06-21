@@ -12,11 +12,11 @@ export default function initiateGameSessionState(
   const getResources = () => { return resourcesReference; }
   const setResources = (newResources) => { resourcesReference = newResources; }
 
-  let gameStateReference = gameState;
+  let gameStateReference = {...gameState};
   const getGameState = () => { return gameStateReference; }
   const setGameState = (newState) => { gameStateReference = newState; }
 
-  let gameHistoryReference = gameHistory;
+  let gameHistoryReference = {...gameHistory};
   const getGameHistory = () => { return gameHistoryReference; }
   const setGameHistory = (newHistory) => {
     gameHistory = newHistory;
