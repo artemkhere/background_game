@@ -123,32 +123,70 @@ const generateStats = (attributes, equipped) => {
   }
 }
 
-export default function initiateBattle(heroModel, enemyModel) {
-  let heroReference = initiateCharacter(heroModel);
-  const getHero = () => { return heroReference; }
-  const setHero = (newHero) => { heroReference = newHero; }
+export default function initiateBattle(gameSessionState, socket) {
+  // needs to put all that stuff into gameState.arena.battle instead
+  // gameState.inBattle
+  const {
+    getGameState,
+    setGameState
+  } = gameSessionState;
 
-  let enemyReference = initiateCharacter(enemyModel);
-  const getEnemy = () => { return enemyReference; }
-  const setEnemy = (newEnemy) => { enemyReference = newEnemy; }
+  const gameState = getGameState();
+  // const hero = gameState.arena.selectedHero; // proper place to grab the hero model
+  const hero = {
+    name: 'Jabronie',
+    attributes: {
+      dexterity: 3, // hit chance, crit chance
+      agility: 3, // dodge chance, crit dmg multiplier
+      intellect: 3, // spell requirements, spell effect
+      stamina: 5, // amount of health
+      wizdom: 3, // amount of mana, amount of spells
+      strength: 2 // dmg done
+    },
+    equipped: {
+      weapon: undefined,
+      ring: undefined,
+      amulet: undefined,
+      head: undefined,
+      body: undefined,
+      legs: {
+        name: 'Poopy booties',
+        rarity: 'common',
+        effects: {
+          dexterity: 1,
+          damage: 1,
+          hitChance: 0.05
+        }
+      },
+      feet: undefined,
+    }
+  }
 
-  let logReference = '';
-  const getLog = () => { return logReference; }
-  const setLog = (newLog) => { logReference = newLog; }
+  if (!hero) {
+    socket.emit('operationFailed', { message: "No hero selected." });
+    return;
+  }
+
+  gameState.inBattle = true;
+  gameState.arena.battle = {
+    created: Date.now(),
+    hero: initiateCharacter(hero),
+    enemy: initiateCharacter(hero), // randomly generated in the future or pulled from db
+    log: [],
+    turn: 1,
+    heroEffects: [], // [{ name: 'poison', targetStat: 'health', effect: '-2' }]
+    enemEffects: []
+  }
 
   // in the future!
   // handleTurnSart -- apply poison and debuffs
-  // let turnState = {}
 
-  return {
-    getHero,
-    setHero,
-    getEnemy,
-    setEnemy,
-    getLog,
-    setLog
-  }
+  setGameState(gameState);
+
+  return gameState;
 }
+
+// initiateArena -- inBattle ? - return battle state : show other stuff
 
 // const getAttackResult = (attacker, defender) => {
 //   console.log(Math.random())

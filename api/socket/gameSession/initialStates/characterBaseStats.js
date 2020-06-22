@@ -1,4 +1,5 @@
-export default {
+export default
+{
   hitChance: 0.75,
   critChance: 0.05,
   critMultiplier: 1.5,

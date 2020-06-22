@@ -115,36 +115,9 @@ export default async function handleSetupGameSession(socket) {
     });
 
     socket.on('initiateBattle', (data) => {
-      const heroModel = {
-        attributes: {
-          dexterity: 3, // hit chance, crit chance
-          agility: 3, // dodge chance, crit dmg multiplier
-          intellect: 3, // spell requirements, spell effect
-          stamina: 5, // amount of health
-          wizdom: 3, // amount of mana, amount of spells
-          strength: 2 // dmg done
-        },
-        equipped: {
-          weapon: undefined,
-          ring: undefined,
-          amulet: undefined,
-          head: undefined,
-          body: undefined,
-          legs: {
-            name: 'Poopy booties',
-            rarity: 'common',
-            effects: {
-              dexterity: 1,
-              damage: 1,
-              hitChance: 0.05
-            }
-          },
-          feet: undefined,
-        }
-      }
-
-      const { getHero, getEnemy }= initiateBattle(heroModel, heroModel);
-      socket.emit('battleStarted', { hero: getHero(), enemy: getEnemy() });
+      const gameState = initiateBattle(gameSessionState, socket);
+      handleUpdateGameSession();
+      socket.emit('battleStarted', gameState);
     });
 
     ['disconnect', 'connect_timeout', 'connect_error', 'error'].forEach((eventName) => {

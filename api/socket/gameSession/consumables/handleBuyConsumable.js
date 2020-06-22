@@ -20,7 +20,7 @@ export default function handleBuyConsumable(
     return;
   }
 
-  const newGameState = {...getGameState()};
+  const newGameState = getGameState();
   const consumableShop = setupConsumableShop(getGameHistory(), newGameState);
   const consumable = consumableShop.find(({ name }) => { return name === consumableName; });
   if (!consumable) {
@@ -42,7 +42,7 @@ export default function handleBuyConsumable(
   newGameState.consumables.push(newConsumable);
   setGameState(newGameState);
 
-  const newHistory = {...getGameHistory()};
+  const newHistory = getGameHistory();
   newHistory.purchased.push(consumable);
   setGameHistory(newHistory);
 
