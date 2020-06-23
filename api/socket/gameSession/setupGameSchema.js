@@ -1,6 +1,6 @@
-import setupItemShop from './items/setupItemShop.js';
-import setupStructureShop from './structures/setupStructureShop.js';
-import setupConsumableShop from './consumables/setupConsumableShop.js';
+import setupItemShop from './harvest/items/setupItemShop.js';
+import setupStructureShop from './harvest/structures/setupStructureShop.js';
+import setupConsumableShop from './harvest/consumables/setupConsumableShop.js';
 
 export default function setupGameSchema(gameHistory, gameState) {
   const itemShop = setupItemShop(gameHistory);

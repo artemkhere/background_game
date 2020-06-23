@@ -1,4 +1,4 @@
-import gameSchema from '../initialStates/gameSchema.js';
+import gameSchema from '../../initialStates/gameSchema.js';
 import determineAvailability from '../determineAvailability.js';
 
 const calculatePrice = (consumable, gameState) => {

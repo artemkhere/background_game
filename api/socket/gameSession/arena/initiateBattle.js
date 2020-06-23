@@ -168,17 +168,19 @@ export default function initiateBattle(gameSessionState, socket) {
   }
 
   gameState.inBattle = true;
+  const initialLogRecord = `Battle started between ${hero.name} and ${hero.name}.`
   gameState.arena.battle = {
     created: Date.now(),
     hero: initiateCharacter(hero),
     enemy: initiateCharacter(hero), // randomly generated in the future or pulled from db
-    log: [],
+    log: [initialLogRecord],
     turn: 1,
     heroEffects: [], // [{ name: 'poison', targetStat: 'health', effect: '-2' }]
     enemEffects: []
   }
 
-  // in the future!
+  // what to do -- similar to items, refactor to handle battle actions
+  // on term end determine if battle is over
   // handleTurnSart -- apply poison and debuffs
 
   setGameState(gameState);

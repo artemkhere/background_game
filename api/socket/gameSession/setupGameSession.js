@@ -1,13 +1,17 @@
-import handleAreaClicked from './handleAreaClicked.js';
-import handleHarvestResources from './harvestResources/handleHarvestResources.js';
+import verifyUser from './verifyUser.js';
 import setupGameSave from './gameSave/setupGameSave.js';
 import updateGameSave from './gameSave/updateGameSave.js';
-import verifyUser from './verifyUser.js';
-import handleItemAction from './items/handleItemAction.js';
 import initiateGameSessionState from './initiateGameSessionState.js';
 import setGameSessionStateReference from './setGameSessionStateReference.js';
-import handleStructureAction from './structures/handleStructureAction.js';
-import handleConsumableAction from './consumables/handleConsumableAction.js';
+
+// HARVEST
+import handleAreaClicked from './harvest/handleAreaClicked.js';
+import handleHarvestResources from './harvest/harvestResources/handleHarvestResources.js';
+import handleItemAction from './harvest/items/handleItemAction.js';
+import handleStructureAction from './harvest/structures/handleStructureAction.js';
+import handleConsumableAction from './harvest/consumables/handleConsumableAction.js';
+
+// ARENA
 import initiateBattle from './arena/initiateBattle.js';
 
 let autoSave;
@@ -65,6 +69,8 @@ export default async function handleSetupGameSession(socket) {
       gameSave.game_history
     );
     const handleUpdateGameSession = setGameSessionStateReference(gameSessionState, socket);
+
+    // HARVEST
     handleHarvestResources(
       gameSessionState,
       handleUpdateGameSession,
@@ -72,7 +78,6 @@ export default async function handleSetupGameSession(socket) {
     );
     handleUpdateGameSession();
 
-    autoSave = setInterval(save(gameSessionState, gameSave), 60000);
     autoHarvest = setInterval(harvestResources(
       gameSessionState,
       handleUpdateGameSession,
@@ -114,11 +119,15 @@ export default async function handleSetupGameSession(socket) {
       );
     });
 
+    // ARENA
     socket.on('initiateBattle', (data) => {
       const gameState = initiateBattle(gameSessionState, socket);
       handleUpdateGameSession();
       socket.emit('battleStarted', gameState);
     });
+
+    // UNIVERSAL
+    autoSave = setInterval(save(gameSessionState, gameSave), 60000);
 
     ['disconnect', 'connect_timeout', 'connect_error', 'error'].forEach((eventName) => {
       socket.on(eventName, (data) => {
