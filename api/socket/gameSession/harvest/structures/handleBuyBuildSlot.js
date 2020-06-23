@@ -13,7 +13,7 @@ export default function handleBuyBuildSlot(
   } = gameSessionState;
 
   const gameState = getGameState();
-  const availableBuildSlots = gameState.structures.availableBuildSlots;
+  const availableBuildSlots = gameState.harvest.structures.availableBuildSlots;
   const buildSlotPrice = gameSchema.structureBuildSlotPrices[availableBuildSlots];
 
   if (!buildSlotPrice) {
@@ -26,12 +26,11 @@ export default function handleBuyBuildSlot(
     return;
   }
 
-  const newGameState = {...gameState};
-  newGameState.structures.availableBuildSlots += 1;
-  setGameState(newGameState);
+  gameState.harvest.structures.availableBuildSlots += 1;
+  setGameState(gameState);
 
-  const newResources = getResources() - buildSlotPrice;
-  setResources(newResources);
+  const resources = getResources() - buildSlotPrice;
+  setResources(resources);
 
   handleUpdateGameSession();
 }

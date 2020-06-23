@@ -19,8 +19,8 @@ export default function handleSellStructure(
     return;
   }
 
-  const newGameState = {...getGameState()};
-  const targetStructure = newGameState.structures.built[builtIndex];
+  const gameState = getGameState();
+  const targetStructure = gameState.harvest.structures.built[builtIndex];
 
   if (!targetStructure) {
     socket.emit('operationFailed', { message: "Structure is not in slots." });
@@ -34,11 +34,11 @@ export default function handleSellStructure(
     return;
   }
 
-  const newResources = getResources() + Math.ceil(targetStructure.price / 2);
-  setResources(newResources);
+  const resources = getResources() + Math.ceil(targetStructure.price / 2);
+  setResources(resources);
 
-  newGameState.structures.built.splice(builtIndex, 1);
-  setGameState(newGameState);
+  gameState.harvest.structures.built.splice(builtIndex, 1);
+  setGameState(gameState);
 
   handleUpdateGameSession();
 }

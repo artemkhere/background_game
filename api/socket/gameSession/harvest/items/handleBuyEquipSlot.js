@@ -13,7 +13,7 @@ export default function handleBuyEquipSlot(
   } = gameSessionState;
 
   const gameState = getGameState();
-  const availableEquipSlots = gameState.items.availableEquipSlots;
+  const availableEquipSlots = gameState.harvest.items.availableEquipSlots;
   const equipSlotPrice = gameSchema.itemEquipSlotPrices[availableEquipSlots];
 
   if (!equipSlotPrice) {
@@ -26,12 +26,11 @@ export default function handleBuyEquipSlot(
     return;
   }
 
-  const newGameState = {...gameState};
-  newGameState.items.availableEquipSlots += 1;
-  setGameState(newGameState);
+  gameState.harvest.items.availableEquipSlots += 1;
+  setGameState(gameState);
 
-  const newResources = getResources() - equipSlotPrice;
-  setResources(newResources);
+  const resources = getResources() - equipSlotPrice;
+  setResources(resources);
 
   handleUpdateGameSession();
 }

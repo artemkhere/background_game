@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 function CurrentConsumables(props) {
-  const { consumables } = props.gameSession.gameState;
+  const { consumables } = props.gameSession.gameState.harvest;
 
   const consumablesList = (consumables) => {
     return (

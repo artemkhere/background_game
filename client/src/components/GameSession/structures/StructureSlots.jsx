@@ -41,7 +41,7 @@ function StructureSlots(props) {
   return (
     <div style={{ textAlign: "left" }}>
       <div>Structures:</div>
-      {structureSlots(gameState.structures.built)}
+      {structureSlots(gameState.harvest.structures.built)}
       <button onClick={handleBuyBuildSlot}>+</button>
     </div>
   );

@@ -27,7 +27,8 @@ export default function handleSellItem(
     return;
   }
 
-  const inventory = getGameState().items.inventory;
+  const gameState = getGameState();
+  const inventory = gameState.harvest.items.inventory;
   let itemIndex;
   const itemNotPresentInInventory = !inventory.find(({ name }, index) => {
     if (name === itemName) { itemIndex = index; }
@@ -42,9 +43,8 @@ export default function handleSellItem(
   const newResources = getResources() + Math.ceil(item.price / 2);
   setResources(newResources);
 
-  const newGameState = {...getGameState()};
-  newGameState.items.inventory.splice(itemIndex, 1);
-  setGameState(newGameState);
+  gameState.harvest.items.inventory.splice(itemIndex, 1);
+  setGameState(gameState);
 
   handleUpdateGameSession();
 }

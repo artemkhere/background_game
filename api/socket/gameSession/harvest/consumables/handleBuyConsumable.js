@@ -20,8 +20,8 @@ export default function handleBuyConsumable(
     return;
   }
 
-  const newGameState = getGameState();
-  const consumableShop = setupConsumableShop(getGameHistory(), newGameState);
+  const gameState = getGameState();
+  const consumableShop = setupConsumableShop(getGameHistory(), gameState);
   const consumable = consumableShop.find(({ name }) => { return name === consumableName; });
   if (!consumable) {
     socket.emit('operationFailed', { message: "There is no consumable with that name." });
@@ -39,8 +39,8 @@ export default function handleBuyConsumable(
 
   const newConsumable = {...consumable};
   newConsumable.purchased = Date.now();
-  newGameState.consumables.push(newConsumable);
-  setGameState(newGameState);
+  gameState.harvest.consumables.push(newConsumable);
+  setGameState(gameState);
 
   const newHistory = getGameHistory();
   newHistory.purchased.push(consumable);

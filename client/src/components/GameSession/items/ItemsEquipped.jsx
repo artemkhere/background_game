@@ -41,7 +41,7 @@ function ItemsEquipped(props) {
   return (
     <div style={{ textAlign: "left" }}>
       <div>Equipped Items:</div>
-      {equippedList(gameState.items.equipped)}
+      {equippedList(gameState.harvest.items.equipped)}
       <button onClick={handleBuyEquipSlot}>+</button>
     </div>
   );

@@ -3,7 +3,7 @@ import determineAvailability from '../determineAvailability.js';
 
 const calculatePrice = (consumable, gameState) => {
   let numberOfSameOnesInUse = 0;
-  gameState.consumables.forEach(({ name }) => {
+  gameState.harvest.consumables.forEach(({ name }) => {
     if (consumable.name === name) { numberOfSameOnesInUse += 1; }
   });
 

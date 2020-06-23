@@ -32,7 +32,7 @@ export default function handleBuyStructure(
   if (
     !structure.canBePurchased ||
     getResources() < structure.price ||
-    gameState.structures.built.length >= gameState.structures.availableBuildSlots
+    gameState.harvest.structures.built.length >= gameState.harvest.structures.availableBuildSlots
   ) {
     socket.emit('operationFailed', { message: "Structure can't be purchased." });
     return;
@@ -41,9 +41,8 @@ export default function handleBuyStructure(
   const newResources = getResources() - structure.price;
   setResources(newResources);
 
-  const newGameState = {...gameState};
-  newGameState.structures.built.push(structure);
-  setGameState(newGameState);
+  gameState.harvest.structures.built.push(structure);
+  setGameState(gameState);
 
   const newHistory = {...getGameHistory()};
   newHistory.purchased.push(structure);

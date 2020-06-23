@@ -15,14 +15,12 @@ export default function handleEquipItem(
     equipped,
     availableEquipSlots,
     inventory
-  } = gameState.items
+  } = gameState.harvest.items;
 
   if (equipped.length >= availableEquipSlots) {
     socket.emit('operationFailed', { message: `Can't equip more than ${availableEquipSlots} items.` });
     return;
   }
-
-  const newGameState = {...gameState};
 
   let itemIndex;
   const item = inventory.find(({ name }, index) => {
@@ -35,9 +33,9 @@ export default function handleEquipItem(
     return;
   }
 
-  newGameState.items.equipped.push(item);
-  newGameState.items.inventory.splice(itemIndex, 1);
-  setGameState(newGameState);
+  gameState.harvest.items.equipped.push(item);
+  gameState.harvest.items.inventory.splice(itemIndex, 1);
+  setGameState(gameState);
 
   handleUpdateGameSession();
 }

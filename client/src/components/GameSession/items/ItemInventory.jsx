@@ -46,7 +46,7 @@ function ItemInventory(props) {
   return (
     <div style={{ textAlign: "right" }}>
       <div>Inventory:</div>
-      {itemList(gameState.items.inventory)}
+      {itemList(gameState.harvest.items.inventory)}
     </div>
   );
 }

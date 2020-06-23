@@ -11,17 +11,17 @@ export default function handleUnequipItem(
     return;
   }
 
-  const newGameState = {...getGameState()};
-  const targetItem = newGameState.items.equipped[equippedIndex];
+  const gameState = getGameState();
+  const targetItem = gameState.harvest.items.equipped[equippedIndex];
 
   if (!targetItem) {
     socket.emit('operationFailed', { message: "No item to unequip." });
     return;
   }
 
-  newGameState.items.inventory.push(targetItem);
-  newGameState.items.equipped.splice(equippedIndex, 1);
-  setGameState(newGameState);
+  gameState.harvest.items.inventory.push(targetItem);
+  gameState.harvest.items.equipped.splice(equippedIndex, 1);
+  setGameState(gameState);
 
   handleUpdateGameSession();
 }

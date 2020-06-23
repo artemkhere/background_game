@@ -9,15 +9,17 @@ export default {
     gameSaveID: 0,
     resources: 0,
     gameState: {
-      items: {
-        equipped: [],
-        inventory: []
-      },
-      structures: {
-        built: [],
-        availableBuildSlots: 1
-      },
-      consumables: []
+      harvest: {
+        items: {
+          equipped: [],
+          inventory: []
+        },
+        structures: {
+          built: [],
+          availableBuildSlots: 1
+        },
+        consumables: []
+      }
     },
     gameHistory: {
       resources: 0,

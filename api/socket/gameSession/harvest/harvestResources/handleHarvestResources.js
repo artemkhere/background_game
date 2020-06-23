@@ -16,19 +16,19 @@ export default function handleHarvestResources(
     setGameHistory
   } = gameSessionState;
 
-  const newGameState = {...getGameState()};
-  const builtStructures = newGameState.structures.built;
-  const equippedItems = newGameState.items.equipped;
-  const consumables = newGameState.consumables;
+  const gameState = getGameState();
+  const builtStructures = gameState.harvest.structures.built;
+  const equippedItems = gameState.harvest.items.equipped;
+  const consumables = gameState.harvest.consumables;
   let harvestValue = 0;
   const now = Date.now();
 
   const { consumablesHarvest, newConsumables } = handleConsumablesHarvest(consumables);
-  newGameState.consumables = newConsumables;
+  gameState.harvest.consumables = newConsumables;
 
-  if (!newGameState.lastCycle) { newGameState.lastCycle = now; }
-  const cycles = calculateCycles(newGameState.lastCycle);
-  if (cycles > 0) { newGameState.lastCycle = now; }
+  if (!gameState.harvest.lastCycle) { gameState.harvest.lastCycle = now; }
+  const cycles = calculateCycles(gameState.harvest.lastCycle);
+  if (cycles > 0) { gameState.harvest.lastCycle = now; }
 
   builtStructures.forEach(({ name, effect }) => {
     let { impact, amount } = effect.harvest;
@@ -54,7 +54,7 @@ export default function handleHarvestResources(
   newHistory.resources = newHistory.resources + harvestValue;
   setGameHistory(newHistory);
 
-  setGameState(newGameState);
+  setGameState(gameState);
 
   handleUpdateGameSession();
 }

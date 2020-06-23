@@ -32,12 +32,12 @@ export default function handleBuyItem(
     return;
   }
 
-  const newResources = getResources() - item.price;
-  setResources(newResources);
+  const resources = getResources() - item.price;
+  setResources(resources);
 
-  const newGameState = {...getGameState()};
-  newGameState.items.inventory.push(item);
-  setGameState(newGameState);
+  const gameState = getGameState();
+  gameState.harvest.items.inventory.push(item);
+  setGameState(gameState);
 
   const newHistory = {...getGameHistory()};
   newHistory.purchased.push(item);

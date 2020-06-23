@@ -15,8 +15,8 @@ export default function handleAreaClicked(
   } = gameSessionState;
 
   const gameState = getGameState();
-  const builtStructures = gameState.structures.built;
-  const equippedItems = gameState.items.equipped;
+  const builtStructures = gameState.harvest.structures.built;
+  const equippedItems = gameState.harvest.items.equipped;
   let clickValue = 1;
 
   builtStructures.forEach(({ name, effect }) => {
