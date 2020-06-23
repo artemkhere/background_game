@@ -39,10 +39,10 @@ export default function handleAreaClicked(
   const updatedResources = getResources() + clickValue;
   setResources(updatedResources);
 
-  const newHistory = {...getGameHistory()};
-  newHistory.resources = newHistory.resources + clickValue;
-  newHistory.clicks = newHistory.clicks + 1;
-  setGameHistory(newHistory);
+  const gameHistory = getGameHistory();
+  gameHistory.resources = gameHistory.resources + clickValue;
+  gameHistory.harvest.clicks = gameHistory.harvest.clicks + 1;
+  setGameHistory(gameHistory);
 
   handleUpdateGameSession();
 }

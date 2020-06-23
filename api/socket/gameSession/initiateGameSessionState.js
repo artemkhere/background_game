@@ -20,7 +20,7 @@ export default function initiateGameSessionState(
   const getGameHistory = () => { return {...gameHistoryReference}; }
   const setGameHistory = (newHistory) => {
     gameHistoryReference = {...newHistory};
-    gameSchemaReference = setupGameSchema(newHistory, gameStateReference);
+    gameSchemaReference = setupGameSchema(gameHistoryReference, gameStateReference);
   }
 
   let gameSchemaReference = setupGameSchema(gameHistoryReference, gameStateReference);

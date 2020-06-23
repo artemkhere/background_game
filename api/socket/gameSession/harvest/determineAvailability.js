@@ -5,7 +5,7 @@ export default function determineAvailability(requirements, gameHistory) {
 
   if (requirements.purchased) {
     requirements.purchased.forEach((requirement) => {
-      requirementsList.push(!!gameHistory.purchased.find(({ name }) => {
+      requirementsList.push(!!gameHistory.harvest.purchased.find(({ name }) => {
         return name === requirement;
       }));
     });

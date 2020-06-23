@@ -20,7 +20,8 @@ export default function handleBuyStructure(
     return;
   }
 
-  const structureShop = setupStructureShop(getGameHistory());
+  const gameHistory = getGameHistory();
+  const structureShop = setupStructureShop(gameHistory);
   const structure = structureShop.find(({ name }) => { return name === structureName; });
   if (!structure) {
     socket.emit('operationFailed', { message: "There is no structure with that name." });
@@ -44,9 +45,8 @@ export default function handleBuyStructure(
   gameState.harvest.structures.built.push(structure);
   setGameState(gameState);
 
-  const newHistory = {...getGameHistory()};
-  newHistory.purchased.push(structure);
-  setGameHistory(newHistory);
+  gameHistory.harvest.purchased.push(structure);
+  setGameHistory(gameHistory);
 
   handleUpdateGameSession();
 }

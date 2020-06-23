@@ -20,7 +20,8 @@ export default function handleBuyItem(
     return;
   }
 
-  const itemShop = setupItemShop(getGameHistory());
+  const gameHistory = getGameHistory();
+  const itemShop = setupItemShop(gameHistory);
   const item = itemShop.find(({ name }) => { return name === itemName; });
   if (!item) {
     socket.emit('operationFailed', { message: "There is no item with that name." });
@@ -39,9 +40,8 @@ export default function handleBuyItem(
   gameState.harvest.items.inventory.push(item);
   setGameState(gameState);
 
-  const newHistory = {...getGameHistory()};
-  newHistory.purchased.push(item);
-  setGameHistory(newHistory);
+  gameHistory.harvest.purchased.push(item);
+  setGameHistory(gameHistory);
 
   handleUpdateGameSession();
 }

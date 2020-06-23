@@ -50,9 +50,9 @@ export default function handleHarvestResources(
   const updatedResources = getResources() + harvestValue * cycles + consumablesHarvest;
   setResources(updatedResources);
 
-  const newHistory = {...getGameHistory()};
-  newHistory.resources = newHistory.resources + harvestValue;
-  setGameHistory(newHistory);
+  const gameHistory = getGameHistory();
+  gameHistory.resources = gameHistory.resources + harvestValue;
+  setGameHistory(gameHistory);
 
   setGameState(gameState);
 

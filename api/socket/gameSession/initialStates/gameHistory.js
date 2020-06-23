@@ -1,6 +1,8 @@
 export default
 {
   resources: 0,
-  clicks: 0,
-  purchased: []
+  harvest: {
+    clicks: 0,
+    purchased: []
+  }
 }

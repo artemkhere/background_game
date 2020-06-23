@@ -23,12 +23,14 @@ export default {
     },
     gameHistory: {
       resources: 0,
-      clicks: 0,
-      items: {
-        purchased: []
-      },
-      structures: {
-        purchased: []
+      harvest: {
+        clicks: 0,
+        items: {
+          purchased: []
+        },
+        structures: {
+          purchased: []
+        }
       }
     },
     gameSchema: {
