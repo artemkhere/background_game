@@ -5,7 +5,10 @@ import { socketEmit } from '../../actions/socketActions';
 
 function Arena(props) {
   const handleClick = () => {
-    props.socketEmit({ eventName: 'initiateBattle' });
+    props.socketEmit({
+      eventName: 'battleAction',
+      data: { actionType: 'initiate' }
+    });
   }
 
   return (

@@ -58,10 +58,6 @@ const createSocketMiddleware = (url) => {
           updateGameSession(dispatch, data);
         });
 
-        socket.on('battleStarted', (data) => {
-          console.log(data);
-        });
-
         break;
       case SOCKET_TRIGGER_DISCONNECT:
         if (socket) { socket.disconnect(); }

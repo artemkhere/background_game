@@ -2,6 +2,7 @@ import handleInitiateBattle from './handleInitiateBattle.js';
 
 export default function handleBattleAction(
   gameSessionState,
+  handleUpdateGameSession,
   data,
   socket
 ) {
