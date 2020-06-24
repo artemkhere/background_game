@@ -12,7 +12,7 @@ import handleStructureAction from './harvest/structures/handleStructureAction.js
 import handleConsumableAction from './harvest/consumables/handleConsumableAction.js';
 
 // ARENA
-import initiateBattle from './arena/initiateBattle.js';
+// import initiateBattle from './arena/initiateBattle.js';
 
 let autoSave;
 const save = (gameSessionState, gameSave) => {
@@ -121,7 +121,7 @@ export default async function handleSetupGameSession(socket) {
 
     // ARENA
     socket.on('initiateBattle', (data) => {
-      const gameState = initiateBattle(gameSessionState, socket);
+      // const gameState = initiateBattle(gameSessionState, socket);
       handleUpdateGameSession();
       socket.emit('battleStarted', gameState);
     });

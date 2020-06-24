@@ -2,7 +2,6 @@ import setupItemShop from './setupItemShop.js';
 
 export default function handleSellItem(
   gameSessionState,
-  handleUpdateGameSession,
   itemName,
   socket
 ) {
@@ -45,6 +44,4 @@ export default function handleSellItem(
 
   gameState.harvest.items.inventory.splice(itemIndex, 1);
   setGameState(gameState);
-
-  handleUpdateGameSession();
 }

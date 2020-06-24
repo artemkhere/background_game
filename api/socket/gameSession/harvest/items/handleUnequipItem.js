@@ -1,6 +1,5 @@
 export default function handleUnequipItem(
   gameSessionState,
-  handleUpdateGameSession,
   equippedIndex,
   socket
 ) {
@@ -22,6 +21,4 @@ export default function handleUnequipItem(
   gameState.harvest.items.inventory.push(targetItem);
   gameState.harvest.items.equipped.splice(equippedIndex, 1);
   setGameState(gameState);
-
-  handleUpdateGameSession();
 }

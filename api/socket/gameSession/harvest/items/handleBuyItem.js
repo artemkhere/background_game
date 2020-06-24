@@ -2,7 +2,6 @@ import setupItemShop from './setupItemShop.js';
 
 export default function handleBuyItem(
   gameSessionState,
-  handleUpdateGameSession,
   itemName,
   socket
 ) {
@@ -42,6 +41,4 @@ export default function handleBuyItem(
 
   gameHistory.harvest.purchased.push(item);
   setGameHistory(gameHistory);
-
-  handleUpdateGameSession();
 }
