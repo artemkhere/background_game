@@ -2,7 +2,6 @@ import setupStructureShop from './setupStructureShop.js';
 
 export default function handleBuyStructure(
   gameSessionState,
-  handleUpdateGameSession,
   structureName,
   socket
 ) {
@@ -47,6 +46,4 @@ export default function handleBuyStructure(
 
   gameHistory.harvest.purchased.push(structure);
   setGameHistory(gameHistory);
-
-  handleUpdateGameSession();
 }

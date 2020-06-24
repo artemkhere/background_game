@@ -17,7 +17,6 @@ export default function handleStructureAction(
     case 'buy':
       handleBuyStructure(
         gameSessionState,
-        handleUpdateGameSession,
         data.structureName,
         socket
       );
@@ -25,7 +24,6 @@ export default function handleStructureAction(
     case 'sell':
       handleSellStructure(
         gameSessionState,
-        handleUpdateGameSession,
         data.builtIndex,
         socket
       );
@@ -33,7 +31,6 @@ export default function handleStructureAction(
     case 'buyBuildSlot':
       handleBuyBuildSlot(
         gameSessionState,
-        handleUpdateGameSession,
         socket
       );
       break;
@@ -41,4 +38,6 @@ export default function handleStructureAction(
       socket.emit('operationFailed', { message: 'Unknown actionType.' });
       return;
   }
+
+  handleUpdateGameSession();
 }

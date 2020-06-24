@@ -2,7 +2,6 @@ import gameSchema from '../../initialStates/gameSchema.js';
 
 export default function handleBuyBuildSlot(
   gameSessionState,
-  handleUpdateGameSession,
   socket
 ) {
   const {
@@ -31,6 +30,4 @@ export default function handleBuyBuildSlot(
 
   const resources = getResources() - buildSlotPrice;
   setResources(resources);
-
-  handleUpdateGameSession();
 }
