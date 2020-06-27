@@ -1,4 +1,5 @@
 import handleInitiateBattle from './handleInitiateBattle.js';
+import handleTakeTurn from './handleTakeTurn.js';
 
 export default function handleBattleAction(
   gameSessionState,
@@ -12,8 +13,15 @@ export default function handleBattleAction(
   }
 
   switch (data.actionType) {
-    case 'initiate':
+    case 'initiateBattle':
       handleInitiateBattle(
+        gameSessionState,
+        data,
+        socket
+      );
+      break;
+    case 'takeTurn':
+      handleTakeTurn(
         gameSessionState,
         data,
         socket

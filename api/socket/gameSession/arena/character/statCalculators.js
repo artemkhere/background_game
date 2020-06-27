@@ -2,7 +2,6 @@ import getModifierFromEquipment from './getModifierFromEquipment.js';
 import characterBaseStats from '../../initialStates/characterBaseStats';
 
 const calculateHitChance = (dexterity, equipped, enemyAgility = 0) => {
-  let hitChance = characterBaseStats.hitChance;
   hitChance += Math.ceil((dexterity - enemyAgility) / 2) * 0.01;
   hitChance += getModifierFromEquipment('hitChance', equipped);
   return hitChance;

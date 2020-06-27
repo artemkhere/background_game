@@ -55,6 +55,7 @@ const createSocketMiddleware = (url) => {
         });
 
         socket.on('updateGameSession', (data) => {
+          console.log(data)
           updateGameSession(dispatch, data);
         });
 

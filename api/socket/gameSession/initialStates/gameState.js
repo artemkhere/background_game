@@ -14,17 +14,19 @@ export default
     lastCycle: undefined,
   },
   arena: {
-    selectedHero: undefined,
+    selectedHeroModel: undefined,
     heroRoster: [], // limited to 1 - in the future 5?
     inventory: [], // limited to 50 items
     battle: {
-      created: null,
-      hero: null,
-      enemy: null,
+      created: undefined,
+      hero: undefined,
+      enemy: undefined,
       log: [],
       turn: 0,
       heroEffects: [],
-      enemEffects: []
+      enemEffects: [],
+      lastTurnTaken: undefined,
+      winner: undefined
     }
   },
   inBattle: false

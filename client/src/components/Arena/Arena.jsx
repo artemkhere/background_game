@@ -7,7 +7,14 @@ function Arena(props) {
   const handleClick = () => {
     props.socketEmit({
       eventName: 'battleAction',
-      data: { actionType: 'initiate' }
+      data: { actionType: 'initiateBattle' }
+    });
+  }
+
+  const handleTakeTurn = () => {
+    props.socketEmit({
+      eventName: 'battleAction',
+      data: { actionType: 'takeTurn', action: 'attack', specialMove: null }
     });
   }
 
@@ -18,6 +25,12 @@ function Arena(props) {
         onClick={handleClick}
       >
         Initiate
+      </button>
+      <button
+        className="waste-button"
+        onClick={handleTakeTurn}
+      >
+        Attack
       </button>
     </div>
   );
