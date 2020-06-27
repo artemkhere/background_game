@@ -14,7 +14,11 @@ export default
     lastCycle: undefined,
   },
   arena: {
-    selectedHeroModel: undefined,
+    selectedHero: {
+      model: undefined,
+      health: undefined,
+      mana: undefined
+    },
     heroRoster: [], // limited to 1 - in the future 5?
     inventory: [], // limited to 50 items
     battle: {

@@ -1,4 +1,4 @@
-import initiateCharacter from '../character/initiateCharacter.js';
+import initiateCharacterBuild from '../character/initiateCharacterBuild.js';
 
 export default function initiateBattle(
   gameSessionState,
@@ -12,7 +12,7 @@ export default function initiateBattle(
 
   const gameState = getGameState();
 
-  // const hero = gameState.arena.selectedHeroModel; // proper place to grab the hero model
+  // const hero = gameState.arena.selectedHero.model; // proper place to grab the hero model
   const hero = {
     name: 'Jabronie',
     attributes: {
@@ -51,8 +51,8 @@ export default function initiateBattle(
   const initialLogRecord = `Battle started between ${hero.name} and ${hero.name}.`
   gameState.arena.battle = {
     created: Date.now(),
-    hero: initiateCharacter(hero),
-    enemy: initiateCharacter(hero), // randomly generated in the future or pulled from db
+    hero: initiateCharacterBuild(hero),
+    enemy: initiateCharacterBuild(hero), // randomly generated in the future or pulled from db
     log: [initialLogRecord],
     turn: 0,
     heroEffects: [], // [{ name: 'poison', targetStat: 'health', effect: '-2' }]

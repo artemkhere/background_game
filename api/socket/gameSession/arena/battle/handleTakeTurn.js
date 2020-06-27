@@ -186,6 +186,33 @@ export default function handleTakeTurn(
   //   return;
   // }
 
+  const enemyActionResult = resolveAction(
+    enemy,
+    hero,
+    enemyEffects,
+    heroEffects,
+    data.action,
+    data.specialMove
+  );
+  enemy = enemyActionResult.source;
+  hero = enemyActionResult.target;
+  log = [...log, ...enemyActionResult.logUpdate];
+  enemyEffects = enemyActionResult.sourceEffects;
+  heroEffects = enemyActionResult.targetEffects;
+  // winner = battleShouldEnd(hero, enemy);
+  // if (winner) {
+  //   gameState.arena.battle.winner = winner;
+  //   gameState.arena.battle.log = log;
+  //   setGameState(gameState);
+  //
+  //   handleEndBattle(
+  //     gameSessionState,
+  //     data,
+  //     socket
+  //   );
+  //   return;
+  // }
+
   gameState.arena.battle = {
     created,
     hero,
@@ -197,9 +224,9 @@ export default function handleTakeTurn(
     lastTurnTaken
   };
 
-  console.log("log")
   console.log(log)
-  console.log(enemy.stats.health)
+  console.log(`Hero: ${hero.stats.health}`)
+  console.log(`Enemy: ${enemy.stats.health}`)
 
   setGameState(gameState);
 }
