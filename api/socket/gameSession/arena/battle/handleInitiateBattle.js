@@ -17,10 +17,8 @@ export default function initiateBattle(
     name: 'Jabronie',
     attributes: {
       dexterity: 3, // hit chance, crit chance
-      agility: 3, // dodge chance, crit dmg multiplier
-      intellect: 3, // spell requirements, spell effect
+      agility: 3, // dodge chance, crit dmg multiplier, who goes first
       stamina: 5, // amount of health
-      wizdom: 3, // amount of mana, amount of spells
       strength: 2 // dmg done
     },
     equipped: {

@@ -8,25 +8,19 @@ const {
   calculateCritMultiplier,
   calculateDodgeChance,
   calculateDamage,
-  calculateMana,
-  calculateSpells,
   calculateHealth
 } = statCalculators;
 
 const applyAttributeModifiersFromEquipment = (attributes, equipped) => {
   const dexterity = attributes.dexterity + getModifierFromEquipment('dexterity', equipped);
   const agility = attributes.agility + getModifierFromEquipment('agility', equipped);
-  const intellect = attributes.intellect + getModifierFromEquipment('intellect', equipped);
   const stamina = attributes.stamina + getModifierFromEquipment('stamina', equipped);
-  const wizdom = attributes.wizdom + getModifierFromEquipment('wizdom', equipped);
   const strength = attributes.strength + getModifierFromEquipment('strength', equipped);
 
   return {
     dexterity,
     agility,
-    intellect,
     stamina,
-    wizdom,
     strength
   }
 }
@@ -37,8 +31,6 @@ const generateStats = (attributes, equipped) => {
   const critMultiplier = calculateCritMultiplier(attributes.agility, equipped);
   const dodgeChance = calculateDodgeChance(attributes.agility, equipped);
   const damage = calculateDamage(attributes.strength, equipped);
-  const mana = calculateMana(attributes.wizdom, equipped);
-  const spells = calculateSpells(attributes.wizdom, equipped);
   const health = calculateHealth(attributes.stamina, equipped);
 
   return {
@@ -47,8 +39,6 @@ const generateStats = (attributes, equipped) => {
     critMultiplier,
     dodgeChance,
     damage,
-    mana,
-    spells,
     health
   }
 }

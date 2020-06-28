@@ -38,20 +38,6 @@ const calculateDamage = (strength, equipped, enemyArmour = 0) => {
   return damage > 0 ? damage : 1;
 }
 
-const calculateMana = (wizdom, equipped) => {
-  let mana = characterBaseStats.mana;
-  mana += wizdom * 2;
-  mana += getModifierFromEquipment('mana', equipped);
-  return mana;
-}
-
-const calculateSpells = (wizdom, equipped) => {
-  let spells = characterBaseStats.spells;
-  spells += Math.floor(wizdom / 3);
-  spells += getModifierFromEquipment('spells', equipped);
-  return spells;
-}
-
 const calculateHealth = (stamina, equipped) => {
   let health = characterBaseStats.health;
   health += stamina * 2;
@@ -65,7 +51,5 @@ export default {
   calculateCritMultiplier,
   calculateDodgeChance,
   calculateDamage,
-  calculateMana,
-  calculateSpells,
   calculateHealth
 }

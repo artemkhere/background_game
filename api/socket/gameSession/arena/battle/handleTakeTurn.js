@@ -66,25 +66,35 @@ const resolveAction = (
   target,
   sourceEffects,
   targetEffects,
-  action,
-  specialMove
+  action
 ) => {
+  let sourceReference = {...source};
+  let targetReference = {...target};
+  let sourceEffectsReference = [...sourceEffects];
+  let targetEffectsReference = [...targetEffects];
+  let damage = 0;
+  let logUpdate = [];
+
   switch(action) {
     case 'attack':
-      const { logUpdate, damage } = getAttackResult(source, target);
-      target.stats.health -= damage;
-
-      return {
-        source,
-        target,
-        logUpdate,
-        sourceEffects,
-        targetEffects
+      const attackResult = getAttackResult(source, target);
+      logUpdate = attackResult.logUpdate;
+      if (attackResult.damage > targetReference.stats.health) {
+        targetReference.stats.health = 0;
+      } else {
+        targetReference.stats.health -= attackResult.damage;
       }
       break;
     default:
       console.log('Unknown move');
       return 'Unknown move';
+  }
+  return {
+    source: sourceReference,
+    target: targetReference,
+    logUpdate,
+    sourceEffects: sourceEffectsReference,
+    targetEffects: targetEffectsReference
   }
 }
 
@@ -121,25 +131,16 @@ export default function handleTakeTurn(
   log.push(`Turn ${turn} started.`);
   lastTurnTaken = Date.now();
 
-  // I need to somehow store hero health and mana after battle is over!
+  // effects on stats are applied directly and are permanent for battle
+  // determine who goes first!
+  // apply effect before each turn -- heals, poison,
+  // progressive increase in stats - rage (lose health, gain strength)
+  // everything else can be stored in stats
 
   // const heroEffectsResult = resolveEffects(hero, heroEffects);
   // hero = heroEffectsResult.target;
   // heroEffects = heroEffectsResult.effects;
   // log = [...log, ...heroEffectsResult.logUpdate];
-  // winner = battleShouldEnd(hero, enemy);
-  // if (winner) {
-  //   gameState.arena.battle.winner = winner;
-  //   gameState.arena.battle.log = log;
-  //   setGameState(gameState);
-  //
-  //   handleEndBattle(
-  //     gameSessionState,
-  //     data,
-  //     socket
-  //   );
-  //   return;
-  // }
 
   // const enemyEffectsResult = resolveEffects(enemy, enemyEffects);
   // enemy = enemyEffectsResult.target;
@@ -164,27 +165,13 @@ export default function handleTakeTurn(
     enemy,
     heroEffects,
     enemyEffects,
-    data.action,
-    data.specialMove
+    data.action
   );
   hero = heroActionResult.source;
   enemy = heroActionResult.target;
   log = [...log, ...heroActionResult.logUpdate];
   heroEffects = heroActionResult.sourceEffects;
   enemyEffects = heroActionResult.targetEffects;
-  // winner = battleShouldEnd(hero, enemy);
-  // if (winner) {
-  //   gameState.arena.battle.winner = winner;
-  //   gameState.arena.battle.log = log;
-  //   setGameState(gameState);
-  //
-  //   handleEndBattle(
-  //     gameSessionState,
-  //     data,
-  //     socket
-  //   );
-  //   return;
-  // }
 
   const enemyActionResult = resolveAction(
     enemy,
@@ -199,6 +186,7 @@ export default function handleTakeTurn(
   log = [...log, ...enemyActionResult.logUpdate];
   enemyEffects = enemyActionResult.sourceEffects;
   heroEffects = enemyActionResult.targetEffects;
+
   // winner = battleShouldEnd(hero, enemy);
   // if (winner) {
   //   gameState.arena.battle.winner = winner;

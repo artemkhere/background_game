@@ -15,11 +15,11 @@ export default
   },
   arena: {
     selectedHero: {
-      model: undefined,
+      name: undefined,
+      attributes: undefined,
       health: undefined,
-      mana: undefined
+      equipped: undefined
     },
-    heroRoster: [], // limited to 1 - in the future 5?
     inventory: [], // limited to 50 items
     battle: {
       created: undefined,
