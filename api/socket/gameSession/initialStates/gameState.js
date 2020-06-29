@@ -15,10 +15,23 @@ export default
   },
   arena: {
     selectedHero: {
-      name: undefined,
-      attributes: undefined,
-      health: undefined,
-      equipped: undefined
+      name: '',
+      health: 0,
+      moves: ['smack'],
+      attributes: {
+        dexterity: 0, // hit chance, crit chance
+        agility: 0, // dodge chance, crit dmg multiplier, who goes first
+        stamina: 0, // amount of health
+        strength: 0 // dmg done
+      },
+      equipped: {
+        weapon: undefined,
+        ring: undefined,
+        amulet: undefined,
+        head: undefined,
+        body: undefined,
+        legs: undefined
+      }
     },
     inventory: [], // limited to 50 items
     battle: {

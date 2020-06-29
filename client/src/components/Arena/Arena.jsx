@@ -14,7 +14,7 @@ function Arena(props) {
   const handleTakeTurn = () => {
     props.socketEmit({
       eventName: 'battleAction',
-      data: { actionType: 'takeTurn', action: 'attack', specialMove: null }
+      data: { actionType: 'takeTurn', move: 'smack' }
     });
   }
 

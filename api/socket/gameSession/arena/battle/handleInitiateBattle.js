@@ -12,7 +12,7 @@ export default function initiateBattle(
 
   const gameState = getGameState();
 
-  // const hero = gameState.arena.selectedHero.model; // proper place to grab the hero model
+  // const hero = gameState.arena.selectedHero; // proper place to grab the hero model
   const hero = {
     name: 'Jabronie',
     attributes: {
@@ -37,7 +37,8 @@ export default function initiateBattle(
         }
       },
       feet: undefined,
-    }
+    },
+    moves: ['smack']
   }
 
   if (!hero) {
