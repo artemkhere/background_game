@@ -17,7 +17,7 @@ export default function smack(attacker, defender) {
 
   if (!attackHits) {
     return {
-      logUpdate: ["Attacker missed."],
+      logUpdate: [`${attacker.name} missed.`],
       damage: 0
     };
   }
@@ -30,7 +30,7 @@ export default function smack(attacker, defender) {
 
   if (enemyDodges) {
     return {
-      logUpdate: ["Defender dodged."],
+      logUpdate: [`${defender.name} dodged.`],
       damage: 0
     };
   }
@@ -50,10 +50,10 @@ export default function smack(attacker, defender) {
   if (criticalHit) {
     damage = damage * calculateCritMultiplier(attacker.attributes.agility, attacker.equipped);
     damage = Math.ceil(damage);
-    logUpdate.push("CRITICAL!");
+    logUpdate.push('CRITICAL!');
   }
 
-  logUpdate.push(`Attacker deals ${damage} damage.`);
+  logUpdate.push(`${attacker.name} deals ${damage} damage.`);
 
   return {
     logUpdate,

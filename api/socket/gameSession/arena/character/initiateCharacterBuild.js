@@ -43,7 +43,15 @@ const generateStats = (attributes, equipped) => {
   }
 }
 
-export default function initiateCharacterBuild({ attributes, equipped }, health) {
+export default function initiateCharacterBuild(
+  {
+    name,
+    moves,
+    attributes,
+    equipped,
+  },
+  health
+) {
   const listOfEquipment = Object.values(equipped).filter((piece) => {
     return piece != null;
   });
@@ -51,11 +59,12 @@ export default function initiateCharacterBuild({ attributes, equipped }, health)
   const fullAttributes = applyAttributeModifiersFromEquipment(attributes, listOfEquipment);
   const stats = generateStats(fullAttributes, listOfEquipment);
 
-
   if (health && stats.health > health) { stats.health = health; }
   if (health === 0) { stats.health = 0; }
 
   return {
+    name,
+    moves,
     attributes: fullAttributes,
     stats,
     equipped: listOfEquipment

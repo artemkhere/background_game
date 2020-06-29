@@ -7,14 +7,22 @@ export default function resolveMove(
   targetEffects,
   move
 ) {
+  if (!source.moves.includes(move)) {
+    return {
+      source,
+      target,
+      logUpdate: [`${source.name} doesn't know ${move}`],
+      sourceEffects,
+      targetEffects
+    }
+  }
+
   let sourceReference = {...source};
   let targetReference = {...target};
   let sourceEffectsReference = [...sourceEffects];
   let targetEffectsReference = [...targetEffects];
   let damage = 0;
   let logUpdate = [];
-
-  // check if character knows that move!!!
 
   switch(move) {
     case 'smack':
@@ -27,8 +35,13 @@ export default function resolveMove(
       }
       break;
     default:
-      console.log('Unknown move');
-      return 'Unknown move';
+      return {
+        source,
+        target,
+        logUpdate: [`${move} is not a move.`],
+        sourceEffects,
+        targetEffects
+      };
   }
 
   return {

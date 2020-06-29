@@ -1,5 +1,9 @@
 import resolveMove from './moves/resolveMove.js';
 
+const heroGoesFirst = (hero, enemy) => {
+  
+}
+
 const battleShouldEnd = (hero, enemy) => {
   const heroHealth = hero.attributes.health;
   const enemyHealth = enemy.attributes.health;
