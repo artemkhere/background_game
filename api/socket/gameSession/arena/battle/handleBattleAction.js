@@ -20,6 +20,13 @@ export default function handleBattleAction(
         socket
       );
       break;
+    case 'endBattle':
+      handleEndBattle(
+        gameSessionState,
+        data,
+        socket
+      );
+      break;
     case 'takeTurn':
       handleTakeTurn(
         gameSessionState,

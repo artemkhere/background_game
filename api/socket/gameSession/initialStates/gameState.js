@@ -43,7 +43,8 @@ export default
       heroEffects: [],
       enemEffects: [],
       lastTurnTaken: undefined,
-      winner: undefined
+      heroWon: undefined,
+      battleShouldEnd: false
     }
   },
   inBattle: false

@@ -15,6 +15,7 @@ export default function initiateBattle(
   // const hero = gameState.arena.selectedHero; // proper place to grab the hero model
   const hero = {
     name: 'Jabronie',
+    health: 25,
     attributes: {
       dexterity: 3, // hit chance, crit chance
       agility: 3, // dodge chance, crit dmg multiplier, who goes first
@@ -47,17 +48,18 @@ export default function initiateBattle(
   }
 
   gameState.inBattle = true;
-  const initialLogRecord = `Battle started between ${hero.name} and ${hero.name}.`
   gameState.arena.battle = {
     created: Date.now(),
-    hero: initiateCharacterBuild(hero),
+    hero: initiateCharacterBuild(hero, hero.health),
     enemy: initiateCharacterBuild(hero), // randomly generated in the future or pulled from db
-    log: [initialLogRecord],
+    log: [`Battle started between ${hero.name} and ${hero.name}.`],
     turn: 0,
     heroEffects: [], // [{ name: 'poison', targetStat: 'health', effect: '-2' }]
     enemyEffects: [],
     lastTurnTaken: undefined,
-    winner: undefined
+    winner: undefined,
+    heroWon: undefined,
+    battleShouldEnd: false
   }
 
   setGameState(gameState);
