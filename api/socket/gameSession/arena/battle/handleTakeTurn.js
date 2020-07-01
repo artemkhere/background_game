@@ -1,4 +1,5 @@
 import resolveMove from './moves/resolveMove.js';
+import resolveEffects from './moves/resolveEffects.js';
 import handleEndBattle from './handleEndBattle.js';
 import initiateCharacterBuild from '../character/initiateCharacterBuild.js';
 
@@ -37,25 +38,106 @@ const checkIfBattleShouldEnd = (gameSessionState) => {
   setGameState(gameState);
 }
 
-const handleHeroMove = (gameSessionState) => {
+const handleHeroMove = (gameSessionState, move) => {
   const {
     getGameState,
     setGameState
   } = gameSessionState;
   const gameState = getGameState();
+  const battle = {...gameState.arena.battle};
+  const {
+    hero,
+    enemy,
+    log,
+    heroEffects,
+    enemyEffects
+  } = battle;
 
   const heroActionResult = resolveMove(
     hero,
     enemy,
     heroEffects,
     enemyEffects,
-    data.move
+    move
   );
-  hero = heroActionResult.source;
-  enemy = heroActionResult.target;
-  log = [...log, ...heroActionResult.logUpdate];
-  heroEffects = heroActionResult.sourceEffects;
-  enemyEffects = heroActionResult.targetEffects;
+  gameState.arena.battle.hero = heroActionResult.source;
+  gameState.arena.battle.enemy = heroActionResult.target;
+  gameState.arena.battle.log = [...log, ...heroActionResult.logUpdate];
+  gameState.arena.battle.heroEffects = heroActionResult.sourceEffects;
+  gameState.arena.battle.enemyEffects = heroActionResult.targetEffects;
+
+  setGameState(gameState);
+}
+
+const handleEnemyMove = (gameSessionState, move) => {
+  const {
+    getGameState,
+    setGameState
+  } = gameSessionState;
+  const gameState = getGameState();
+  const battle = {...gameState.arena.battle};
+  const {
+    hero,
+    enemy,
+    log,
+    heroEffects,
+    enemyEffects
+  } = battle;
+
+  const heroActionResult = resolveMove(
+    enemy,
+    hero,
+    enemyEffects,
+    heroEffects,
+    move
+  );
+  gameState.arena.battle.enemy = heroActionResult.source;
+  gameState.arena.battle.hero = heroActionResult.target;
+  gameState.arena.battle.log = [...log, ...heroActionResult.logUpdate];
+  gameState.arena.battle.enemyEffects = heroActionResult.sourceEffects;
+  gameState.arena.battle.heroEffects = heroActionResult.targetEffects;
+
+  setGameState(gameState);
+}
+
+const handleHeroEffects = (gameSessionState) => {
+  const {
+    getGameState,
+    setGameState
+  } = gameSessionState;
+  const gameState = getGameState();
+  const battle = {...gameState.arena.battle};
+  const {
+    hero,
+    heroEffects,
+    log
+  } = battle;
+
+  const heroEffectsResult = resolveEffects(hero, heroEffects);
+  gameState.arena.battle.hero = heroEffectsResult.target;
+  gameState.arena.battle.heroEffects = heroEffectsResult.effects;
+  gameState.arena.battle.log = [...log, ...heroEffectsResult.logUpdate];
+
+  setGameState(gameState);
+}
+
+const handleEnemyEffects = (gameSessionState) => {
+  const {
+    getGameState,
+    setGameState
+  } = gameSessionState;
+  const gameState = getGameState();
+  const battle = {...gameState.arena.battle};
+  const {
+    enemy,
+    enemyEffects,
+    log
+  } = battle;
+
+  const enemyEffectsResult = resolveEffects(enemy, enemyEffects);
+  gameState.arena.battle.enemy = enemyEffectsResult.target;
+  gameState.arena.battle.enemyEffects = enemyEffectsResult.effects;
+  gameState.arena.battle.log = [...log, ...enemyEffectsResult.logUpdate];
 
   setGameState(gameState);
 }
@@ -77,99 +159,68 @@ export default function handleTakeTurn(
     return;
   }
 
-  const battle = {...gameState.arena.battle};
-  let {
-    created,
-    hero,
-    enemy,
-    log,
-    turn,
-    heroEffects,
-    enemyEffects,
-    lastTurnTaken
-  } = battle;
+  gameState.arena.battle.turn += 1;
+  gameState.arena.battle.log.push(`Turn ${gameState.arena.battle.turn} started.`);
+  gameState.arena.battle.lastTurnTaken = Date.now();
+  setGameState(gameState);
 
-  turn += 1;
-  log.push(`Turn ${turn} started.`);
-  lastTurnTaken = Date.now();
+  const { hero, enemy } = gameState.arena.battle;
 
-  // need to initiate character every turn to reflect stats !!!
+  if (heroGoesFirst(hero, enemy)) {
+    handleHeroEffects(gameSessionState, data.move);
+    if (getGameState().arena.battle.battleShouldEnd) {
+      handleEndBattle(gameSessionState, data, socket);
+      return;
+    }
 
-  // effects on stats are applied directly and are permanent for battle
-  // determine who goes first!
-  // apply effect before each character turn -- heals, poison,
-  // progressive increase in stats - rage (lose health, gain strength)
-  // everything else can be stored in stats
+    handleHeroMove(gameSessionState, data.move);
+    checkIfBattleShouldEnd(gameSessionState);
+    if (getGameState().arena.battle.battleShouldEnd) {
+      handleEndBattle(gameSessionState, data, socket);
+      return;
+    }
 
-  // const heroEffectsResult = resolveEffects(hero, heroEffects);
-  // hero = heroEffectsResult.target;
-  // heroEffects = heroEffectsResult.effects;
-  // log = [...log, ...heroEffectsResult.logUpdate];
+    handleEnemyEffects(gameSessionState, data.move);
+    if (getGameState().arena.battle.battleShouldEnd) {
+      handleEndBattle(gameSessionState, data, socket);
+      return;
+    }
 
-  // const enemyEffectsResult = resolveEffects(enemy, enemyEffects);
-  // enemy = enemyEffectsResult.target;
-  // enemyEffects = enemyEffectsResult.effects;
-  // log = [...log, ...enemyEffectsResult.logUpdate];
-  // winner = battleShouldEnd(hero, enemy);
-  // if (winner) {
-  //   gameState.arena.battle.winner = winner;
-  //   gameState.arena.battle.log = log;
-  //   setGameState(gameState);
-  //
-  //   handleEndBattle(
-  //     gameSessionState,
-  //     data,
-  //     socket
-  //   );
-  //   return;
-  // }
+    handleEnemyMove(gameSessionState, 'smack');
+    checkIfBattleShouldEnd(gameSessionState);
+    if (getGameState().arena.battle.battleShouldEnd) {
+      handleEndBattle(gameSessionState, data, socket);
+      return;
+    }
+  } else {
+    handleEnemyEffects(gameSessionState, data.move);
+    if (getGameState().arena.battle.battleShouldEnd) {
+      handleEndBattle(gameSessionState, data, socket);
+      return;
+    }
 
-  const heroActionResult = resolveMove(
-    hero,
-    enemy,
-    heroEffects,
-    enemyEffects,
-    data.move
-  );
-  hero = heroActionResult.source;
-  enemy = heroActionResult.target;
-  log = [...log, ...heroActionResult.logUpdate];
-  heroEffects = heroActionResult.sourceEffects;
-  enemyEffects = heroActionResult.targetEffects;
+    handleEnemyMove(gameSessionState, 'smack');
+    checkIfBattleShouldEnd(gameSessionState);
+    if (getGameState().arena.battle.battleShouldEnd) {
+      handleEndBattle(gameSessionState, data, socket);
+      return;
+    }
 
-  const enemyActionResult = resolveMove(
-    enemy,
-    hero,
-    enemyEffects,
-    heroEffects,
-    data.move
-  );
-  enemy = enemyActionResult.source;
-  hero = enemyActionResult.target;
-  log = [...log, ...enemyActionResult.logUpdate];
-  enemyEffects = enemyActionResult.sourceEffects;
-  heroEffects = enemyActionResult.targetEffects;
+    handleHeroEffects(gameSessionState, data.move);
+    if (getGameState().arena.battle.battleShouldEnd) {
+      handleEndBattle(gameSessionState, data, socket);
+      return;
+    }
 
-  checkIfBattleShouldEnd(gameSessionState);
-  if (getGameState().arena.battle.battleShouldEnd) {
-    handleEndBattle(gameSessionState, data, socket);
-    return;
+    handleHeroMove(gameSessionState, data.move);
+    checkIfBattleShouldEnd(gameSessionState);
+    if (getGameState().arena.battle.battleShouldEnd) {
+      handleEndBattle(gameSessionState, data, socket);
+      return;
+    }
   }
 
-  gameState.arena.battle = {
-    created,
-    hero,
-    enemy,
-    log,
-    turn,
-    heroEffects,
-    enemyEffects,
-    lastTurnTaken
-  };
-
-  console.log(log)
-  console.log(`Hero: ${hero.stats.health}`)
-  console.log(`Enemy: ${enemy.stats.health}`)
-
-  setGameState(gameState);
+  console.log(gameState.arena.battle.log)
+  console.log(`Hero: ${gameState.arena.battle.hero.stats.health}`)
+  console.log(`Enemy: ${gameState.arena.battle.enemy.stats.health}`)
 }

@@ -1,3 +1,4 @@
+import initiateCharacterBuild from '../../character/initiateCharacterBuild.js';
 import smack from './smack.js';
 
 export default function resolveMove(
@@ -45,8 +46,8 @@ export default function resolveMove(
   }
 
   return {
-    source: sourceReference,
-    target: targetReference,
+    source: initiateCharacterBuild(sourceReference, sourceReference.stats.health),
+    target: initiateCharacterBuild(targetReference, targetReference.stats.health),
     logUpdate,
     sourceEffects: sourceEffectsReference,
     targetEffects: targetEffectsReference
