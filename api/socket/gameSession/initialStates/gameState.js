@@ -31,7 +31,9 @@ export default
         head: undefined,
         body: undefined,
         legs: undefined
-      }
+      },
+      level: 1,
+      availablePoints: 0,
     },
     inventory: [], // limited to 50 items
     battle: {

@@ -1,4 +1,5 @@
 import initiateCharacterBuild from '../character/initiateCharacterBuild.js';
+import gameSchema from '../../initialStates/gameSchema.js';
 
 export default function initiateBattle(
   gameSessionState,
@@ -7,12 +8,13 @@ export default function initiateBattle(
 ) {
   const {
     getGameState,
-    setGameState
+    setGameState,
+    getResources,
+    setResources
   } = gameSessionState;
 
   const gameState = getGameState();
-
-  // const hero = gameState.arena.selectedHero; // proper place to grab the hero model
+  // const hero = gameState.arena.selectedHero;
   const hero = {
     name: 'Jabronie',
     health: 25,
@@ -43,8 +45,22 @@ export default function initiateBattle(
   }
 
   if (!hero) {
-    socket.emit('operationFailed', { message: "No hero selected." });
+    socket.emit('operationFailed', { message: 'No hero selected.' });
     return;
+  }
+
+  const { battlePrices } = gameSchema;
+  let costToInitiateBattle = battlePrices[gameState.arena.selectedHero.level];
+  if (!costToInitiateBattle) {
+    costToInitiateBattle = battlePrices[battlePrices.length - 1];
+  }
+
+  let resources = getResources();
+  if (costToInitiateBattle > resources) {
+    socket.emit('operationFailed', { message: 'No enought resources.' });
+    return;
+  } else {
+    setResources(resources - costToInitiateBattle);
   }
 
   gameState.inBattle = true;

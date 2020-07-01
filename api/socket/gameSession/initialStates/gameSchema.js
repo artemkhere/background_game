@@ -1,5 +1,6 @@
 export default
 {
+  battlePrices: [1, 10, 100, 250, 500],
   itemEquipSlotPrices: [0, 10, 100, 1000, 10000],
   items: {
     kitty: {
