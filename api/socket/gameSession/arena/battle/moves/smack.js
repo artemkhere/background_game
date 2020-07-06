@@ -53,7 +53,7 @@ export default function smack(attacker, defender) {
     logUpdate.push('CRITICAL!');
   }
 
-  logUpdate.push(`${attacker.name} deals ${damage} damage.`);
+  logUpdate.push(`${attacker.name} smacked ${defender.name} for ${damage} damage.`);
 
   return {
     logUpdate,

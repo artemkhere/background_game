@@ -49,22 +49,16 @@ const handleHeroMove = (gameSessionState, move) => {
     hero,
     enemy,
     log,
-    heroEffects,
-    enemyEffects
   } = battle;
 
   const heroActionResult = resolveMove(
     hero,
     enemy,
-    heroEffects,
-    enemyEffects,
     move
   );
   gameState.arena.battle.hero = heroActionResult.source;
   gameState.arena.battle.enemy = heroActionResult.target;
   gameState.arena.battle.log = [...log, ...heroActionResult.logUpdate];
-  gameState.arena.battle.heroEffects = heroActionResult.sourceEffects;
-  gameState.arena.battle.enemyEffects = heroActionResult.targetEffects;
 
   setGameState(gameState);
 }
@@ -80,22 +74,16 @@ const handleEnemyMove = (gameSessionState, move) => {
     hero,
     enemy,
     log,
-    heroEffects,
-    enemyEffects
   } = battle;
 
   const heroActionResult = resolveMove(
     enemy,
     hero,
-    enemyEffects,
-    heroEffects,
     move
   );
   gameState.arena.battle.enemy = heroActionResult.source;
   gameState.arena.battle.hero = heroActionResult.target;
   gameState.arena.battle.log = [...log, ...heroActionResult.logUpdate];
-  gameState.arena.battle.enemyEffects = heroActionResult.sourceEffects;
-  gameState.arena.battle.heroEffects = heroActionResult.targetEffects;
 
   setGameState(gameState);
 }
@@ -107,15 +95,10 @@ const handleHeroEffects = (gameSessionState) => {
   } = gameSessionState;
   const gameState = getGameState();
   const battle = {...gameState.arena.battle};
-  const {
-    hero,
-    heroEffects,
-    log
-  } = battle;
+  const { hero, log } = battle;
 
-  const heroEffectsResult = resolveEffects(hero, heroEffects);
+  const heroEffectsResult = resolveEffects(hero);
   gameState.arena.battle.hero = heroEffectsResult.target;
-  gameState.arena.battle.heroEffects = heroEffectsResult.effects;
   gameState.arena.battle.log = [...log, ...heroEffectsResult.logUpdate];
 
   setGameState(gameState);
@@ -128,15 +111,10 @@ const handleEnemyEffects = (gameSessionState) => {
   } = gameSessionState;
   const gameState = getGameState();
   const battle = {...gameState.arena.battle};
-  const {
-    enemy,
-    enemyEffects,
-    log
-  } = battle;
+  const { enemy, log } = battle;
 
-  const enemyEffectsResult = resolveEffects(enemy, enemyEffects);
+  const enemyEffectsResult = resolveEffects(enemy);
   gameState.arena.battle.enemy = enemyEffectsResult.target;
-  gameState.arena.battle.enemyEffects = enemyEffectsResult.effects;
   gameState.arena.battle.log = [...log, ...enemyEffectsResult.logUpdate];
 
   setGameState(gameState);
@@ -168,6 +146,7 @@ export default function handleTakeTurn(
 
   if (heroGoesFirst(hero, enemy)) {
     handleHeroEffects(gameSessionState, data.move);
+    checkIfBattleShouldEnd(gameSessionState);
     if (getGameState().arena.battle.battleShouldEnd) {
       handleEndBattle(gameSessionState, data, socket);
       return;
@@ -181,6 +160,7 @@ export default function handleTakeTurn(
     }
 
     handleEnemyEffects(gameSessionState, data.move);
+    checkIfBattleShouldEnd(gameSessionState);
     if (getGameState().arena.battle.battleShouldEnd) {
       handleEndBattle(gameSessionState, data, socket);
       return;
@@ -194,6 +174,7 @@ export default function handleTakeTurn(
     }
   } else {
     handleEnemyEffects(gameSessionState, data.move);
+    checkIfBattleShouldEnd(gameSessionState);
     if (getGameState().arena.battle.battleShouldEnd) {
       handleEndBattle(gameSessionState, data, socket);
       return;
@@ -207,6 +188,7 @@ export default function handleTakeTurn(
     }
 
     handleHeroEffects(gameSessionState, data.move);
+    checkIfBattleShouldEnd(gameSessionState);
     if (getGameState().arena.battle.battleShouldEnd) {
       handleEndBattle(gameSessionState, data, socket);
       return;

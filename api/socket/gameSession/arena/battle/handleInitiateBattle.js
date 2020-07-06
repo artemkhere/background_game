@@ -18,6 +18,7 @@ export default function initiateBattle(
   const hero = {
     name: 'Jabronie',
     health: 25,
+    level: 1,
     attributes: {
       dexterity: 3, // hit chance, crit chance
       agility: 3, // dodge chance, crit dmg multiplier, who goes first
@@ -41,7 +42,8 @@ export default function initiateBattle(
       },
       feet: undefined,
     },
-    moves: ['smack']
+    moves: ['smack', 'nap', 'lick'],
+    effects: []
   }
 
   if (!hero) {
@@ -70,8 +72,6 @@ export default function initiateBattle(
     enemy: initiateCharacterBuild(hero), // randomly generated in the future or pulled from db
     log: [`Battle started between ${hero.name} and ${hero.name}.`],
     turn: 0,
-    heroEffects: [], // [{ name: 'poison', targetStat: 'health', effect: '-2' }]
-    enemyEffects: [],
     lastTurnTaken: undefined,
     winner: undefined,
     heroWon: undefined,

@@ -1,11 +1,11 @@
 import initiateCharacterBuild from '../../character/initiateCharacterBuild.js';
 import smack from './smack.js';
+import nap from './nap.js';
+import lick from './lick.js';
 
 export default function resolveMove(
   source,
   target,
-  sourceEffects,
-  targetEffects,
   move
 ) {
   if (!source.moves.includes(move)) {
@@ -13,15 +13,11 @@ export default function resolveMove(
       source,
       target,
       logUpdate: [`${source.name} doesn't know ${move}`],
-      sourceEffects,
-      targetEffects
     }
   }
 
   let sourceReference = {...source};
   let targetReference = {...target};
-  let sourceEffectsReference = [...sourceEffects];
-  let targetEffectsReference = [...targetEffects];
   let damage = 0;
   let logUpdate = [];
 
@@ -35,21 +31,27 @@ export default function resolveMove(
         targetReference.stats.health -= smackResult.damage;
       }
       break;
+    case 'nap':
+      const napResult = nap(source);
+      logUpdate = napResult.logUpdate;
+      sourceReference.stats.health += napResult.heal;
+      break;
+    case 'lick':
+      const lickResult = lick(source, target);
+      logUpdate = lickResult.logUpdate;
+      targetReference = lickResult.target;
+      break;
     default:
       return {
         source,
         target,
-        logUpdate: [`${move} is not a move.`],
-        sourceEffects,
-        targetEffects
+        logUpdate: [`${move} is not a move.`]
       };
   }
 
   return {
     source: initiateCharacterBuild(sourceReference, sourceReference.stats.health),
     target: initiateCharacterBuild(targetReference, targetReference.stats.health),
-    logUpdate,
-    sourceEffects: sourceEffectsReference,
-    targetEffects: targetEffectsReference
+    logUpdate
   }
 }

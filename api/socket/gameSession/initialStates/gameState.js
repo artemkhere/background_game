@@ -18,6 +18,8 @@ export default
       name: '',
       health: 0,
       moves: ['smack'],
+      level: 1,
+      availablePoints: 0,
       attributes: {
         dexterity: 0, // hit chance, crit chance
         agility: 0, // dodge chance, crit dmg multiplier, who goes first
@@ -32,8 +34,6 @@ export default
         body: undefined,
         legs: undefined
       },
-      level: 1,
-      availablePoints: 0,
     },
     inventory: [], // limited to 50 items
     battle: {

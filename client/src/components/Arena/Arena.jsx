@@ -11,10 +11,24 @@ function Arena(props) {
     });
   }
 
-  const handleTakeTurn = () => {
+  const handleSmack = () => {
     props.socketEmit({
       eventName: 'battleAction',
       data: { actionType: 'takeTurn', move: 'smack' }
+    });
+  }
+
+  const handleNap = () => {
+    props.socketEmit({
+      eventName: 'battleAction',
+      data: { actionType: 'takeTurn', move: 'nap' }
+    });
+  }
+
+  const handleLick = () => {
+    props.socketEmit({
+      eventName: 'battleAction',
+      data: { actionType: 'takeTurn', move: 'lick' }
     });
   }
 
@@ -27,10 +41,19 @@ function Arena(props) {
         Initiate
       </button>
       <button
-        className="waste-button"
-        onClick={handleTakeTurn}
+        onClick={handleSmack}
       >
-        Attack
+        Smack
+      </button>
+      <button
+        onClick={handleNap}
+      >
+        Nap
+      </button>
+      <button
+        onClick={handleLick}
+      >
+        Lick
       </button>
     </div>
   );

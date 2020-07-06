@@ -1,5 +1,6 @@
 import handleInitiateBattle from './handleInitiateBattle.js';
 import handleTakeTurn from './handleTakeTurn.js';
+import handleEndBattle from './handleEndBattle.js';
 
 export default function handleBattleAction(
   gameSessionState,

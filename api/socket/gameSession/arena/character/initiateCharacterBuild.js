@@ -49,6 +49,7 @@ export default function initiateCharacterBuild(
     moves,
     attributes,
     equipped,
+    effects
   },
   health
 ) {
@@ -67,6 +68,7 @@ export default function initiateCharacterBuild(
     moves,
     attributes: fullAttributes,
     stats,
-    equipped: listOfEquipment
+    equipped: listOfEquipment,
+    effects: effects ? effects : []
   };
 }

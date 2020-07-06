@@ -1,8 +1,8 @@
 import initiateCharacterBuild from '../../character/initiateCharacterBuild.js';
 
-export default function resolveEffects(target, effects) {
+export default function resolveEffects(target) {
   const targetReference = {...target};
-  let effectsReference = [...effects];
+  let effectsReference = [...target.effects];
   const logUpdate = [];
 
   // effect structure
@@ -10,13 +10,24 @@ export default function resolveEffects(target, effects) {
   //   name: 'poison',
   //   turnsLeft: 3,
   //   stat: 'health',
-  //   attribute: 'dexterity'
+  //   attribute: 'dexterity',
   //   amount: 3
   // }
 
-  effectsReference.forEach(({ stat, attribute, amount }) => {
+  effectsReference.forEach((effect) => {
+    let {
+      stat,
+      attribute,
+      amount
+    } = effect;
+
     if (stat) {
+      if (stat === 'health' && (target.stats.health - amount) < 0) {
+        amount = target.stats.health;
+      }
+
       targetReference.stats[stat] += amount;
+
       logUpdate.push(`${targetReference.name} ${stat} ${amount}`);
     }
 
@@ -24,15 +35,18 @@ export default function resolveEffects(target, effects) {
       targetReference.attributes[attribute] += amount;
       logUpdate.push(`${targetReference.name} ${attribute} ${amount}`);
     }
+
+    effect.turnsLeft -= 1;
   });
 
   effectsReference = effectsReference.filter(({ turnsLeft }) => {
-    return turnsLeft > 1;
+    return turnsLeft > 0;
   });
+
+  targetReference.effects = effectsReference;
 
   return {
     target: initiateCharacterBuild(targetReference, targetReference.stats.health),
-    effects: effectsReference,
     logUpdate
   }
 }
