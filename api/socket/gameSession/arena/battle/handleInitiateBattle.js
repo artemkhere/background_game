@@ -14,8 +14,8 @@ export default function initiateBattle(
   } = gameSessionState;
 
   const gameState = getGameState();
-  // const hero = gameState.arena.selectedHero;
-  const hero = {
+  const hero = gameState.arena.selectedHero;
+  const enemy = {
     name: 'Jabronie',
     health: 25,
     level: 1,
@@ -69,8 +69,8 @@ export default function initiateBattle(
   gameState.arena.battle = {
     created: Date.now(),
     hero: initiateCharacterBuild(hero, hero.health),
-    enemy: initiateCharacterBuild(hero), // randomly generated in the future or pulled from db
-    log: [`Battle started between ${hero.name} and ${hero.name}.`],
+    enemy: initiateCharacterBuild(enemy), // randomly generated in the future or pulled from db
+    log: [`Battle started between ${hero.name} and ${enemy.name}.`],
     turn: 0,
     lastTurnTaken: undefined,
     winner: undefined,

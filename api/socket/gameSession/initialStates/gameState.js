@@ -15,16 +15,16 @@ export default
   },
   arena: {
     selectedHero: {
-      name: '',
-      health: 0,
-      moves: ['smack'],
+      name: 'Pickle Juice',
+      health: 20,
+      moves: ['smack', 'nap', 'lick'],
       level: 1,
       availablePoints: 0,
       attributes: {
-        dexterity: 0, // hit chance, crit chance
-        agility: 0, // dodge chance, crit dmg multiplier, who goes first
-        stamina: 0, // amount of health
-        strength: 0 // dmg done
+        dexterity: 1, // hit chance, crit chance
+        agility: 1, // dodge chance, crit dmg multiplier, who goes first
+        stamina: 1, // amount of health
+        strength: 1 // dmg done
       },
       equipped: {
         weapon: undefined,
