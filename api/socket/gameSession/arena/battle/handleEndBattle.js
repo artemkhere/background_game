@@ -1,3 +1,5 @@
+import handleVictory from './handleVictory.js';
+
 export default function handleEndBattle(
   gameSessionState,
   data,
@@ -15,7 +17,8 @@ export default function handleEndBattle(
     gameState.arena.selectedHero.health = 0;
   } else {
     logUpdate = `Battle ended, winner: ${gameState.arena.battle.hero.name}.`;
-    // handle EXP addition
+    gameState.arena.selectedHero.health = 0; // ARTEM HANDLE THIS
+    handleVictory(gameSessionState, socket);
   }
 
   gameState.arena.battle.log.push(logUpdate);

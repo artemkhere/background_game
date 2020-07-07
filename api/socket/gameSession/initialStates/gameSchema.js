@@ -1,6 +1,7 @@
 export default
 {
   battlePrices: [1, 10, 100, 250, 500],
+  levelRequirements: [0, 10, 25, 50, 100, 250, 500, 1000],
   itemEquipSlotPrices: [0, 10, 100, 1000, 10000],
   items: {
     kitty: {
