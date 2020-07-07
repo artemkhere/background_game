@@ -13,6 +13,7 @@ import handleConsumableAction from './harvest/consumables/handleConsumableAction
 
 // ARENA
 import handleBattleAction from './arena/battle/handleBattleAction.js';
+import handleCharacterAction from './arena/character/handleCharacterAction.js';
 
 let autoSave;
 const save = (gameSessionState, gameSave) => {
@@ -122,6 +123,15 @@ export default async function handleSetupGameSession(socket) {
     // ARENA
     socket.on('battleAction', (data) => {
       handleBattleAction(
+        gameSessionState,
+        handleUpdateGameSession,
+        data,
+        socket
+      );
+    });
+
+    socket.on('characterAction', (data) => {
+      handleCharacterAction(
         gameSessionState,
         handleUpdateGameSession,
         data,

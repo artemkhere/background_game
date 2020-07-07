@@ -16,7 +16,7 @@ export default
   arena: {
     selectedHero: {
       name: 'Pickle Juice',
-      health: 20,
+      health: 11,
       moves: ['smack', 'nap', 'lick'],
       level: 1,
       availablePoints: 0,
@@ -49,5 +49,5 @@ export default
       battleShouldEnd: false
     }
   },
-  inBattle: false
+  inBattle: false,
 }

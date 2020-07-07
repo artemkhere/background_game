@@ -32,8 +32,21 @@ function Arena(props) {
     });
   }
 
+  const handleHeal = () => {
+    props.socketEmit({
+      eventName: 'characterAction',
+      data: { actionType: 'heal' }
+    });
+  }
+
   return (
     <div className="waste-container">
+      <button
+        className="waste-button"
+        onClick={handleHeal}
+      >
+        Heal
+      </button>
       <button
         className="waste-button"
         onClick={handleClick}

@@ -1,4 +1,4 @@
-import handleBuyCharacter from './handleBuyCharacter.js';
+import handleHealCharacter from './handleHealCharacter.js';
 
 export default function handleCharacterAction(
   gameSessionState,
@@ -11,13 +11,15 @@ export default function handleCharacterAction(
     return;
   }
 
+  const inBattle = gameSessionState.getGameState().inBattle;
+  if (inBattle) {
+    socket.emit('operationFailed', { message: "Can't do that while in battle." });
+    return;
+  }
+
   switch (data.actionType) {
-    case 'handleBuyCharacter':
-      handleBuyCharacter(
-        gameSessionState,
-        data,
-        socket
-      );
+    case 'heal':
+      handleHealCharacter(gameSessionState, socket);
       break;
     default:
       socket.emit('operationFailed', { message: 'Unknown actionType.' });
