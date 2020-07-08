@@ -82,6 +82,11 @@ export default function initiateBattle(
     return;
   }
 
+  if (hero.health <= 0) {
+    socket.emit('operationFailed', { message: 'Heal your hero first.' });
+    return;
+  }
+
   const { battlePrices } = gameSchema;
   let costToInitiateBattle = battlePrices[gameState.arena.selectedHero.level];
   if (!costToInitiateBattle) {
