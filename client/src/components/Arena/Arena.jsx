@@ -39,8 +39,21 @@ function Arena(props) {
     });
   }
 
+  const handleAddPoint = () => {
+    props.socketEmit({
+      eventName: 'characterAction',
+      data: { actionType: 'distributePoints', targets: [{ target: 'stamina', amount: 1 }] }
+    });
+  }
+
   return (
     <div className="waste-container">
+      <button
+        className="waste-button"
+        onClick={handleAddPoint}
+      >
+        Add Point
+      </button>
       <button
         className="waste-button"
         onClick={handleHeal}

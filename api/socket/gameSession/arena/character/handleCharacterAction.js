@@ -1,4 +1,5 @@
 import handleHealCharacter from './handleHealCharacter.js';
+import handleCharacterPointsDistribution from './handleCharacterPointsDistribution.js';
 
 export default function handleCharacterAction(
   gameSessionState,
@@ -19,7 +20,17 @@ export default function handleCharacterAction(
 
   switch (data.actionType) {
     case 'heal':
-      handleHealCharacter(gameSessionState, socket);
+      handleHealCharacter(
+        gameSessionState,
+        socket
+      );
+      break;
+    case 'distributePoints':
+      handleCharacterPointsDistribution(
+        gameSessionState,
+        data.targets,
+        socket
+      );
       break;
     default:
       socket.emit('operationFailed', { message: 'Unknown actionType.' });
