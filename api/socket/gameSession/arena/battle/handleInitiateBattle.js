@@ -15,36 +15,6 @@ export default function initiateBattle(
 
   const gameState = getGameState();
   const hero = gameState.arena.selectedHero;
-  // const enemy = {
-  //   name: 'Jabronie',
-  //   health: 25,
-  //   level: 1,
-  //   attributes: {
-  //     dexterity: 3, // hit chance, crit chance
-  //     agility: 3, // dodge chance, crit dmg multiplier, who goes first
-  //     stamina: 5, // amount of health
-  //     strength: 2 // dmg done
-  //   },
-  //   equipped: {
-  //     weapon: undefined,
-  //     ring: undefined,
-  //     amulet: undefined,
-  //     head: undefined,
-  //     body: undefined,
-  //     legs: {
-  //       name: 'Poopy booties',
-  //       rarity: 'common',
-  //       effects: {
-  //         dexterity: 1,
-  //         damage: 1,
-  //         hitChance: 0.05
-  //       }
-  //     },
-  //     feet: undefined,
-  //   },
-  //   moves: ['smack', 'nap', 'lick'],
-  //   effects: []
-  // }
 
   const enemy = {
     name: 'drrdrr',
