@@ -1,4 +1,5 @@
 import initiateCharacterBuild from '../character/initiateCharacterBuild.js';
+import generateEnemyModel from '../character/generateEnemyModel.js';
 import gameSchema from '../../initialStates/gameSchema.js';
 
 export default function initiateBattle(
@@ -14,51 +15,21 @@ export default function initiateBattle(
   } = gameSessionState;
 
   const gameState = getGameState();
-  const hero = gameState.arena.selectedHero;
+  const heroModel = gameState.arena.selectedHero;
+  const enemyModel = generateEnemyModel(heroModel);
 
-  const enemy = {
-    name: 'drrdrr',
-    health: 25,
-    level: 1,
-    attributes: {
-      dexterity: 1, // hit chance, crit chance
-      agility: 1, // dodge chance, crit dmg multiplier, who goes first
-      stamina: 1, // amount of health
-      strength: 1 // dmg done
-    },
-    equipped: {
-      weapon: undefined,
-      ring: undefined,
-      amulet: undefined,
-      head: undefined,
-      body: undefined,
-      legs: {
-        name: 'Poopy booties',
-        rarity: 'common',
-        effects: {
-          dexterity: 1,
-          damage: 1,
-          hitChance: 0.05
-        }
-      },
-      feet: undefined,
-    },
-    moves: ['smack', 'nap', 'lick'],
-    effects: []
-  }
-
-  if (!hero) {
+  if (!heroModel) {
     socket.emit('operationFailed', { message: 'No hero selected.' });
     return;
   }
 
-  if (hero.health <= 0) {
+  if (heroModel.health <= 0) {
     socket.emit('operationFailed', { message: 'Heal your hero first.' });
     return;
   }
 
   const { battlePrices } = gameSchema;
-  let costToInitiateBattle = battlePrices[gameState.arena.selectedHero.level];
+  let costToInitiateBattle = battlePrices[heroModel.level];
   if (!costToInitiateBattle) {
     costToInitiateBattle = battlePrices[battlePrices.length - 1];
   }
@@ -74,10 +45,10 @@ export default function initiateBattle(
   gameState.inBattle = true;
   gameState.arena.battle = {
     created: Date.now(),
-    enemyModel: enemy,
-    hero: initiateCharacterBuild(hero, hero.health),
-    enemy: initiateCharacterBuild(enemy), // randomly generated in the future or pulled from db
-    log: [`Battle started between ${hero.name} and ${enemy.name}.`],
+    enemyModel,
+    hero: initiateCharacterBuild(heroModel, heroModel.health),
+    enemy: initiateCharacterBuild(enemyModel),
+    log: [`Battle started between ${heroModel.name} and ${enemyModel.name}.`],
     turn: 0,
     lastTurnTaken: undefined,
     winner: undefined,

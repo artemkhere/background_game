@@ -1,4 +1,5 @@
 import gameSchema from '../../initialStates/gameSchema.js';
+import generateItem from '../items/generateItem.js';
 
 export default function generateEnemyModel(heroModel) {
   // generate attributes
@@ -24,19 +25,25 @@ export default function generateEnemyModel(heroModel) {
   const enemyLevel = heroModel.level;
   const movesToKnow = Math.floor(enemyLevel / 5);
 
-  for (let i = 0; i < movesToKnow; i++) {
-    const move = movesList[Math.round(Math.random() * (movesList.length - 1))];
+  for (let i = 0; movesList.length > 0 && i < movesToKnow; i++) {
+    const indexOfMove = Math.round(Math.random() * (movesList.length - 1));
+    const move = movesList[indexOfMove];
     enemyMoves.push(move);
+    movesList.splice(indexOfMove, 1);
   }
+
+  const listOfTypes = ['weapon', 'ring', 'amulet', 'hat', 'shirt', 'pants'];
+  const equipped = {};
+  listOfTypes.forEach((itemType) => {
+    if (Math.random() >= 0.5) { equipped[itemType] = generateItem(enemyLevel, itemType); }
+  });
 
   return {
     name: 'Random Enemy',
     level: enemyLevel,
     attributes: enemyAttributes,
-    equipped: {},
+    equipped,
     moves: enemyMoves,
     effects: []
   }
-
-  // item generation
 }

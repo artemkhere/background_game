@@ -31,9 +31,9 @@ export default
         weapon: undefined,
         ring: undefined,
         amulet: undefined,
-        head: undefined,
-        body: undefined,
-        legs: undefined
+        hat: undefined,
+        shirt: undefined,
+        pants: undefined
       },
     },
     inventory: [], // limited to 50 items
