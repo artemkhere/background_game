@@ -2,7 +2,6 @@ import setupStructureShop from './setupStructureShop.js';
 
 export default function handleSellStructure(
   gameSessionState,
-  handleUpdateGameSession,
   builtIndex,
   socket
 ) {
@@ -39,6 +38,4 @@ export default function handleSellStructure(
 
   gameState.harvest.structures.built.splice(builtIndex, 1);
   setGameState(gameState);
-
-  handleUpdateGameSession();
 }

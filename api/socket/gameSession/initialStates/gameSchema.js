@@ -1,5 +1,8 @@
 export default
 {
+  battlePrices: [1, 10, 100, 250, 500],
+  levelRequirements: [0, 250, 500, 1000, 2000, 4000, 8000, 16000],
+  movesList: ['nap', 'lick'],
   itemEquipSlotPrices: [0, 10, 100, 1000, 10000],
   items: {
     kitty: {

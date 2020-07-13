@@ -14,18 +14,40 @@ export default
     lastCycle: undefined,
   },
   arena: {
-    selectedHero: undefined,
-    heroRoster: [], // limited to 1 - in the future 5?
+    selectedHero: {
+      name: 'Pickle Juice',
+      health: 11,
+      moves: ['smack', 'nap', 'lick'],
+      level: 1,
+      experience: 0,
+      availablePoints: 0,
+      attributes: {
+        dexterity: 5, // hit chance, crit chance
+        agility: 5, // dodge chance, crit dmg multiplier, who goes first
+        stamina: 5, // amount of health
+        strength: 5 // dmg done
+      },
+      equipped: {
+        weapon: undefined,
+        ring: undefined,
+        amulet: undefined,
+        hat: undefined,
+        shirt: undefined,
+        pants: undefined
+      },
+    },
     inventory: [], // limited to 50 items
     battle: {
-      created: null,
-      hero: null,
-      enemy: null,
+      created: undefined,
+      enemyModel: undefined,
+      hero: undefined,
+      enemy: undefined,
       log: [],
       turn: 0,
-      heroEffects: [],
-      enemEffects: []
+      lastTurnTaken: undefined,
+      heroWon: undefined,
+      battleShouldEnd: false
     }
   },
-  inBattle: false
+  inBattle: false,
 }

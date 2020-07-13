@@ -1,8 +1,8 @@
-import handleBuyStructure from './handleBuyStructure.js';
-import handleSellStructure from './handleSellStructure.js';
-import handleBuyBuildSlot from './handleBuyBuildSlot.js';
+import handleInitiateBattle from './handleInitiateBattle.js';
+import handleTakeTurn from './handleTakeTurn.js';
+import handleEndBattle from './handleEndBattle.js';
 
-export default function handleStructureAction(
+export default function handleBattleAction(
   gameSessionState,
   handleUpdateGameSession,
   data,
@@ -14,23 +14,24 @@ export default function handleStructureAction(
   }
 
   switch (data.actionType) {
-    case 'buy':
-      handleBuyStructure(
+    case 'initiateBattle':
+      handleInitiateBattle(
         gameSessionState,
-        data.structureName,
+        data,
         socket
       );
       break;
-    case 'sell':
-      handleSellStructure(
+    case 'endBattle':
+      handleEndBattle(
         gameSessionState,
-        data.builtIndex,
+        data,
         socket
       );
       break;
-    case 'buyBuildSlot':
-      handleBuyBuildSlot(
+    case 'takeTurn':
+      handleTakeTurn(
         gameSessionState,
+        data,
         socket
       );
       break;

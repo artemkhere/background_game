@@ -19,7 +19,6 @@ export default function handleItemAction(
     case 'buy':
       handleBuyItem(
         gameSessionState,
-        handleUpdateGameSession,
         data.itemName,
         socket
       );
@@ -27,7 +26,6 @@ export default function handleItemAction(
     case 'sell':
       handleSellItem(
         gameSessionState,
-        handleUpdateGameSession,
         data.itemName,
         socket
       );
@@ -35,7 +33,6 @@ export default function handleItemAction(
     case 'equip':
       handleEquipItem(
         gameSessionState,
-        handleUpdateGameSession,
         data.itemName,
         socket
       );
@@ -43,7 +40,6 @@ export default function handleItemAction(
     case 'unequip':
       handleUnequipItem(
         gameSessionState,
-        handleUpdateGameSession,
         data.equippedIndex,
         socket
       );
@@ -51,7 +47,6 @@ export default function handleItemAction(
     case 'buyEquipSlot':
       handleBuyEquipSlot(
         gameSessionState,
-        handleUpdateGameSession,
         socket
       );
       break;
@@ -59,4 +54,6 @@ export default function handleItemAction(
       socket.emit('operationFailed', { message: 'Unknown actionType.' });
       return;
   }
+
+  handleUpdateGameSession();
 }

@@ -2,7 +2,6 @@ import gameSchema from '../../initialStates/gameSchema.js';
 
 export default function handleBuyEquipSlot(
   gameSessionState,
-  handleUpdateGameSession,
   socket
 ) {
   const {
@@ -31,6 +30,4 @@ export default function handleBuyEquipSlot(
 
   const resources = getResources() - equipSlotPrice;
   setResources(resources);
-
-  handleUpdateGameSession();
 }
