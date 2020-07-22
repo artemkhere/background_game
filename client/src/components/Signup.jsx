@@ -80,8 +80,7 @@ function Signup(props) {
   }
 
   const handleStartNewGame = () => {
-    setCurrentScreen('GameSession');
-    // in this connectToSocket I will need to pass userID and jwt
+    setCurrentScreen('HarvestMode');
     connectToSocket();
   }
 

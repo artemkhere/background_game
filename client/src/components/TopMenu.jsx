@@ -13,7 +13,7 @@ function TopMenu(props) {
   const userLoggedIn = user.loggedIn;
 
   const handlePlay = () => {
-    setCurrentScreen('GameSession');
+    setCurrentScreen('HarvestMode');
     connectToSocket();
   }
 

@@ -77,7 +77,7 @@ function Login(props) {
   }
 
   const handleStartNewGame = () => {
-    setCurrentScreen('GameSession');
+    setCurrentScreen('HarvestMode');
     connectToSocket();
   }
 

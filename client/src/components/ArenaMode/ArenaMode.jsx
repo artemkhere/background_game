@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { socketEmit } from '../../actions/socketActions';
 
-function Arena(props) {
+function ArenaMode(props) {
   const handleClick = () => {
     props.socketEmit({
       eventName: 'battleAction',
@@ -94,4 +94,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   () => { return {}; },
   mapDispatchToProps
-)(Arena);
+)(ArenaMode);

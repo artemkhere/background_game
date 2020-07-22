@@ -8,7 +8,7 @@ function LandingPage(props) {
   const { connectToSocket, setCurrentScreen } = props;
 
   const handleStartNewGame = () => {
-    setCurrentScreen('GameSession');
+    setCurrentScreen('HarvestMode');
     connectToSocket();
   }
 

@@ -10,14 +10,15 @@ import TopMenu from './components/TopMenu';
 import ErrorModal from './components/ErrorModal';
 import LoadingModal from './components/LoadingModal';
 import LandingPage from './components/LandingPage';
-import GameSession from './components/GameSession/GameSession';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Logout from './components/Logout';
-import Arena from './components/Arena/Arena';
+import HarvestMode from './components/HarvestMode/HarvestMode';
+import ArenaMode from './components/ArenaMode/ArenaMode';
 
 function App(props) {
   const { setUserData, user, applicationState } = props;
+  const { currentScreen, error, loading } = applicationState;
 
   const authenticate = async (jwt) => {
     try {
@@ -41,12 +42,9 @@ function App(props) {
   const renderMainSection = () => {
     let toRender;
 
-    switch(applicationState.currentScreen) {
+    switch(currentScreen) {
       case 'LandingPage':
         toRender = <LandingPage />;
-        break;
-      case 'GameSession':
-        toRender = <GameSession />;
         break;
       case 'Login':
         toRender = <Login />;
@@ -57,8 +55,11 @@ function App(props) {
       case 'Logout':
         toRender = <Logout />;
         break;
-      case 'Arena':
-        toRender = <Arena />;
+      case 'HarvestMode':
+        toRender = <HarvestMode />;
+        break;
+      case 'ArenaMode':
+        toRender = <ArenaMode />;
         break;
       default:
         toRender = <div>Error</div>;
@@ -67,11 +68,13 @@ function App(props) {
     return toRender;
   }
 
+  const shouldRenderTopMenu = currentScreen !== 'HarvestMode' && currentScreen !== 'ArenaMode';
+
   return (
-    <div>
-      <TopMenu />
-      {applicationState.error && <ErrorModal />}
-      {applicationState.loading && <LoadingModal />}
+    <div className="app">
+      {shouldRenderTopMenu && <TopMenu />}
+      {error && <ErrorModal />}
+      {loading && <LoadingModal />}
       {renderMainSection()}
     </div>
   );
