@@ -1,0 +1,13 @@
+@import "../../../../css/variables.scss";
+
+.menu-container {
+  .settings-menu-container {
+    height: 25px;
+    margin-right: -4px;
+
+    .selector {
+      width: 25px;
+      cursor: pointer;
+    }
+  }
+}
