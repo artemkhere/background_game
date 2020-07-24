@@ -6,6 +6,8 @@ import "./UserInfoContainer.scss";
 
 import { connectToSocket } from '../../../actions/socketActions';
 
+import LevelInfo from './LevelInfo/LevelInfo';
+import LevelBar from './LevelBar/LevelBar';
 import SettingsMenu from './SettingsMenu/SettingsMenu';
 
 function UserInfoContainer(props) {
@@ -18,14 +20,9 @@ function UserInfoContainer(props) {
     <div className="user-info-container">
       <div className="user-avatar" />
       <div className="info-container">
-        <div className="level-bar">
-          <div className="level-filler" style={{ width: '50%' }} />
-        </div>
+        <LevelBar />
         <div className="level-and-menu-container">
-          <div className="level-info">
-            lvl
-            <span className="level-number">13</span>
-          </div>
+          <LevelInfo />
           <div className="menu-container">
             <img src={journal} id="journal" className="menu-icon disabled" alt="journal" />
             <SettingsMenu />

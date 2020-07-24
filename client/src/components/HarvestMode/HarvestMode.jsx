@@ -51,7 +51,7 @@ function HarvestMode(props) {
       <div className="main-section">
         <div className="mode-container">
           <h1 className="mode-name">Harvest Mode</h1>
-          <button />
+          <ClickableArea />
         </div>
         <div className="card">aiii</div>
       </div>

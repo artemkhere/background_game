@@ -1,6 +1,7 @@
-import setupItemShop from './harvest/items/setupItemShop.js';
-import setupStructureShop from './harvest/structures/setupStructureShop.js';
-import setupConsumableShop from './harvest/consumables/setupConsumableShop.js';
+import setupItemShop from './harvest/items/setupItemShop';
+import setupStructureShop from './harvest/structures/setupStructureShop';
+import setupConsumableShop from './harvest/consumables/setupConsumableShop';
+import gameSchema from './initialStates/gameSchema';
 
 export default function setupGameSchema(gameHistory, gameState) {
   const itemShop = setupItemShop(gameHistory);
@@ -10,6 +11,7 @@ export default function setupGameSchema(gameHistory, gameState) {
   return {
     itemShop,
     structureShop,
-    consumableShop
+    consumableShop,
+    harvestLevelRequirements:  gameSchema.harvestLevelRequirements,
   };
 }

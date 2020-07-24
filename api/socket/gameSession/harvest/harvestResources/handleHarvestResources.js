@@ -1,6 +1,7 @@
 import applyEffect from '../applyEffect.js';
 import calculateCycles from './calculateCycles.js';
 import handleConsumablesHarvest from './handleConsumablesHarvest.js';
+import handleHarvestLevelUp from '../handleHarvestLevelUp.js';
 
 export default function handleHarvestResources(
   gameSessionState,
@@ -47,14 +48,18 @@ export default function handleHarvestResources(
     harvestValue = applyEffect(harvestValue, effect.harvest);
   });
 
-  const updatedResources = getResources() + harvestValue * cycles + consumablesHarvest;
+  const totalHarvest = harvestValue * cycles + consumablesHarvest;
+  const updatedResources = getResources() + totalHarvest;
   setResources(updatedResources);
 
   const gameHistory = getGameHistory();
-  gameHistory.resources = gameHistory.resources + harvestValue;
+  gameHistory.resources += totalHarvest;
   setGameHistory(gameHistory);
 
+  gameState.harvest.experience += totalHarvest;
   setGameState(gameState);
+
+  handleHarvestLevelUp(gameSessionState);
 
   handleUpdateGameSession();
 }

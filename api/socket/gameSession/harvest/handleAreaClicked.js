@@ -1,4 +1,5 @@
-import applyEffect from './applyEffect.js';
+import applyEffect from './applyEffect';
+import handleHarvestLevelUp from './handleHarvestLevelUp';
 
 export default function handleAreaClicked(
   gameSessionState,
@@ -43,6 +44,11 @@ export default function handleAreaClicked(
   gameHistory.resources = gameHistory.resources + clickValue;
   gameHistory.harvest.clicks = gameHistory.harvest.clicks + 1;
   setGameHistory(gameHistory);
+
+  gameState.harvest.experience += clickValue;
+  setGameState(gameState);
+
+  handleHarvestLevelUp(gameSessionState);
 
   handleUpdateGameSession();
 }

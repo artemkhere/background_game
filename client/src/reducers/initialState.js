@@ -36,7 +36,8 @@ export default {
     gameSchema: {
       itemShop: [],
       structureShop: [],
-      consumableShop: []
+      consumableShop: [],
+      harvestLevelRequirements: []
     }
   },
   applicationState: {

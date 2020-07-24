@@ -7,14 +7,20 @@ export default function handleCharacterLevelUp(gameSessionState, socket) {
   } = gameSessionState;
 
   const gameState = getGameState();
-  let nextLevelRequirement = gameSchema.levelRequirements[gameState.arena.selectedHero.level];
+  const characterLevelRequirements = gameSchema.characterLevelRequirements;
 
-  while (gameState.arena.selectedHero.experience >= nextLevelRequirement) {
+  if (characterLevelRequirements.length <= gameState.arena.selectedHero.level) { return; }
+  let nextLevelRequirement = characterLevelRequirements[gameState.arena.selectedHero.level];
+
+  while (
+    characterLevelRequirements.length >= gameState.arena.selectedHero.level
+    && gameState.arena.selectedHero.experience >= nextLevelRequirement
+  ) {
     gameState.arena.selectedHero.experience -= nextLevelRequirement;
     gameState.arena.selectedHero.level += 1;
     gameState.arena.selectedHero.availablePoints += 2;
 
-    nextLevelRequirement = gameSchema.levelRequirements[gameState.arena.selectedHero.level];
+    nextLevelRequirement = characterLevelRequirements[gameState.arena.selectedHero.level];
   }
 
   setGameState(gameState);

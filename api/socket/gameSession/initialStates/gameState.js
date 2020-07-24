@@ -1,6 +1,8 @@
 export default
 {
   harvest: {
+    level: 1,
+    experience: 0,
     items: {
       equipped: [],
       availableEquipSlots: 1,
