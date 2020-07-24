@@ -52,9 +52,15 @@ function HarvestMode(props) {
       <div className="main-section">
         <div className="mode-container">
           <h1 className="mode-name">Harvest Mode</h1>
-          <ClickableArea />
         </div>
-        <div className="card">aiii</div>
+        <div className="card">
+          <ClickableArea />
+          <ItemShop />
+          <ItemInventory />
+          <ItemsEquipped />
+          <StructureShop />
+          <StructureSlots />
+        </div>
       </div>
       <div className="right-panel">
         <UserInfoContainer />

@@ -5,7 +5,7 @@ import toiletPaper from'./toiletPaper.png';
 import "./ResourcesInfoContainer.scss";
 
 function ResourcesInfoContainer(props) {
-  const { resources } = props.gameSession;
+  const { resources, gameState } = props.gameSession;
 
   return (
     <div className="resources-info-container">
@@ -19,7 +19,7 @@ function ResourcesInfoContainer(props) {
           </div>
           <div className="per-container per-cycle-container">
             <div className="per-descriptor">tp / cycle</div>
-            <span className="per-value">544</span>
+            <span className="per-value">{ gameState.harvest.resourcesPerCycle }</span>
           </div>
         </div>
       </div>

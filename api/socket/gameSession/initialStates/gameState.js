@@ -3,6 +3,8 @@ export default
   harvest: {
     level: 1,
     experience: 0,
+    resourcesPerClick: 1,
+    resourcesPerCycle: 0,
     items: {
       equipped: [],
       availableEquipSlots: 1,
