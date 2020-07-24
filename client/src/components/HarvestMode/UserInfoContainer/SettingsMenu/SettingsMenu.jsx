@@ -1,34 +1,91 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import settingsBlack from'./settingsBlack.png';
+import settingsWhite from'./settingsWhite.png';
 import "./SettingsMenu.scss";
 
-import { connectToSocket } from '../../../../actions/socketActions';
+import { disconnectFromSocket } from '../../../../actions/socketActions';
+import { setCurrentScreen } from '../../../../actions/applicationStateActions';
+import { setUserLoggedIn } from '../../../../actions/userActions';
 
 function SettingsMenu(props) {
-  const { error, loading } = props.socket;
-  const { resources } = props.gameSession;
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const { connectToSocket } = props;
+  const {
+    disconnectFromSocket,
+    setCurrentScreen,
+    setUserLoggedIn,
+    user
+  } = props;
+  const userLoggedIn = user.loggedIn;
+
+  const openMenu = () => { setMenuOpen(true); }
+  const closeMenu = () => { setMenuOpen(false); }
+
+  const handleLogin = () => {
+    closeMenu();
+    disconnectFromSocket();
+    setCurrentScreen('Login');
+  }
+
+  const handleLogout = () => {
+    closeMenu();
+    disconnectFromSocket();
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('gameSaveID');
+    setUserLoggedIn(false);
+    setCurrentScreen('Logout');
+  }
+
+  const handleSignup = () => {
+    closeMenu();
+    disconnectFromSocket();
+    setCurrentScreen('Signup');
+  }
+
+  const renderMenu = () => {
+    return (
+      <>
+        <div className="click-detector" onClick={closeMenu} />
+        <div className="menu-underlay">
+          <img
+            src={settingsWhite}
+            onClick={closeMenu}
+            className="selector"
+            id="settings-close-menu"
+            alt="settings"
+          />
+          {!userLoggedIn && <div className="menu-option" onClick={handleLogin}>Login</div>}
+          {!userLoggedIn && <div className="menu-option" onClick={handleSignup}>Signup</div>}
+          {userLoggedIn && <div className="menu-option" onClick={handleLogout}>Logout</div>}
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className="settings-menu-container">
-      <img src={settingsBlack} className="selector" alt="settings" />
+      {menuOpen ?
+        renderMenu()
+        :
+        <img src={settingsBlack} onClick={openMenu} className="selector" alt="settings" />
+      }
     </div>
   );
 }
 
 function mapStateToProps(state) {
   return {
-    socket: state.socket,
-    gameSession: state.gameSession
+    user: state.user
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    connectToSocket: connectToSocket(dispatch)
+    disconnectFromSocket: disconnectFromSocket(dispatch),
+    setCurrentScreen: setCurrentScreen(dispatch),
+    setUserLoggedIn: setUserLoggedIn(dispatch)
   };
 }
 
