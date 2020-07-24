@@ -4,18 +4,11 @@ import { connect } from 'react-redux';
 import journal from'./journal.png';
 import "./UserInfoContainer.scss";
 
-import { connectToSocket } from '../../../actions/socketActions';
-
 import LevelInfo from './LevelInfo/LevelInfo';
 import LevelBar from './LevelBar/LevelBar';
 import SettingsMenu from './SettingsMenu/SettingsMenu';
 
-function UserInfoContainer(props) {
-  const { error, loading } = props.socket;
-  const { resources } = props.gameSession;
-
-  const { connectToSocket } = props;
-
+export default function UserInfoContainer() {
   return (
     <div className="user-info-container">
       <div className="user-avatar" />
@@ -32,21 +25,3 @@ function UserInfoContainer(props) {
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    socket: state.socket,
-    gameSession: state.gameSession
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    connectToSocket: connectToSocket(dispatch)
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserInfoContainer);

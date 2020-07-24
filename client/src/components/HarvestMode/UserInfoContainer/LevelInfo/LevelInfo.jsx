@@ -9,7 +9,7 @@ function LevelInfo(props) {
 
   return (
     <div className="level-info">
-      lvl
+      <span className="level-word">lvl</span>
       <span className="level-number">{ level }</span>
     </div>
   );
