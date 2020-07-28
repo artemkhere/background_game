@@ -1,0 +1,49 @@
+@import "../../../css/variables.scss";
+
+.right-panel {
+  .shop {
+    padding-top: 12px;
+    overflow: hidden;
+
+    .tabs-container {
+      display: flex;
+
+      .tab {
+        display: flex;
+        justify-content: center;
+        padding: 4px;
+        flex-grow: 1;
+        cursor: pointer;
+        background-color: white;
+        border-radius: 8px;
+        z-index: 20;
+
+        .tab-name {
+          font-size: 12px;
+          font-weight: 600;
+          text-transform: uppercase;
+          z-index: 30;
+        }
+      }
+
+      .tab.selected {
+        position: relative;
+        background-color: $grey-300;
+        color: $white;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        z-index: 10;
+      }
+
+      .tab.selected::after {
+        content: "";
+        width: 120%;
+        height: 8px;
+        position: absolute;
+        left: -8px;
+        bottom: 0;
+        background-color: $grey-300;
+      }
+    }
+  }
+}

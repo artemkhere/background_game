@@ -15,6 +15,7 @@ import CurrentConsumables from './consumables/CurrentConsumables';
 
 import UserInfoContainer from './UserInfoContainer/UserInfoContainer';
 import ResourcesInfoContainer from './ResourcesInfoContainer/ResourcesInfoContainer';
+import Shop from './Shop/Shop';
 
 function HarvestMode(props) {
   const { error, loading } = props.socket;
@@ -65,6 +66,7 @@ function HarvestMode(props) {
       <div className="right-panel">
         <UserInfoContainer />
         <ResourcesInfoContainer />
+        <Shop />
       </div>
     </div>
   );
