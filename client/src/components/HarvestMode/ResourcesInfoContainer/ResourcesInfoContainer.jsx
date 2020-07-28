@@ -15,7 +15,7 @@ function ResourcesInfoContainer(props) {
         <div className="resources-stats">
           <div className="per-container per-click-container">
             <div className="per-descriptor">tp / click</div>
-            <span className="per-value">37</span>
+            <span className="per-value">{ gameState.harvest.resourcesPerClick }</span>
           </div>
           <div className="per-container per-cycle-container">
             <div className="per-descriptor">tp / cycle</div>
